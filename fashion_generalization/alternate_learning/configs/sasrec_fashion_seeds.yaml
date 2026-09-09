@@ -1,0 +1,43 @@
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+load_col:
+  inter: [user_id, item_id, timestamp]
+field_separator: "\t"
+
+eval_args:
+  split:
+    LS: valid_and_test
+  order: TO
+  group_by: user
+  mode:
+    valid: full
+    test: full
+
+metrics: [Recall, NDCG]
+topk: [20]
+valid_metric: NDCG@20
+
+
+hidden_size: 64
+n_layers: 4
+n_heads: 4
+inner_size: 256
+hidden_dropout_prob: 0.5
+attn_dropout_prob: 0.3
+MAX_ITEM_LIST_LENGTH: 50
+loss_type: CE
+train_neg_sample_args: null
+
+epochs: 200
+train_batch_size: 256
+eval_batch_size: 512
+learning_rate: 0.0001
+weight_decay: 0.0001
+stopping_step: 10
+eval_step: 1
+
+seed: 2020
+reproducibility: True
+show_progress: False
+use_gpu: True

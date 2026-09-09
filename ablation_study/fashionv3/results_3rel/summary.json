@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "variant": "targeted_single_cw",
+      "kind": "targeted",
+      "kg_train_ablation": "/path/to/KG_RS/ablation_study/fashionv3/ablation_3rel/kg_train_targeted_single_cw.tsv",
+      "status": "ok",
+      "elapsed_seconds": 128.6092,
+      "best_model_path": "/path/to/KG_RS/ablation_study/fashionv3/results_3rel/targeted_single_cw/best_model_targeted_single_cw.pt",
+      "best_metrics_path": "/path/to/KG_RS/ablation_study/fashionv3/results_3rel/targeted_single_cw/best_metrics_targeted_single_cw.json",
+      "log_path": "/path/to/KG_RS/ablation_study/fashionv3/results_3rel/targeted_single_cw/run_targeted_single_cw.log",
+      "naive_mrr": 0.06542754918336868,
+      "naive_mr": 16615.7763671875,
+      "naive_hits@1": 0.033564815297722816,
+      "naive_hits@3": 0.07175925746560097,
+      "naive_hits@10": 0.1249999962747097,
+      "type_mrr": 0.06542986817657948,
+      "type_mr": 14867.06884765625,
+      "type_hits@1": 0.033564815297722816,
+      "type_hits@3": 0.07175925746560097,
+      "type_hits@10": 0.1249999962747097
+    }
+  ],
+  "failures": {}
+}

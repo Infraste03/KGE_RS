@@ -1,0 +1,19 @@
+
+KG FASHION — STATISTICHE FINALI
+================================
+Utenti campionati:              50,000
+Item validi:                    165,469
+Entità totali (KG):             258,475
+Relazioni:                      3
+
+Triple compatible_with totali:  25,156
+  → train:                      22,640
+  → valid (Task A):             1,257
+  → test  (Task A):             1,259
+
+Triple belongs_to:              165,469
+Triple belongs_to_brand:        105,282
+Triple KG totali (train):       293,391
+
+Split: 90/5/4
+Seed:  42

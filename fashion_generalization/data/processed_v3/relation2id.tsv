@@ -1,0 +1,6 @@
+relation	id
+compatible_with	0
+belongs_to	1
+belongs_to_brand	2
+belongs_to_price_tier	3
+belongs_to_pop_tier	4

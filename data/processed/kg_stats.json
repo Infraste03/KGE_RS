@@ -1,0 +1,36 @@
+{
+  "triples_per_relation": {
+    "compatible_with": 111428,
+    "bought": 72769,
+    "compatible_with_model": 15195,
+    "owns": 3919,
+    "instance_of": 3377
+  },
+  "nodes_per_type": {
+    "client": 219,
+    "machine": 3377,
+    "item": 21077,
+    "model": 227
+  },
+  "degree": {
+    "mean": 16.60144578313253,
+    "median": 3.0,
+    "min": 1,
+    "max": 4884,
+    "p95": 68.0
+  },
+  "top10_degree": {
+    "client_7478E086CC": 4884,
+    "client_539B417732": 3745,
+    "client_4A5E8DF761": 3385,
+    "client_5D851BAA91": 2849,
+    "client_3D563977A8": 2502,
+    "client_70E71E7A84": 2204,
+    "machine_09C4A4135F": 2078,
+    "client_0BE7B84AC4": 1963,
+    "client_FBC02F442E": 1684,
+    "client_A038AC1BF0": 1681
+  },
+  "unevaluable_triples_valid": 0,
+  "unevaluable_triples_test": 0
+}

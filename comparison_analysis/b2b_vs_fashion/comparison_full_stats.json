@@ -1,0 +1,162 @@
+{
+  "interaction_summary": [
+    {
+      "dataset": "B2B",
+      "inter_path": "C:\\Users\\fstef\\Desktop\\KG_RS\\dataset\\b2b_data\\b2b_data.inter",
+      "n_users": 219,
+      "n_items": 21134,
+      "n_interactions": 285919,
+      "sparsity_pct": 93.822437,
+      "density_pct": 6.177563,
+      "repeat_interactions": 212920,
+      "repeat_ratio_pct": 74.4686,
+      "seq_len": {
+        "min": 3.0,
+        "q25": 22.5,
+        "median": 144.0,
+        "mean": 1305.566210045662,
+        "q75": 742.0,
+        "q90": 2692.2000000000057,
+        "q95": 5691.299999999999,
+        "q99": 18898.259999999973,
+        "max": 39257.0,
+        "std": 3939.5445376558573
+      },
+      "item_popularity": {
+        "min": 1.0,
+        "q25": 1.0,
+        "median": 2.0,
+        "mean": 13.528863442793602,
+        "q75": 6.0,
+        "q90": 21.0,
+        "q95": 52.0,
+        "q99": 217.66999999999825,
+        "max": 4381.0,
+        "std": 65.83697557688417
+      },
+      "seq_len_gini": 0.8258,
+      "item_popularity_gini": 0.8237,
+      "timestamp_min": 1704153600.0,
+      "timestamp_max": 1892419200.0,
+      "n_user_timestamp_baskets": 13903,
+      "basket_size": {
+        "min": 1.0,
+        "q25": 1.0,
+        "median": 4.0,
+        "mean": 20.56527368193915,
+        "q75": 11.0,
+        "q90": 33.80000000000109,
+        "q95": 71.0,
+        "q99": 380.9399999999987,
+        "max": 2206.0,
+        "std": 76.23360698342042
+      },
+      "multi_item_basket_pct": 74.9263
+    },
+    {
+      "dataset": "B2C_Fashion",
+      "inter_path": "C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\recbole\\fashion\\fashion.inter",
+      "n_users": 50000,
+      "n_items": 165469,
+      "n_interactions": 451012,
+      "sparsity_pct": 99.994549,
+      "density_pct": 0.005451,
+      "repeat_interactions": 0,
+      "repeat_ratio_pct": 0.0,
+      "seq_len": {
+        "min": 1.0,
+        "q25": 5.0,
+        "median": 7.0,
+        "mean": 9.02024,
+        "q75": 10.0,
+        "q90": 16.0,
+        "q95": 21.0,
+        "q99": 39.0,
+        "max": 188.0,
+        "std": 7.066421232036806
+      },
+      "item_popularity": {
+        "min": 1.0,
+        "q25": 1.0,
+        "median": 1.0,
+        "mean": 2.7256585825743795,
+        "q75": 2.0,
+        "q90": 5.0,
+        "q95": 8.0,
+        "q99": 22.0,
+        "max": 438.0,
+        "std": 8.102289400210651
+      },
+      "seq_len_gini": 0.3114,
+      "item_popularity_gini": 0.5246,
+      "timestamp_min": 1125705600.0,
+      "timestamp_max": 1538611200.0,
+      "n_user_timestamp_baskets": 254625,
+      "basket_size": {
+        "min": 1.0,
+        "q25": 1.0,
+        "median": 1.0,
+        "mean": 1.7712793323514973,
+        "q75": 2.0,
+        "q90": 3.0,
+        "q95": 5.0,
+        "q99": 9.0,
+        "max": 75.0,
+        "std": 1.974953294450201
+      },
+      "multi_item_basket_pct": 33.0215
+    }
+  ],
+  "kg_summary": [
+    {
+      "dataset": "B2B",
+      "kg_files_used": [
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\kg_train.tsv",
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\taskA_valid.tsv",
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\taskA_test.tsv"
+      ],
+      "n_triples": 219069,
+      "n_entities": 24900,
+      "n_relations": 5,
+      "n_duplicate_triples": 0,
+      "n_heads": 24673,
+      "n_tails": 24681
+    },
+    {
+      "dataset": "B2C_Fashion",
+      "kg_files_used": [
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\kg_train.tsv",
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\taskA_valid.tsv",
+        "C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\taskA_test.tsv"
+      ],
+      "n_triples": 295907,
+      "n_entities": 182983,
+      "n_relations": 3,
+      "n_duplicate_triples": 0,
+      "n_heads": 165469,
+      "n_tails": 27269
+    }
+  ],
+  "overlap_summary": [
+    {
+      "dataset": "B2B",
+      "n_items_inter": 21134,
+      "n_items_kg_with_prefix": 21077,
+      "n_items_overlap_inter_kg": 21077,
+      "pct_inter_items_covered_by_kg": 99.7303,
+      "pct_kg_items_present_in_inter": 100.0,
+      "items_only_in_inter": 57,
+      "items_only_in_kg": 0
+    },
+    {
+      "dataset": "B2C_Fashion",
+      "n_items_inter": 165469,
+      "n_items_kg_with_prefix": 165469,
+      "n_items_overlap_inter_kg": 165469,
+      "pct_inter_items_covered_by_kg": 100.0,
+      "pct_kg_items_present_in_inter": 100.0,
+      "items_only_in_inter": 0,
+      "items_only_in_kg": 0
+    }
+  ]
+}

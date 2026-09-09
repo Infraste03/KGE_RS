@@ -1,0 +1,21 @@
+{
+  "variant": "targeted_pair_cw_cwm",
+  "feature_count": 2,
+  "features_kept": [
+    "compatible_with",
+    "compatible_with_model"
+  ],
+  "features_excluded": [
+    "bought",
+    "instance_of",
+    "owns"
+  ],
+  "feature_signature": "compatible_with|compatible_with_model",
+  "hyperparams": {
+    "embedding_dim": 400,
+    "learning_rate": 0.0008798929749689024,
+    "num_negs_per_pos": 128,
+    "loss": "marginranking",
+    "loss_margin": 5.191058165461712
+  }
+}

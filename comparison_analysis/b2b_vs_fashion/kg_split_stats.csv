@@ -1,0 +1,7 @@
+dataset,split_file,n_triples
+B2B,kg_train.tsv,206688
+B2B,taskA_test.tsv,6191
+B2B,taskA_valid.tsv,6190
+B2C_Fashion,kg_train.tsv,293391
+B2C_Fashion,taskA_test.tsv,1259
+B2C_Fashion,taskA_valid.tsv,1257

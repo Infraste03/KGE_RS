@@ -1,0 +1,55 @@
+# configs/step4_seeds_epoch.yaml
+# Best hyperparameters found via HPO for scheduling = epoch
+# (validation R@20 = 0.5093, NDCG@20 = 0.3053 at epoch 21)
+
+paths:
+  kg_train: "data/processed/kg_train.tsv"
+  kg_valid: "data/processed/taskA_valid.tsv"
+  kg_test: "data/processed/taskA_test.tsv"
+  recbole_train_inter: "dataset/b2b_data/b2b_data.train.inter"
+  recbole_valid_inter: "dataset/b2b_data/b2b_data.valid.inter"
+  recbole_test_inter: "dataset/b2b_data/b2b_data.test.inter"
+  recbole_dataset_name: "b2b_data"
+  recbole_data_path: "dataset/"
+  pykeen_best_model: "best_model.pt"
+  sasrec_checkpoint: "SASRec-May-19-2026_08-28-06.pth"
+
+training:
+  batch_size_kge: 2048
+  batch_size_sasrec: 1024
+  margin_loss: 1.9092406647496916
+  learning_rate: 0.0002214751193432723
+  epochs: 50
+  eval_step: 1
+  num_neg_b: 1
+  scheduling: "epoch"
+
+model:
+  kge_dim: 400
+  n_layers: 4
+  n_heads: 2
+  inner_size: 256
+  hidden_dropout: 0.26882517917076154
+  attn_dropout: 0.5122107440836169
+
+recbole_config:
+  eval_args:
+      split: {'LS': 'valid_and_test'}
+      order: 'TO'
+      group_by: 'user'
+      mode:
+        valid: 'full'
+        test: 'full'
+  'dataset': 'b2b_data'
+  'data_path': 'dataset/'
+  'USER_ID_FIELD': 'user_id'
+  'ITEM_ID_FIELD': 'item_id'
+  'TIME_FIELD': 'timestamp'
+  'load_col': {'inter': ['user_id', 'item_id', 'timestamp']}
+  'field_separator': "\t"
+  metrics: ["Recall", "NDCG"]
+  loss_type: "BPR"
+  topk: [20]
+  valid_metric: "NDCG@20"
+  seed: 2020
+  reproducibility: true

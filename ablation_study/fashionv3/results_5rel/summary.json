@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "variant": "targeted_triple_cw_category_poptier",
+      "kind": "targeted",
+      "kg_train_ablation": "/path/to/KG_RS/ablation_study/fashionv3/ablation_5rel/kg_train_targeted_triple_cw_category_poptier.tsv",
+      "status": "ok",
+      "elapsed_seconds": 269.3649,
+      "best_model_path": "/path/to/KG_RS/ablation_study/fashionv3/results_5rel/targeted_triple_cw_category_poptier/best_model_targeted_triple_cw_category_poptier.pt",
+      "best_metrics_path": "/path/to/KG_RS/ablation_study/fashionv3/results_5rel/targeted_triple_cw_category_poptier/best_metrics_targeted_triple_cw_category_poptier.json",
+      "log_path": "/path/to/KG_RS/ablation_study/fashionv3/results_5rel/targeted_triple_cw_category_poptier/run_targeted_triple_cw_category_poptier.log",
+      "naive_mrr": 0.08720846101641655,
+      "naive_mr": 11180.818359375,
+      "naive_hits@1": 0.05266203731298447,
+      "naive_hits@3": 0.09432870522141457,
+      "naive_hits@10": 0.14988425746560097,
+      "type_mrr": 0.08720863983035088,
+      "type_mr": 10703.01904296875,
+      "type_hits@1": 0.05266203731298447,
+      "type_hits@3": 0.09432870522141457,
+      "type_hits@10": 0.14988425746560097
+    }
+  ],
+  "failures": {}
+}

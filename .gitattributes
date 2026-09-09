@@ -1,0 +1,10 @@
+# Model checkpoints
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+
+# Large B2B datasets
+dataset/full_dataset.csv filter=lfs diff=lfs merge=lfs -text
+dataset/train.csv filter=lfs diff=lfs merge=lfs -text
+
+# Keep shell scripts compatible with Linux/HPC
+*.sh text eol=lf

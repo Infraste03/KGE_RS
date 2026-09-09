@@ -1,0 +1,3 @@
+dataset,n_items_inter,n_items_kg_with_prefix,n_items_overlap_inter_kg,pct_inter_items_covered_by_kg,pct_kg_items_present_in_inter,items_only_in_inter,items_only_in_kg
+B2B,21134,21077,21077,99.7303,100.0,57,0
+B2C_Fashion,165469,165469,165469,100.0,100.0,0,0

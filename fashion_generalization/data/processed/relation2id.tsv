@@ -1,0 +1,4 @@
+relation	id
+compatible_with	0
+belongs_to	1
+belongs_to_brand	2

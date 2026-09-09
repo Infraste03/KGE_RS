@@ -1,0 +1,46 @@
+{
+  "loo_no_compatible_with": {
+    "kg_train_ablation": "ablation_3rel\\kg_train_loo_no_compatible_with.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_brand"
+    ],
+    "relations_excluded": [
+      "compatible_with"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to": {
+    "kg_train_ablation": "ablation_3rel\\kg_train_loo_no_belongs_to.tsv",
+    "relations_kept": [
+      "belongs_to_brand",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to_brand": {
+    "kg_train_ablation": "ablation_3rel\\kg_train_loo_no_belongs_to_brand.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_brand"
+    ],
+    "kind": "loo"
+  },
+  "targeted_single_cw": {
+    "kg_train_ablation": "ablation_3rel\\kg_train_targeted_single_cw.tsv",
+    "relations_kept": [
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to",
+      "belongs_to_brand"
+    ],
+    "kind": "targeted"
+  }
+}

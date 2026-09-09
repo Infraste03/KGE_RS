@@ -1,0 +1,24 @@
+{
+  "variant": "mix1_keep_cat_pop",
+  "kind": "random_mix",
+  "kg_train_ablation": "/path/to/KG_RS/ablation_study/fashionv3/ablation_5rel/kg_train_mix1_keep_cat_pop.tsv",
+  "relations_kept": [
+    "belongs_to",
+    "belongs_to_pop_tier"
+  ],
+  "relations_excluded": [
+    "belongs_to_brand",
+    "belongs_to_price_tier",
+    "compatible_with"
+  ],
+  "best_params": {
+    "embedding_dim": 128,
+    "learning_rate": 0.0003048761416961341,
+    "num_negs_per_pos": 8,
+    "loss": "marginranking",
+    "loss_margin": 9.671773805079942
+  },
+  "random_seed": 42,
+  "training_epochs_final": 300,
+  "batch_size": 1024
+}

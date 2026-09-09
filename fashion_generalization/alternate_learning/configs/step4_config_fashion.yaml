@@ -1,0 +1,54 @@
+paths:
+  kg_train:   "data/processed/kg_train.tsv"
+  kg_valid:   "data/processed/taskA_valid.tsv"
+  kg_test:    "data/processed/taskA_test.tsv"
+
+  recbole_inter_path: "data/recbole/fashion/fashion.inter"
+  recbole_data_path:  "data/recbole"
+
+  pykeen_best_model:  "results/hpo_transe/best_model.pt"
+  sasrec_checkpoint:  "results/sasrec_hpo/trial_017/best_valid.pth"
+
+training:
+  batch_size_kge:    1024
+  batch_size_sasrec: 256
+  margin_loss:       8.684
+  learning_rate:     0.001
+  epochs:            2
+  eval_step:         1
+  num_neg_b:         1
+  scheduling:        "one_to_one"
+
+model:
+  kge_dim:         64
+  n_layers:        4
+  n_heads:         4
+  inner_size:      256
+  hidden_dropout:  0.5
+  attn_dropout:    0.3
+
+recbole_config:
+  data_path:       "data/recbole"
+  USER_ID_FIELD:   "user_id"
+  ITEM_ID_FIELD:   "item_id"
+  TIME_FIELD:      "timestamp"
+  load_col:
+    inter: ["user_id", "item_id", "timestamp"]
+  field_separator: "\t"
+  eval_args:
+    split:    {"LS": "valid_and_test"}
+    order:    "TO"
+    group_by: "user"
+    mode:
+      valid: "full"
+      test:  "full"
+  MAX_ITEM_LIST_LENGTH: 50
+  metrics:          ["Recall", "NDCG"]
+  loss_type:        "BPR"
+  train_neg_sample_args: null
+  topk:             [20]
+  valid_metric:     "NDCG@20"
+  seed:             2020
+  reproducibility:  true
+  show_progress:    false
+  use_gpu:          true

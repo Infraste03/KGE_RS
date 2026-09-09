@@ -1,0 +1,57 @@
+# configs/step4_config.yaml
+
+paths:
+  kg_train: "data/processed/kg_train.tsv"
+  kg_valid: "data/processed/taskA_valid.tsv"
+  kg_test: "data/processed/taskA_test.tsv"
+
+  recbole_train_inter: "dataset/b2b_data/b2b_data.train.inter"
+  recbole_valid_inter: "dataset/b2b_data/b2b_data.valid.inter"
+  recbole_test_inter: "dataset/b2b_data/b2b_data.test.inter"
+  recbole_dataset_name: "b2b_data"
+  recbole_data_path: "dataset/"
+
+  pykeen_best_model: "best_model.pt"
+  sasrec_checkpoint: "SASRec-May-19-2026_08-28-06.pth"
+
+training:
+  batch_size_kge: 512
+  batch_size_sasrec: 512
+  margin_loss: 5.19
+  learning_rate: 0.0001
+  epochs: 50
+  eval_step: 1
+  num_neg_b: 4
+
+  # QUI USI LO SCHEDULE ADATTIVO che hai in alternate_loop.py!
+  scheduling: "one_to_one" # 'one_to_one', 'epoch', 'adaptive'
+
+model:
+  kge_dim: 400
+  n_layers: 4
+  n_heads: 2
+  inner_size: 256
+  hidden_dropout: 0.4
+  attn_dropout: 0.3
+
+recbole_config:
+  eval_args:
+      split: {'LS': 'valid_and_test'}
+      order: 'TO'
+      group_by: 'user'
+      mode:
+        valid: 'full'
+        test: 'full'
+  'dataset': 'b2b_data'
+  'data_path': 'dataset/'
+  'USER_ID_FIELD': 'user_id'
+  'ITEM_ID_FIELD': 'item_id'
+  'TIME_FIELD': 'timestamp'
+  'load_col': {'inter': ['user_id', 'item_id', 'timestamp']}
+  'field_separator': "\t"
+  metrics: ["Recall", "NDCG"]
+  loss_type: "BPR"
+  topk: [20]
+  valid_metric: "NDCG@20"
+  seed: 2020
+  reproducibility: true

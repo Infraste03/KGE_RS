@@ -1,0 +1,210 @@
+[2026-05-29 22:15:22] trial=3 skipped
+  reason: run_step4 exited with code 1
+  config: hpo_results/step4_one_to_one/config_trial_3.yaml
+  seed: 2020
+  params: {"learning_rate": 0.00023613366656771197, "batch_size_sasrec": 128, "batch_size_kge": 1024, "num_neg_b": 1, "margin_loss": 8.057043754936114, "hidden_dropout": 0.5599923014239531, "attn_dropout": 0.1357481912742003}
+  stdout:
+    29-May 21:54:08 - ======================================================================
+    29-May 21:54:08 - STEP 4 - ALTERNATE LEARNING TRAINING
+    29-May 21:54:08 - ======================================================================
+    29-May 21:54:08 - Output dir: hpc_step4_results/step4_one_to_one_hpo_trial3_seed2020
+    29-May 21:54:08 - Scheduling: one_to_one
+    29-May 21:54:08 - Epochs: 50
+    29-May 21:54:08 - Device: cuda
+    29-May 21:54:08 - HPO Trial: 3
+    29-May 21:54:08 - Hyperparameters:
+    29-May 21:54:08 -   learning_rate    : 0.00023613366656771197
+    29-May 21:54:08 -   batch_size_sasrec: 128
+    29-May 21:54:08 -   batch_size_kge   : 1024
+    29-May 21:54:08 -   num_neg_b        : 1
+    29-May 21:54:08 -   margin_loss      : 8.057043754936114
+    29-May 21:54:08 -   hidden_dropout   : 0.5599923014239531
+    29-May 21:54:08 -   attn_dropout     : 0.1357481912742003
+    29-May 21:54:08 - 
+    [Passo 2] Costruzione Unified ID Space...
+    29-May 21:54:08 - ======================================================================
+    29-May 21:54:08 - BUILDING UNIFIED ID SPACE FOR STEP 4
+    29-May 21:54:08 - ======================================================================
+    29-May 21:54:09 - 
+    [Step 1/4] KG mapping loaded.
+    29-May 21:54:09 -   KG entities      : 24,900
+    29-May 21:54:09 -   KG items         : 21,077
+    29-May 21:54:09 - 
+    [Step 2/4] RecBole item set extracted from .inter files.
+    29-May 21:54:09 -   RecBole items    : 21,134
+    29-May 21:54:09 - 
+    [Step 3/4] Identifying KG-isolated items ...
+    29-May 21:54:09 -   Items in BOTH (KG + RecBole): 21,077
+    29-May 21:54:09 -   Items in KG only            : 0
+    29-May 21:54:09 -   Items in RecBole only       : 57
+    29-May 21:54:09 -   Assigned unified ids 24900 to 24956 to KG-isolated items.
+    29-May 21:54:09 -   Total entities in unified id space: 24,957
+    29-May 21:54:09 -   Total items in unified id space   : 21,134
+    29-May 21:54:09 - 
+    [Step 4/4] Building translation table to/from RecBole ...
+    29-May 21:54:09 - command line args [--config hpo_results/step4_one_to_one/config_trial_3.yaml --epochs 50] will not be used in RecBole
+    29-May 21:54:12 -   Unified items mapped to RecBole: 21,134
+    29-May 21:54:12 -   Unified items NOT in RecBole   : 0
+    29-May 21:54:12 - 
+    ======================================================================
+    29-May 21:54:12 - UNIFIED ID SPACE BUILT
+    29-May 21:54:12 - ======================================================================
+    29-May 21:54:12 -   Total entities                    : 24,957
+    29-May 21:54:12 -   Total items (any type)            : 21,134
+    29-May 21:54:12 -     - Items shared (KG + RecBole)   : 21,134
+    29-May 21:54:12 -     - Items only in KG              : 0
+    29-May 21:54:12 -     - Items only in RecBole         : 57
+    29-May 21:54:12 -   Other KG entities                 : 3,823
+    29-May 21:54:12 -   Total entities (unified): 24,957
+    29-May 21:54:12 -   Total items (unified): 21,134
+    29-May 21:54:12 - 
+    [Passo 3] Caricamento dataset RecBole...
+    29-May 21:54:12 - command line args [--config hpo_results/step4_one_to_one/config_trial_3.yaml --epochs 50] will not be used in RecBole
+    29-May 21:54:24 - [1;35m[Training]: [0m[1;36mtrain_batch_size[0m = [1;33m[2048][0m[1;36m train_neg_sample_args[0m: [1;33m[{'distribution': 'uniform', 'sample_num': 1, 'alpha': 1.0, 'dynamic': False, 'candidate_num': 0}][0m
+    29-May 21:54:24 - [1;35m[Evaluation]: [0m[1;36meval_batch_size[0m = [1;33m[4096][0m[1;36m eval_args[0m: [1;33m[{'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}][0m
+    29-May 21:54:24 -   RecBole items (incl. padding): 21135
+    29-May 21:54:24 - 
+    [Passo 4] Costruzione tensore di traduzione RecBole -> Unified...
+    29-May 21:54:24 -   Tensore costruito: shape=torch.Size([21135]), nonzero=21134
+    29-May 21:54:24 - 
+    [Passo 5] Costruzione DataLoader Task A (KG)...
+    29-May 21:54:24 - Lettura KG da data/processed/kg_train.tsv...
+    29-May 21:54:24 - KG DataLoader creato: 206688 triplette, 201 batch.
+    29-May 21:54:24 - 
+    [Passo 5] Materializzazione DataLoader Task B (Rec)...
+    29-May 21:54:24 - Materializzazione del RecBole Dataloader in tensori PyTorch nativi...
+    29-May 21:54:25 - Rec DataLoader creato: 285265 sequenze, 2228 batch.
+    29-May 21:54:25 -  !!!!!!!!!!!!!!!!!!!!!!!!!!!! Training sequences materializzate: 285265
+    29-May 21:54:25 - RecBole utenti totali: 220
+    29-May 21:54:25 - 
+    [Passo 6] Istanziazione JointAlternateModel...
+    29-May 21:54:25 - Initialized SharedEmbedding: 24,958 entities x 400 dims = 9,983,200 parameters (padding_idx=24957)
+    29-May 21:54:25 - Initialized TaskATransE: 5 relations x 400 dims. p_norm=1, normalize_entities=False
+    29-May 21:54:25 - Initialized TaskBSASRec: direct 400-dim (NO projection), 4 transformer layers x 2 heads, max_seq_len=50
+    29-May 21:54:26 - 
+    [Passo 7] Warm Start dai pesi pre-addestrati...
+    29-May 21:54:26 -   Caricate 24900 entità nel SharedEmbedding
+
+[2026-05-29 22:15:22] trial=3 skipped
+  reason: unexpected error: 
+  config: hpo_results/step4_one_to_one/config_trial_3.yaml
+  seed: 2020
+  params: {"learning_rate": 0.00023613366656771197, "batch_size_sasrec": 128, "batch_size_kge": 1024, "num_neg_b": 1, "margin_loss": 8.057043754936114, "hidden_dropout": 0.5599923014239531, "attn_dropout": 0.1357481912742003}
+
+[2026-05-29 22:23:02] trial=4 skipped
+  reason: unexpected error: [Errno 122] Disk quota exceeded
+  config: hpo_results/step4_one_to_one/config_trial_4.yaml
+  seed: 2020
+  params: {"learning_rate": 4.196282477588788e-05, "batch_size_sasrec": 128, "batch_size_kge": 2048, "num_neg_b": 2, "margin_loss": 9.353954343673793, "hidden_dropout": 0.22785319731725054, "attn_dropout": 0.5464945497374646}
+
+[2026-05-31 15:32:44] trial=6 skipped
+  reason: run_step4 exited with code 1
+  config: hpo_results/step4_one_to_one/config_trial_6.yaml
+  seed: 2020
+  params: {"learning_rate": 1.2785812408188081e-05, "batch_size_sasrec": 256, "batch_size_kge": 2048, "num_neg_b": 4, "margin_loss": 4.165367735310838, "hidden_dropout": 0.5857810675139986, "attn_dropout": 0.19231891546624805}
+  stdout:
+    31-May 15:14:27 - ======================================================================
+    31-May 15:14:27 - STEP 4 - ALTERNATE LEARNING TRAINING
+    31-May 15:14:27 - ======================================================================
+    31-May 15:14:27 - Output dir: hpc_step4_results/step4_one_to_one_hpo_trial6_seed2020
+    31-May 15:14:27 - Scheduling: one_to_one
+    31-May 15:14:27 - Epochs: 50
+    31-May 15:14:27 - Device: cuda
+    31-May 15:14:27 - HPO Trial: 6
+    31-May 15:14:27 - Hyperparameters:
+    31-May 15:14:27 -   learning_rate    : 1.2785812408188081e-05
+    31-May 15:14:27 -   batch_size_sasrec: 256
+    31-May 15:14:27 -   batch_size_kge   : 2048
+    31-May 15:14:27 -   num_neg_b        : 4
+    31-May 15:14:27 -   margin_loss      : 4.165367735310838
+    31-May 15:14:27 -   hidden_dropout   : 0.5857810675139986
+    31-May 15:14:27 -   attn_dropout     : 0.19231891546624805
+    31-May 15:14:27 - 
+    [Passo 2] Costruzione Unified ID Space...
+    31-May 15:14:27 - ======================================================================
+    31-May 15:14:27 - BUILDING UNIFIED ID SPACE FOR STEP 4
+    31-May 15:14:27 - ======================================================================
+    31-May 15:14:29 - 
+    [Step 1/4] KG mapping loaded.
+    31-May 15:14:29 -   KG entities      : 24,900
+    31-May 15:14:29 -   KG items         : 21,077
+    31-May 15:14:29 - 
+    [Step 2/4] RecBole item set extracted from .inter files.
+    31-May 15:14:29 -   RecBole items    : 21,134
+    31-May 15:14:29 - 
+    [Step 3/4] Identifying KG-isolated items ...
+    31-May 15:14:29 -   Items in BOTH (KG + RecBole): 21,077
+    31-May 15:14:29 -   Items in KG only            : 0
+    31-May 15:14:29 -   Items in RecBole only       : 57
+    31-May 15:14:29 -   Assigned unified ids 24900 to 24956 to KG-isolated items.
+    31-May 15:14:29 -   Total entities in unified id space: 24,957
+    31-May 15:14:29 -   Total items in unified id space   : 21,134
+    31-May 15:14:29 - 
+    [Step 4/4] Building translation table to/from RecBole ...
+    31-May 15:14:29 - command line args [--config hpo_results/step4_one_to_one/config_trial_6.yaml --epochs 50] will not be used in RecBole
+    31-May 15:14:34 -   Unified items mapped to RecBole: 21,134
+    31-May 15:14:34 -   Unified items NOT in RecBole   : 0
+    31-May 15:14:34 - 
+    ======================================================================
+    31-May 15:14:34 - UNIFIED ID SPACE BUILT
+    31-May 15:14:34 - ======================================================================
+    31-May 15:14:34 -   Total entities                    : 24,957
+    31-May 15:14:34 -   Total items (any type)            : 21,134
+    31-May 15:14:34 -     - Items shared (KG + RecBole)   : 21,134
+    31-May 15:14:34 -     - Items only in KG              : 0
+    31-May 15:14:34 -     - Items only in RecBole         : 57
+    31-May 15:14:34 -   Other KG entities                 : 3,823
+    31-May 15:14:34 -   Total entities (unified): 24,957
+    31-May 15:14:34 -   Total items (unified): 21,134
+    31-May 15:14:34 - 
+    [Passo 3] Caricamento dataset RecBole...
+    31-May 15:14:34 - command line args [--config hpo_results/step4_one_to_one/config_trial_6.yaml --epochs 50] will not be used in RecBole
+    31-May 15:14:42 - [1;35m[Training]: [0m[1;36mtrain_batch_size[0m = [1;33m[2048][0m[1;36m train_neg_sample_args[0m: [1;33m[{'distribution': 'uniform', 'sample_num': 1, 'alpha': 1.0, 'dynamic': False, 'candidate_num': 0}][0m
+    31-May 15:14:42 - [1;35m[Evaluation]: [0m[1;36meval_batch_size[0m = [1;33m[4096][0m[1;36m eval_args[0m: [1;33m[{'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'group_by': 'user', 'mode': {'valid': 'full', 'test': 'full'}}][0m
+    31-May 15:14:42 -   RecBole items (incl. padding): 21135
+    31-May 15:14:42 - 
+    [Passo 4] Costruzione tensore di traduzione RecBole -> Unified...
+    31-May 15:14:42 -   Tensore costruito: shape=torch.Size([21135]), nonzero=21134
+    31-May 15:14:42 - 
+    [Passo 5] Costruzione DataLoader Task A (KG)...
+    31-May 15:14:42 - Lettura KG da data/processed/kg_train.tsv...
+    31-May 15:14:42 - KG DataLoader creato: 206688 triplette, 100 batch.
+    31-May 15:14:42 - 
+    [Passo 5] Materializzazione DataLoader Task B (Rec)...
+    31-May 15:14:42 - Materializzazione del RecBole Dataloader in tensori PyTorch nativi...
+    31-May 15:14:44 - Rec DataLoader creato: 285265 sequenze, 1114 batch.
+    31-May 15:14:44 -  !!!!!!!!!!!!!!!!!!!!!!!!!!!! Training sequences materializzate: 285265
+    31-May 15:14:44 - RecBole utenti totali: 220
+    31-May 15:14:44 - 
+    [Passo 6] Istanziazione JointAlternateModel...
+    31-May 15:14:44 - Initialized SharedEmbedding: 24,958 entities x 400 dims = 9,983,200 parameters (padding_idx=24957)
+    31-May 15:14:44 - Initialized TaskATransE: 5 relations x 400 dims. p_norm=1, normalize_entities=False
+    31-May 15:14:44 - Initialized TaskBSASRec: direct 400-dim (NO projection), 4 transformer layers x 2 heads, max_seq_len=50
+    31-May 15:14:44 - 
+    [Passo 7] Warm Start dai pesi pre-addestrati...
+    31-May 15:14:45 -   Caricate 24900 entità nel SharedEmbedding
+
+[2026-05-31 15:32:44] trial=6 skipped
+  reason: unexpected error: 
+  config: hpo_results/step4_one_to_one/config_trial_6.yaml
+  seed: 2020
+  params: {"learning_rate": 1.2785812408188081e-05, "batch_size_sasrec": 256, "batch_size_kge": 2048, "num_neg_b": 4, "margin_loss": 4.165367735310838, "hidden_dropout": 0.5857810675139986, "attn_dropout": 0.19231891546624805}
+
+[2026-05-31 15:40:16] trial=7 skipped
+  reason: unexpected error: [Errno 122] Disk quota exceeded
+  config: hpo_results/step4_one_to_one/config_trial_7.yaml
+  seed: 2020
+  params: {"learning_rate": 1.7551622212240754e-05, "batch_size_sasrec": 512, "batch_size_kge": 2048, "num_neg_b": 1, "margin_loss": 1.9730240046730607, "hidden_dropout": 0.4626722834231777, "attn_dropout": 0.5525922150527884}
+
+[2026-06-01 01:36:01] trial=9 skipped
+  reason: unexpected error: [Errno 122] Disk quota exceeded
+  config: hpo_results/step4_one_to_one/config_trial_9.yaml
+  seed: 2020
+  params: {"learning_rate": 0.00012928878264445437, "batch_size_sasrec": 128, "batch_size_kge": 2048, "num_neg_b": 4, "margin_loss": 9.847927145241144, "hidden_dropout": 0.4309832895639034, "attn_dropout": 0.22824891655672447}
+
+[2026-06-02 21:24:34] trial=12 skipped
+  reason: unexpected error: [Errno 122] Disk quota exceeded
+  config: hpo_results/step4_one_to_one/config_trial_12.yaml
+  seed: 2020
+  params: {"learning_rate": 0.00010201738397769352, "batch_size_sasrec": 256, "batch_size_kge": 2048, "num_neg_b": 4, "margin_loss": 9.718109402185485, "hidden_dropout": 0.3697065965838655, "attn_dropout": 0.5930529143454929}
+

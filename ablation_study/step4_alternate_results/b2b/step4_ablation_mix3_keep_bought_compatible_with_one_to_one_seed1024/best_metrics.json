@@ -1,0 +1,22 @@
+{
+    "variant": "mix3_keep_bought_compatible_with",
+    "kg_train_used": "/path/to/KG_RS/data/processed/ablation/kg_train_mix3_keep_bought_compatible_with.tsv",
+    "pykeen_best_model_used": "/path/to/KG_RS/results/ablation_transe/mix3_keep_bought_compatible_with/best_model_mix3_keep_bought_compatible_with.pt",
+    "R@20": 0.4703196347031963,
+    "NDCG@20": 0.2869779788096296,
+    "best_epoch": 43,
+    "best_val_R@20": 0.49537037037037035,
+    "best_val_NDCG@20": 0.30489895440047465,
+    "best_epoch_test": 28,
+    "scheduling": "one_to_one",
+    "epochs_run": 50,
+    "hyperparameters": {
+        "learning_rate": 8.108971322919983e-05,
+        "batch_size_sasrec": 128,
+        "batch_size_kge": 1024,
+        "num_neg_b": 1,
+        "margin_loss": 7.261743675271241,
+        "hidden_dropout": 0.44903633026041134,
+        "attn_dropout": 0.42532228700964586
+    }
+}

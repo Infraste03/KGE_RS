@@ -1,0 +1,9 @@
+dataset,relation,n_triples,pct_triples,n_unique_heads,n_unique_tails,head_type_mode,tail_type_mode,head_degree_mean,head_degree_median,head_degree_max,tail_degree_mean,tail_degree_median,tail_degree_max,head_degree_gini,tail_degree_gini
+B2B,compatible_with,123809,56.516,21077,3377,item,machine,5.8741,1.0,423,36.6624,13.0,2290,0.7235,0.6665
+B2B,bought,72769,33.2174,219,21077,client,item,332.2785,96.0,4521,3.4525,1.0,90,0.7048,0.5969
+B2B,compatible_with_model,15195,6.9362,7457,142,item,model,2.0377,1.0,37,107.007,36.0,1547,0.4248,0.7029
+B2B,owns,3919,1.7889,219,3377,client,machine,17.895,4.0,534,1.1605,1.0,22,0.7424,0.123
+B2B,instance_of,3377,1.5415,3377,227,machine,model,1.0,1.0,1,14.8767,5.0,194,0.0,0.6966
+B2C_Fashion,belongs_to,165469,55.9193,165469,3,item,category,1.0,1.0,1,55156.3333,22357.0,131672,-0.0,0.4844
+B2C_Fashion,belongs_to_brand,105282,35.5794,105282,17511,item,brand,1.0,1.0,1,6.0123,2.0,2365,0.0,0.7027
+B2C_Fashion,compatible_with,25156,8.5013,11930,9755,item,item,2.1086,1.0,184,2.5788,1.0,393,0.4561,0.5457

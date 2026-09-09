@@ -1,0 +1,24 @@
+
+KG FASHION v3 — STATISTICHE FINALI
+====================================
+Criterio di selezione utenti: (n_categorie, n_interazioni) decrescente
+(NON campionamento casuale)
+
+Utenti selezionati:              49,988
+Interazioni medie per utente:    23.02
+Item validi:                     71,935
+Entità totali (KG):              164,948
+Relazioni:                       5
+
+Triple compatible_with totali:   17,265
+  -> train:                      15,538
+  -> valid (Task A):             863
+  -> test  (Task A):             864
+
+Triple belongs_to:               71,935
+Triple belongs_to_brand:         44,474
+Triple belongs_to_price_tier:    49,317
+Triple belongs_to_pop_tier:      68,843
+Triple KG totali (train):        250,107
+
+Seed: 42 (usato solo per lo split Task A, non per la selezione utenti)

@@ -1,0 +1,13 @@
+{
+  "raw_stats": {
+    "dataset": "RAW_FULL",
+    "n_users": 12483678,
+    "n_items": 2681297,
+    "n_interactions": 32292099,
+    "n_unique_user_item_pairs": 31663536,
+    "repeat_interactions": 628563,
+    "repeat_ratio_pct": 1.9464916170361053,
+    "sparsity_pct": 99.99990352633114,
+    "density_pct": 9.647366885951792e-05,
+    "seq_len": {
+      "min": 

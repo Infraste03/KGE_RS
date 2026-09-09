@@ -1,0 +1,21 @@
+{
+    "R@20": 0.4703196347031963,
+    "NDCG@20": 0.2883739296565843,
+    "best_epoch": 0,
+    "best_val_R@20": 0.5092592592592593,
+    "best_val_NDCG@20": 0.3053411796003622,
+    "best_epoch_test": 32,
+    "scheduling": "epoch",
+    "epochs_run": 50,
+    "baseline_step3_R@20": 0.3607,
+    "baseline_step3_NDCG@20": 0.1805,
+    "hyperparameters": {
+        "learning_rate": 0.0002214751193432723,
+        "batch_size_sasrec": 1024,
+        "batch_size_kge": 2048,
+        "num_neg_b": 1,
+        "margin_loss": 1.9092406647496916,
+        "hidden_dropout": 0.26882517917076154,
+        "attn_dropout": 0.5122107440836169
+    }
+}

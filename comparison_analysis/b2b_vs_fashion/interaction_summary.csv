@@ -1,0 +1,3 @@
+dataset,n_users,n_items,n_interactions,sparsity_pct,density_pct,repeat_ratio_pct,seq_len_mean,seq_len_median,seq_len_max,seq_len_gini,item_pop_mean,item_pop_median,item_pop_max,item_popularity_gini,multi_item_basket_pct
+B2B,219,21134,285919,93.822437,6.177563,74.4686,1305.566210045662,144.0,39257.0,0.8258,13.528863442793602,2.0,4381.0,0.8237,74.9263
+B2C_Fashion,50000,165469,451012,99.994549,0.005451,0.0,9.02024,7.0,188.0,0.3114,2.7256585825743795,1.0,438.0,0.5246,33.0215

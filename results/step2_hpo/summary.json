@@ -1,0 +1,27 @@
+{
+  "evaluation": {
+    "task": "link_prediction",
+    "relation": "compatible_with",
+    "mode": "type_constrained"
+  },
+  "models": {
+    "RotatE": {
+      "MRR": 0.3148,
+      "Hits@10": 0.537
+    },
+    "DistMult": {
+      "MRR": 0.2973,
+      "Hits@10": 0.510
+    },
+    "TransE": {
+      "MRR": 0.2953,
+      "Hits@10": 0.502
+    },
+    "ComplEx": {
+      "MRR": 0.1948,
+      "Hits@10": 0.369
+    }
+  },
+  "best_model": "RotatE",
+  "downstream_model": "TransE"
+}

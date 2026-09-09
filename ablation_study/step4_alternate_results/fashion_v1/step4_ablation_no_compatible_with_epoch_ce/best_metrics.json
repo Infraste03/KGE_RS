@@ -1,0 +1,31 @@
+{
+    "variant": "no_compatible_with",
+    "kg_train_filtered_used": "/path/to/KG_RS/fashion_generalization/data/processed/ablation/kg_train_no_compatible.tsv",
+    "transe_checkpoint_used": "/path/to/KG_RS/fashion_generalization/results/hpo_transe_no_compatible/best_model.pt",
+    "test_from_best_valid_recall": 0.10279083725117535,
+    "test_from_best_valid_ndcg": 0.09050297905126557,
+    "best_epoch_valid": 48,
+    "best_val_recall_20": 0.1234983471740708,
+    "best_val_ndcg_20": 0.10826986108129515,
+    "best_epoch_test": 48,
+    "best_test_recall_20": 0.10279083725117535,
+    "scheduling": "epoch",
+    "epochs_run": 50,
+    "baseline_sasrec_recall_20": 0.0964,
+    "baseline_sasrec_ndcg_20": 0.0889,
+    "warmstart_val_recall_20": 0.0264452148673708,
+    "warmstart_val_ndcg_20": 0.010517339697073858,
+    "warmstart_test_recall_20": 0.025407622286686006,
+    "warmstart_test_ndcg_20": 0.010305017855450913,
+    "hyperparameters": {
+        "learning_rate": 0.0001,
+        "batch_size_kge": 1024,
+        "batch_size_sasrec": 256,
+        "margin_loss": 8.684,
+        "hidden_dropout": 0.5,
+        "attn_dropout": 0.3,
+        "kge_dim": 64,
+        "n_layers": 4,
+        "n_heads": 4
+    }
+}

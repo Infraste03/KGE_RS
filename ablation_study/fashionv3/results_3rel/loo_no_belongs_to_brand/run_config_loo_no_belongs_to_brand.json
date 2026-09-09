@@ -1,0 +1,22 @@
+{
+  "variant": "loo_no_belongs_to_brand",
+  "kind": "loo",
+  "kg_train_ablation": "/path/to/KG_RS/ablation_study/fashionv3/ablation_3rel/kg_train_loo_no_belongs_to_brand.tsv",
+  "relations_kept": [
+    "belongs_to",
+    "compatible_with"
+  ],
+  "relations_excluded": [
+    "belongs_to_brand"
+  ],
+  "best_params": {
+    "embedding_dim": 128,
+    "learning_rate": 0.000688578505982584,
+    "num_negs_per_pos": 8,
+    "loss": "marginranking",
+    "loss_margin": 8.95047357618049
+  },
+  "random_seed": 42,
+  "training_epochs_final": 300,
+  "batch_size": 1024
+}

@@ -1,0 +1,26 @@
+{
+  "variant": "mix1_keep_compatible_with_owns",
+  "kind": "random_mix",
+  "kg_train_ablation": "/path/to/KG_RS/data/processed/ablation/kg_train_mix1_keep_compatible_with_owns.tsv",
+  "relations_kept": [
+    "compatible_with",
+    "owns"
+  ],
+  "relations_excluded": [
+    "bought",
+    "compatible_with_model",
+    "instance_of"
+  ],
+  "feature_count": 2,
+  "feature_signature": "compatible_with|owns",
+  "best_params": {
+    "embedding_dim": 400,
+    "learning_rate": 0.0008798929749689024,
+    "num_negs_per_pos": 128,
+    "loss": "marginranking",
+    "loss_margin": 5.191058165461712
+  },
+  "random_seed": 42,
+  "training_epochs_final": 300,
+  "batch_size": 1024
+}

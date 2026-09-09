@@ -1,0 +1,50 @@
+# Virtual environment
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configuration files
+.env
+
+# Development tools
+.vscode/
+.*.swp
+*.log
+
+# Raw Amazon datasets
+fashion_generalization/data/raw/
+
+# Intermediate training checkpoints
+checkpoint_latest.pth
+last_model.pt
+
+# Generated ablation model weights
+results/ablation_transe/**/best_model*.pt
+ablation_study/fashionv3/results_3rel/**/best_model*.pt
+ablation_study/fashionv3/results_5rel/**/best_model*.pt
+ablation_study/step4_alternate_results/**/best_model*.pt
+ablation_study/step4_alternate_results/**/best_model_on_test.pt
+
+# Multi-seed retraining checkpoints
+results/sasrec_seeds_results/**/*.pth
+fashion_generalization/alternate_learning/sasrec_fashion_seeds_results/**/*.pth
+
+# Selected-epoch copies retained locally
+results/B2B/step4_hpo/**/checkpoint_epoch_*.pth
+
+# Test-selected diagnostic checkpoints
+fashion_generalization/**/best_test.pth
+fashion_generalization/**/best_model_on_test.pt
+
+# Duplicate KGE checkpoints (canonical copies are under results/step2_hpo/)
+knowledge_graph/step2_hpo/*/best_model.pt
+
+# Legacy standalone TransE training output
+fashion_generalization/results/transe/transe.pt
+
+# Generated backup created by fix_entity2id_v3.py
+fashion_generalization/data/processed_v3/entity2id_OLD_with_orphans.tsv

@@ -1,0 +1,26 @@
+{
+  "variant": "targeted_pair_cw_cwm",
+  "kind": "targeted",
+  "kg_train_ablation": "/path/to/KG_RS/data/processed/ablation/kg_train_targeted_pair_cw_cwm.tsv",
+  "relations_kept": [
+    "compatible_with",
+    "compatible_with_model"
+  ],
+  "relations_excluded": [
+    "bought",
+    "instance_of",
+    "owns"
+  ],
+  "feature_count": 2,
+  "feature_signature": "compatible_with|compatible_with_model",
+  "best_params": {
+    "embedding_dim": 400,
+    "learning_rate": 0.0008798929749689024,
+    "num_negs_per_pos": 128,
+    "loss": "marginranking",
+    "loss_margin": 5.191058165461712
+  },
+  "random_seed": 42,
+  "training_epochs_final": 300,
+  "batch_size": 1024
+}

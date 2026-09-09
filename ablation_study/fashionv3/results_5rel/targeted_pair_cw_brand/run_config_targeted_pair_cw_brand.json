@@ -1,0 +1,24 @@
+{
+  "variant": "targeted_pair_cw_brand",
+  "kind": "targeted",
+  "kg_train_ablation": "/path/to/KG_RS/ablation_study/fashionv3/ablation_5rel/kg_train_targeted_pair_cw_brand.tsv",
+  "relations_kept": [
+    "belongs_to_brand",
+    "compatible_with"
+  ],
+  "relations_excluded": [
+    "belongs_to",
+    "belongs_to_pop_tier",
+    "belongs_to_price_tier"
+  ],
+  "best_params": {
+    "embedding_dim": 128,
+    "learning_rate": 0.0003048761416961341,
+    "num_negs_per_pos": 8,
+    "loss": "marginranking",
+    "loss_margin": 9.671773805079942
+  },
+  "random_seed": 42,
+  "training_epochs_final": 300,
+  "batch_size": 1024
+}

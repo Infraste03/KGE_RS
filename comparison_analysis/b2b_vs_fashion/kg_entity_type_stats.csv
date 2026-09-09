@@ -1,0 +1,8 @@
+entity_type,n_entities,dataset
+item,21077,B2B
+machine,3377,B2B
+model,227,B2B
+client,219,B2B
+item,165469,B2C_Fashion
+brand,17511,B2C_Fashion
+category,3,B2C_Fashion

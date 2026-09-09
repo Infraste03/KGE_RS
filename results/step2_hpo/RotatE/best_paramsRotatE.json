@@ -1,0 +1,6 @@
+{
+  "embedding_dim": 400,
+  "learning_rate": 0.004322176758664733,
+  "num_negs_per_pos": 128,
+  "loss_margin": 2.6277503960945072
+}

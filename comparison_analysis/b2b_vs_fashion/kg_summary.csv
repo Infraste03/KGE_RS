@@ -1,0 +1,3 @@
+dataset,kg_files_used,n_triples,n_entities,n_relations,n_duplicate_triples,n_heads,n_tails
+B2B,"['C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\kg_train.tsv', 'C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\taskA_valid.tsv', 'C:\\Users\\fstef\\Desktop\\KG_RS\\data\\processed\\taskA_test.tsv']",219069,24900,5,0,24673,24681
+B2C_Fashion,"['C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\kg_train.tsv', 'C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\taskA_valid.tsv', 'C:\\Users\\fstef\\Desktop\\KG_RS\\fashion_generalization\\data\\processed\\taskA_test.tsv']",295907,182983,3,0,165469,27269

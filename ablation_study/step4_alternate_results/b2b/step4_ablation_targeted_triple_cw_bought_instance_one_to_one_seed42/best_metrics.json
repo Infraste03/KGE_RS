@@ -1,0 +1,22 @@
+{
+    "variant": "targeted_triple_cw_bought_instance",
+    "kg_train_used": "/path/to/KG_RS/data/processed/ablation/kg_train_targeted_triple_cw_bought_instance.tsv",
+    "pykeen_best_model_used": "/path/to/KG_RS/results/ablation_transe/targeted_triple_cw_bought_instance/best_model_targeted_triple_cw_bought_instance.pt",
+    "R@20": 0.4611872146118721,
+    "NDCG@20": 0.26281003024381555,
+    "best_epoch": 26,
+    "best_val_R@20": 0.5046296296296297,
+    "best_val_NDCG@20": 0.28664388596291474,
+    "best_epoch_test": 28,
+    "scheduling": "one_to_one",
+    "epochs_run": 50,
+    "hyperparameters": {
+        "learning_rate": 8.108971322919983e-05,
+        "batch_size_sasrec": 128,
+        "batch_size_kge": 1024,
+        "num_neg_b": 1,
+        "margin_loss": 7.261743675271241,
+        "hidden_dropout": 0.44903633026041134,
+        "attn_dropout": 0.42532228700964586
+    }
+}

@@ -1,0 +1,13 @@
+﻿{
+  "scheduling": "one_to_one",
+  "hpo_trial": 1,
+  "hpo_seed": 2020,
+  "best_epoch": 31,
+  "validation_recall@20": 0.5,
+  "validation_ndcg@20": 0.29727536868953086,
+  "test_recall@20": 0.45662100456621,
+  "test_ndcg@20": 0.2566112168757239,
+  "selected_model": "best_model.pt",
+  "selected_checkpoint": "checkpoint_epoch_31.pth",
+  "note": "The original best_metrics.json incorrectly reports best_epoch=0 due to a bookkeeping bug. The training log shows that the last validation improvement occurred at epoch 31, and best_model.pt was verified tensor-by-tensor to be identical to checkpoint_epoch_31.pth."
+}

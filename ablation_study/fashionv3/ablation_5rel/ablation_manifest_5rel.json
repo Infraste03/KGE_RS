@@ -1,0 +1,171 @@
+{
+  "loo_no_compatible_with": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_loo_no_compatible_with.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_brand",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier"
+    ],
+    "relations_excluded": [
+      "compatible_with"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_loo_no_belongs_to.tsv",
+    "relations_kept": [
+      "belongs_to_brand",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to_brand": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_loo_no_belongs_to_brand.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_brand"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to_price_tier": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_loo_no_belongs_to_price_tier.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_brand",
+      "belongs_to_pop_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_price_tier"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_belongs_to_pop_tier": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_loo_no_belongs_to_pop_tier.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_brand",
+      "belongs_to_price_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_pop_tier"
+    ],
+    "kind": "loo"
+  },
+  "mix1_keep_cat_pop": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_mix1_keep_cat_pop.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_pop_tier"
+    ],
+    "relations_excluded": [
+      "belongs_to_brand",
+      "belongs_to_price_tier",
+      "compatible_with"
+    ],
+    "kind": "random_mix"
+  },
+  "mix2_keep_pop_cw": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_mix2_keep_pop_cw.tsv",
+    "relations_kept": [
+      "belongs_to_pop_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to",
+      "belongs_to_brand",
+      "belongs_to_price_tier"
+    ],
+    "kind": "random_mix"
+  },
+  "mix3_keep_cat_brand_cw": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_mix3_keep_cat_brand_cw.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_brand",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier"
+    ],
+    "kind": "random_mix"
+  },
+  "targeted_pair_cw_brand": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_targeted_pair_cw_brand.tsv",
+    "relations_kept": [
+      "belongs_to_brand",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_pair_cw_category": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_targeted_pair_cw_category.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_brand",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_single_cw": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_targeted_single_cw.tsv",
+    "relations_kept": [
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to",
+      "belongs_to_brand",
+      "belongs_to_pop_tier",
+      "belongs_to_price_tier"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_triple_cw_brand_pricetier": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_targeted_triple_cw_brand_pricetier.tsv",
+    "relations_kept": [
+      "belongs_to_brand",
+      "belongs_to_price_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to",
+      "belongs_to_pop_tier"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_triple_cw_category_poptier": {
+    "kg_train_ablation": "ablation_5rel\\kg_train_targeted_triple_cw_category_poptier.tsv",
+    "relations_kept": [
+      "belongs_to",
+      "belongs_to_pop_tier",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "belongs_to_brand",
+      "belongs_to_price_tier"
+    ],
+    "kind": "targeted"
+  }
+}

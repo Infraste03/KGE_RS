@@ -1,0 +1,31 @@
+{
+    "variant": "no_brand",
+    "kg_train_filtered_used": "/path/to/KG_RS/fashion_generalization/data/processed/ablation/kg_train_no_brand.tsv",
+    "transe_checkpoint_used": "/path/to/KG_RS/fashion_generalization/results/hpo_transe_no_brand_v2/best_model.pt",
+    "test_from_best_valid_recall": 0.09592877863359008,
+    "test_from_best_valid_ndcg": 0.08807488616355788,
+    "best_epoch_valid": 48,
+    "best_val_recall_20": 0.11618156897524792,
+    "best_val_ndcg_20": 0.10630754086023272,
+    "best_epoch_test": 49,
+    "best_test_recall_20": 0.09600880264079224,
+    "scheduling": "epoch",
+    "epochs_run": 50,
+    "baseline_sasrec_recall_20": 0.0964,
+    "baseline_sasrec_ndcg_20": 0.0889,
+    "warmstart_val_recall_20": 0.01227525598645489,
+    "warmstart_val_ndcg_20": 0.004835216236803034,
+    "warmstart_test_recall_20": 0.007742322696809043,
+    "warmstart_test_ndcg_20": 0.003249986486441302,
+    "hyperparameters": {
+        "learning_rate": 0.0001,
+        "batch_size_kge": 1024,
+        "batch_size_sasrec": 256,
+        "margin_loss": 8.684,
+        "hidden_dropout": 0.5,
+        "attn_dropout": 0.3,
+        "kge_dim": 64,
+        "n_layers": 4,
+        "n_heads": 4
+    }
+}

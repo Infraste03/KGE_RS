@@ -1,0 +1,84 @@
+#!/bin/bash
+# ============================================================================
+# SLURM — STEP 4 FASHION HPO (ALTERNATE LEARNING)
+# ============================================================================
+# Usage:
+#   sbatch sbatch_hpo_step4_fashion_ce.sh one_to_one
+#   sbatch sbatch_hpo_step4_fashion_ce.sh epoch
+# ============================================================================
+
+#SBATCH --job-name=CE_STEP4_Fashion_HPO
+#SBATCH --output=HPO_CE_Fashion_%x_%j.log
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+#SBATCH --qos=gpu
+#SBATCH --mem=50G
+#SBATCH --time=0-23:59:0
+
+SCHEDULING="${1:-one_to_one}"
+
+VALID_SCHEDULING=("one_to_one" "epoch")
+SCHEDULING_VALID=0
+for s in "${VALID_SCHEDULING[@]}"; do
+    if [[ "$SCHEDULING" == "$s" ]]; then
+        SCHEDULING_VALID=1
+        break
+    fi
+done
+
+if [[ $SCHEDULING_VALID -eq 0 ]]; then
+    echo "ERROR: invalid scheduling '$SCHEDULING'"
+    echo "Valid options: ${VALID_SCHEDULING[@]}"
+    exit 1
+fi
+
+scontrol update JobId="$SLURM_JOB_ID" JobName="CE_STEP4_Fashion_HPO_${SCHEDULING}" 2>/dev/null || true
+
+STUDY_NAME="step4_fashion_${SCHEDULING}_ce"
+STUDY_DIR="/path/to/KG_RS/fashion_generalization/alternate_learning/hpo_results_fashion_ce/${STUDY_NAME}"
+
+echo "================================================================="
+echo "  STEP 4 FASHION — HPO (ALTERNATE LEARNING)"
+echo "  Scheduling  : $SCHEDULING"
+echo "  Study name  : $STUDY_NAME"
+echo "  Study dir   : $STUDY_DIR"
+echo "  Job ID      : $SLURM_JOB_ID"
+echo "  Hostname    : $(hostname)"
+echo "  Started on  : $(date)"
+echo "  Working dir : $(pwd)"
+echo "================================================================="
+
+echo "Loading modules..."
+module purge
+module load gnu8/8.3.0
+module load python/3.9.10
+
+echo "Activating VENV..."
+source /path/to/KG_RS/.venv/bin/activate
+
+echo "Python:"
+python --version
+
+echo "GPU:"
+nvidia-smi || echo "nvidia-smi not available"
+
+echo "-----------------------------------------------------------------"
+echo "Starting HPO fashion scheduling=$SCHEDULING"
+echo "-----------------------------------------------------------------"
+
+mkdir -p "$STUDY_DIR"
+
+python /path/to/KG_RS/fashion_generalization/alternate_learning/run_hpo_step4_fashion_ce.py \
+    --base-config /path/to/KG_RS/fashion_generalization/alternate_learning/configs/step4_hpc_config_fashion_ce.yaml \
+    --scheduling "$SCHEDULING" \
+    --study-name "$STUDY_NAME" \
+    --study-dir  "$STUDY_DIR" \
+    ${HPO_TRIAL_TIMEOUT:+--timeout "$HPO_TRIAL_TIMEOUT"}
+
+echo "================================================================="
+echo "  JOB FINISHED"
+echo "  Scheduling  : $SCHEDULING"
+echo "  Finished on : $(date)"
+echo "================================================================="

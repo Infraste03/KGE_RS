@@ -1,0 +1,52 @@
+paths:
+  recbole_inter_path: "data/recbole_v3/fashion_v3/fashion_v3.inter"
+  recbole_data_path:  "data/recbole_v3"
+
+  sasrec_checkpoint: "results/sasrec_hpo_v3/trial_003/best_valid.pth"
+
+
+training:
+  scheduling: "one_to_one"
+  epochs: 50
+  eval_step: 1
+  learning_rate: 0.000172
+  batch_size_kge: 1024
+  batch_size_sasrec: 512
+  margin_loss: 7.379029
+
+model:
+  kge_dim: 128
+  inner_size: 256
+
+  n_layers: 2
+  n_heads: 8
+  hidden_dropout: 0.543705
+  attn_dropout: 0.216936
+
+recbole_config:
+  USER_ID_FIELD: "user_id"
+  ITEM_ID_FIELD: "item_id"
+  TIME_FIELD: "timestamp"
+  load_col:
+    inter: ["user_id", "item_id", "timestamp"]
+  field_separator: "\t"
+  eval_args:
+    split:
+      LS: "valid_and_test"
+    order: "TO"
+    group_by: "user"
+    mode:
+      valid: "full"
+      test: "full"
+  MAX_ITEM_LIST_LENGTH: 50
+  metrics: ["Recall", "NDCG"]
+  loss_type: "CE"
+  train_neg_sample_args: null
+  topk: [20]
+  valid_metric: "NDCG@20"
+  seed: 2020
+  reproducibility: true
+  show_progress: false
+  use_gpu: true
+  hidden_size: 128
+  embedding_size: 128

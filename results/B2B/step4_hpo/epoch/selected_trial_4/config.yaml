@@ -1,0 +1,57 @@
+model:
+  attn_dropout: 0.5122107440836169
+  hidden_dropout: 0.26882517917076154
+  inner_size: 256
+  kge_dim: 400
+  n_heads: 2
+  n_layers: 4
+paths:
+  kg_test: data/processed/taskA_test.tsv
+  kg_train: data/processed/kg_train.tsv
+  kg_valid: data/processed/taskA_valid.tsv
+  pykeen_best_model: best_model.pt
+  recbole_data_path: dataset/
+  recbole_dataset_name: b2b_data
+  recbole_test_inter: dataset/b2b_data/b2b_data.test.inter
+  recbole_train_inter: dataset/b2b_data/b2b_data.train.inter
+  recbole_valid_inter: dataset/b2b_data/b2b_data.valid.inter
+  sasrec_checkpoint: SASRec-May-19-2026_08-28-06.pth
+recbole_config:
+  ITEM_ID_FIELD: item_id
+  TIME_FIELD: timestamp
+  USER_ID_FIELD: user_id
+  data_path: dataset/
+  dataset: b2b_data
+  eval_args:
+    group_by: user
+    mode:
+      test: full
+      valid: full
+    order: TO
+    split:
+      LS: valid_and_test
+  field_separator: "\t"
+  load_col:
+    inter:
+    - user_id
+    - item_id
+    - timestamp
+  loss_type: BPR
+  metrics:
+  - Recall
+  - NDCG
+  reproducibility: true
+  seed: 2020
+  topk:
+  - 20
+  valid_metric: NDCG@20
+training:
+  batch_size_kge: 2048
+  batch_size_sasrec: 1024
+  epochs: 50
+  eval_step: 1
+  learning_rate: 0.0002214751193432723
+  margin_loss: 1.9092406647496916
+  num_neg_b: 1
+  run_tag: _hpo_trial4_seed2020
+  scheduling: epoch

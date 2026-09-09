@@ -1,0 +1,21 @@
+{
+  "variant": "loo_no_instance_of",
+  "feature_count": 4,
+  "features_kept": [
+    "bought",
+    "compatible_with",
+    "compatible_with_model",
+    "owns"
+  ],
+  "features_excluded": [
+    "instance_of"
+  ],
+  "feature_signature": "bought|compatible_with|compatible_with_model|owns",
+  "hyperparams": {
+    "embedding_dim": 400,
+    "learning_rate": 0.0008798929749689024,
+    "num_negs_per_pos": 128,
+    "loss": "marginranking",
+    "loss_margin": 5.191058165461712
+  }
+}

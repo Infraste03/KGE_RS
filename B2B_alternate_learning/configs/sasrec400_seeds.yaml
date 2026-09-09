@@ -1,0 +1,50 @@
+# configs/sasrec400_seeds.yaml
+# EXACT parameters extracted from the checkpoint SASRec-May-19-2026_08-28-06.pth
+# Seed is overwritten via CLI --seed
+
+# Dataset
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+load_col:
+  inter: [user_id, item_id, timestamp]
+field_separator: "\t"
+
+# Split
+eval_args:
+  split:
+    LS: valid_and_test
+  order: TO
+  group_by: user
+  mode:
+    valid: full
+    test: full
+
+# Evaluation
+metrics: [Recall, NDCG]
+topk: [20]
+valid_metric: NDCG@20
+
+# Model
+hidden_size: 400
+n_layers: 4
+n_heads: 2
+inner_size: 256
+hidden_dropout_prob: 0.4
+attn_dropout_prob: 0.3
+MAX_ITEM_LIST_LENGTH: 50
+loss_type: CE
+train_neg_sample_args: null
+
+# Training
+epochs: 200
+train_batch_size: 2048
+eval_batch_size: 4096
+learning_rate: 0.00031622776601683794
+weight_decay: 3.1622776601683795e-05
+stopping_step: 10
+eval_step: 1
+
+# Reproducibility — the seed is overwritten by the sbatch
+seed: 2020
+reproducibility: True

@@ -1,0 +1,2 @@
+sample_users,raw_users,sample_users_pct_of_raw,sample_items,raw_items,sample_items_pct_of_raw_reviews,sample_interactions,raw_interactions,sample_interactions_pct_of_raw,sample_items_in_metadata_pct,sample_items_with_category_pct,sample_items_with_also_buy_pct
+50000,12483678,0.40052298689536847,165469,2681297,6.171229819001774,451012,32292099,1.3966636235074097,100.0,100.0,60.92379841541315

@@ -1,0 +1,171 @@
+{
+  "loo_no_bought": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_loo_no_bought.tsv",
+    "relations_kept": [
+      "compatible_with",
+      "compatible_with_model",
+      "instance_of",
+      "owns"
+    ],
+    "relations_excluded": [
+      "bought"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_compatible_with": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_loo_no_compatible_with.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with_model",
+      "instance_of",
+      "owns"
+    ],
+    "relations_excluded": [
+      "compatible_with"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_compatible_with_model": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_loo_no_compatible_with_model.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with",
+      "instance_of",
+      "owns"
+    ],
+    "relations_excluded": [
+      "compatible_with_model"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_instance_of": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_loo_no_instance_of.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with",
+      "compatible_with_model",
+      "owns"
+    ],
+    "relations_excluded": [
+      "instance_of"
+    ],
+    "kind": "loo"
+  },
+  "loo_no_owns": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_loo_no_owns.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with",
+      "compatible_with_model",
+      "instance_of"
+    ],
+    "relations_excluded": [
+      "owns"
+    ],
+    "kind": "loo"
+  },
+  "mix1_keep_compatible_with_owns": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_mix1_keep_compatible_with_owns.tsv",
+    "relations_kept": [
+      "compatible_with",
+      "owns"
+    ],
+    "relations_excluded": [
+      "bought",
+      "compatible_with_model",
+      "instance_of"
+    ],
+    "kind": "random_mix"
+  },
+  "mix2_keep_bought_owns": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_mix2_keep_bought_owns.tsv",
+    "relations_kept": [
+      "bought",
+      "owns"
+    ],
+    "relations_excluded": [
+      "compatible_with",
+      "compatible_with_model",
+      "instance_of"
+    ],
+    "kind": "random_mix"
+  },
+  "mix3_keep_bought_compatible_with": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_mix3_keep_bought_compatible_with.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "compatible_with_model",
+      "instance_of",
+      "owns"
+    ],
+    "kind": "random_mix"
+  },
+  "targeted_pair_cw_cwm": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_targeted_pair_cw_cwm.tsv",
+    "relations_kept": [
+      "compatible_with",
+      "compatible_with_model"
+    ],
+    "relations_excluded": [
+      "bought",
+      "instance_of",
+      "owns"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_pair_cw_instance": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_targeted_pair_cw_instance.tsv",
+    "relations_kept": [
+      "compatible_with",
+      "instance_of"
+    ],
+    "relations_excluded": [
+      "bought",
+      "compatible_with_model",
+      "owns"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_single_cw": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_targeted_single_cw.tsv",
+    "relations_kept": [
+      "compatible_with"
+    ],
+    "relations_excluded": [
+      "bought",
+      "compatible_with_model",
+      "instance_of",
+      "owns"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_triple_cw_cwm_owns": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_targeted_triple_cw_cwm_owns.tsv",
+    "relations_kept": [
+      "compatible_with",
+      "compatible_with_model",
+      "owns"
+    ],
+    "relations_excluded": [
+      "bought",
+      "instance_of"
+    ],
+    "kind": "targeted"
+  },
+  "targeted_triple_cw_bought_instance": {
+    "kg_train_ablation": "..\\data\\processed\\ablation\\kg_train_targeted_triple_cw_bought_instance.tsv",
+    "relations_kept": [
+      "bought",
+      "compatible_with",
+      "instance_of"
+    ],
+    "relations_excluded": [
+      "compatible_with_model",
+      "owns"
+    ],
+    "kind": "targeted"
+  }
+}

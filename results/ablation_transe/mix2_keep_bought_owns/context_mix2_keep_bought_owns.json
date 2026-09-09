@@ -1,0 +1,21 @@
+{
+  "variant": "mix2_keep_bought_owns",
+  "feature_count": 2,
+  "features_kept": [
+    "bought",
+    "owns"
+  ],
+  "features_excluded": [
+    "compatible_with",
+    "compatible_with_model",
+    "instance_of"
+  ],
+  "feature_signature": "bought|owns",
+  "hyperparams": {
+    "embedding_dim": 400,
+    "learning_rate": 0.0008798929749689024,
+    "num_negs_per_pos": 128,
+    "loss": "marginranking",
+    "loss_margin": 5.191058165461712
+  }
+}
