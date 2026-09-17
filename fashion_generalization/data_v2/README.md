@@ -9,4 +9,10 @@ It contains:
 - `also_buy_pairs.json`
 
 These files are used to construct the enriched five-relation Fashion-Random Knowledge Graph.
-This directory is kept separate from `data/` to preserve the exact intermediate inputs used for the enriched Fashion-Random experiments.
+
+The corresponding processed Knowledge Graph files are stored in:
+
+```text
+data/processed_v2/
+```
+This directory is kept separate from data/ to preserve the exact intermediate inputs used for the enriched Fashion-Random experiments.
