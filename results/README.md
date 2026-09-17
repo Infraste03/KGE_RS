@@ -1,7 +1,7 @@
 # Experimental Results
 
 This directory contains the main experimental artifacts produced by the B2B
-Knowledge Graph and alternate-learning experiments.
+Knowledge Graph and KGSEQ experiments.
 
 Only the result directories retained as part of the final reproducible
 repository are included here.
@@ -57,7 +57,7 @@ results/sasrec_seeds_results/
 + reference seed checkpoint under SASRec/
 
 Step 4
-Alternate Learning HPO
+KGSEQ alternate-learning HPO
         |
         v
 results/B2B/step4_hpo/
@@ -116,9 +116,10 @@ The evaluation focuses on the `compatible_with` relation.
 
 RotatE achieved the strongest isolated Knowledge Graph embedding performance.
 
-TransE was nevertheless selected for the downstream alternate-learning
-architecture because its real-valued translational embedding representation is
-compatible with the shared embedding space used by the joint model.
+TransE was nevertheless selected for the downstream KGSEQ architecture because
+its real-valued translational representation can be directly used in the shared
+real-valued entity embedding space without introducing an additional
+representation-conversion layer.
 
 ### `summary.json`
 
@@ -165,8 +166,7 @@ The checkpoint:
 step2_hpo/TransE/best_model.pt
 ```
 
-is the canonical pretrained TransE model used by the B2B alternate-learning
-pipeline.
+is the canonical pretrained TransE model used by the B2B KGSEQ pipeline.
 
 ## RotatE Artifacts
 
@@ -187,8 +187,8 @@ study.db
 trials.csv
 ```
 
-RotatE obtained the best isolated link-prediction performance among the four
-evaluated KGE models.
+RotatE obtained the strongest isolated link-prediction performance among the
+four evaluated KGE models.
 
 ## DistMult Artifacts
 
@@ -299,7 +299,7 @@ Therefore, the complete five-seed evaluation uses:
 The additional seed directory under `results/` should not be interpreted as the
 complete SASRec model repository; it stores only the additional retraining runs.
 
-## Step 4 - Alternate-Learning HPO
+## Step 4 - KGSEQ Hyperparameter Optimization
 
 The directory:
 
@@ -308,7 +308,7 @@ B2B/step4_hpo/
 ```
 
 contains the retained hyperparameter optimization results for the two main
-alternate-learning scheduling strategies:
+alternate-learning scheduling strategies used by KGSEQ:
 
 ```text
 epoch
@@ -328,7 +328,7 @@ B2B/step4_hpo/
     └── study/
 ```
 
-## Epoch Scheduling
+### Epoch Scheduling
 
 The selected HPO configuration for the `epoch` scheduling strategy is stored
 under:
@@ -366,7 +366,7 @@ skipped_configs.txt
 trials_summary.csv
 ```
 
-## One-to-One Scheduling
+### One-to-One Scheduling
 
 The selected configuration for the `one_to_one` scheduling strategy is stored
 under:
@@ -434,9 +434,13 @@ The ablation study contains 13 variants:
 
 ```text
 5 leave-one-out
-3 random-mix
-5 targeted
+3 reduced relation subsets
+5 targeted configurations
 ```
+
+The technical identifiers used in the experiment artifacts are retained below
+for reproducibility. Reader-facing result tables instead describe each
+configuration using the relations that are removed or retained.
 
 ### Leave-One-Out Variants
 
@@ -448,13 +452,31 @@ loo_no_instance_of
 loo_no_owns
 ```
 
-### Random-Mix Variants
+Their semantic meaning is:
+
+| Internal identifier | KG configuration |
+|---|---|
+| `loo_no_bought` | Without `bought` |
+| `loo_no_compatible_with` | Without `compatible_with` |
+| `loo_no_compatible_with_model` | Without `compatible_with_model` |
+| `loo_no_instance_of` | Without `instance_of` |
+| `loo_no_owns` | Without `owns` |
+
+### Reduced Relation Subsets
 
 ```text
 mix1_keep_compatible_with_owns
 mix2_keep_bought_owns
 mix3_keep_bought_compatible_with
 ```
+
+Their semantic meaning is:
+
+| Internal identifier | Relations retained |
+|---|---|
+| `mix1_keep_compatible_with_owns` | `compatible_with` + `owns` |
+| `mix2_keep_bought_owns` | `bought` + `owns` |
+| `mix3_keep_bought_compatible_with` | `bought` + `compatible_with` |
 
 ### Targeted Variants
 
@@ -465,6 +487,16 @@ targeted_single_cw
 targeted_triple_cw_bought_instance
 targeted_triple_cw_cwm_owns
 ```
+
+Their semantic meaning is:
+
+| Internal identifier | Relations retained |
+|---|---|
+| `targeted_pair_cw_cwm` | `compatible_with` + `compatible_with_model` |
+| `targeted_pair_cw_instance` | `compatible_with` + `instance_of` |
+| `targeted_single_cw` | `compatible_with` only |
+| `targeted_triple_cw_bought_instance` | `compatible_with` + `bought` + `instance_of` |
+| `targeted_triple_cw_cwm_owns` | `compatible_with` + `compatible_with_model` + `owns` |
 
 ## Ablation Output Structure
 
@@ -498,44 +530,51 @@ results.
 
 The following table reports the type-constrained Stage 1 TransE results.
 
-| Variant | Kind | MRR | Hits@10 |
-|---|---|---:|---:|
-| `full` | baseline | 0.2953 | 0.5020 |
-| `loo_no_bought` | LOO | 0.2285 | 0.4083 |
-| `loo_no_compatible_with` | LOO | 0.0151 | 0.0321 |
-| `loo_no_compatible_with_model` | LOO | 0.2962 | 0.4999 |
-| `loo_no_instance_of` | LOO | 0.2988 | 0.5082 |
-| `loo_no_owns` | LOO | 0.2931 | 0.5078 |
-| `mix1_keep_compatible_with_owns` | random mix | 0.2139 | 0.3778 |
-| `mix2_keep_bought_owns` | random mix | 0.0111 | 0.0229 |
-| `mix3_keep_bought_compatible_with` | random mix | 0.2938 | 0.5026 |
-| `targeted_pair_cw_cwm` | targeted | 0.2224 | 0.3978 |
-| `targeted_pair_cw_instance` | targeted | 0.2051 | 0.3629 |
-| `targeted_single_cw` | targeted | 0.2137 | 0.3837 |
-| `targeted_triple_cw_bought_instance` | targeted | 0.2939 | 0.5005 |
-| `targeted_triple_cw_cwm_owns` | targeted | 0.2254 | 0.3999 |
+| KG configuration | MRR | Hits@10 |
+|---|---:|---:|
+| Full five-relation graph | 0.2953 | 0.5020 |
+| Without `bought` | 0.2285 | 0.4083 |
+| Without `compatible_with` | 0.0151 | 0.0321 |
+| Without `compatible_with_model` | 0.2962 | 0.4999 |
+| Without `instance_of` | 0.2988 | 0.5082 |
+| Without `owns` | 0.2931 | 0.5078 |
+| `compatible_with` + `owns` | 0.2139 | 0.3778 |
+| `bought` + `owns` | 0.0111 | 0.0229 |
+| `bought` + `compatible_with` | 0.2938 | 0.5026 |
+| `compatible_with` + `compatible_with_model` | 0.2224 | 0.3978 |
+| `compatible_with` + `instance_of` | 0.2051 | 0.3629 |
+| `compatible_with` only | 0.2137 | 0.3837 |
+| `compatible_with` + `bought` + `instance_of` | 0.2939 | 0.5005 |
+| `compatible_with` + `compatible_with_model` + `owns` | 0.2254 | 0.3999 |
 
-The strongest degradation occurs when the `compatible_with` relation is
-removed.
+The strongest degradation occurs when `compatible_with` is removed.
 
-The configuration:
+In particular:
 
 ```text
-mix2_keep_bought_owns
+Full five-relation graph
+MRR     = 0.2953
+Hits@10 = 0.5020
+
+Without compatible_with
+MRR     = 0.0151
+Hits@10 = 0.0321
+```
+
+The reduced graph retaining only:
+
+```text
+bought + owns
 ```
 
 also produces a strong collapse, indicating that relation composition is more
 important than simply retaining a fixed number of Knowledge Graph relations.
 
-Several reduced configurations remain close to the complete graph,
-particularly:
+Several reduced configurations remain close to the complete graph.
 
-```text
-loo_no_instance_of
-loo_no_owns
-mix3_keep_bought_compatible_with
-targeted_triple_cw_bought_instance
-```
+In particular, removing `instance_of` or `owns`, retaining only `bought` and
+`compatible_with`, or retaining `compatible_with`, `bought`, and `instance_of`
+preserves isolated link-prediction performance close to the complete graph.
 
 The complete Stage 1 and downstream Stage 2 ablation analysis is documented
 under:
@@ -585,6 +624,10 @@ summary files
 ```
 
 where they are required to trace and reproduce the reported experiments.
+
+Technical experiment identifiers are retained in artifact names and directory
+names where necessary for reproducibility, while reader-facing result tables use
+semantic descriptions of the evaluated Knowledge Graph configurations.
 
 Historical preliminary outputs that are not part of the final experimental
 pipeline are intentionally excluded from this public result structure.

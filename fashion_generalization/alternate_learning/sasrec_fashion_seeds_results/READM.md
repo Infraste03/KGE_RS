@@ -18,5 +18,3 @@ independent seed runs.
 These results are used as the Fashion-Random standalone baseline for comparison
 with the alternate-learning architectures.
 
-Fashion-Heavy multi-seed results will be added once the corresponding experiments
-are completed.

@@ -339,7 +339,7 @@ results/sasrec_hpo_v3/trial_003/best_valid.pth
 
 ## Architecture
 
-The v3 configuration uses a larger shared latent space:
+The Fashion-Heavy configuration uses a larger shared latent space:
 
 ```text
 hidden_size = 128
@@ -378,7 +378,7 @@ batch_size_sasrec = 512
 margin_loss = 7.379029
 ```
 
-The v3 configuration must remain separate from the standard Fashion configuration because it uses a different dataset, pretrained SASRec checkpoint, and embedding dimensionality.
+The Fashion-Heavy configuration must remain separate from the Fashion-Random configuration because it uses a different dataset, pretrained SASRec checkpoint, and embedding dimensionality.
 
 
 # Evaluation Protocol

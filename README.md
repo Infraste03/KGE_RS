@@ -1112,13 +1112,9 @@ than multi-seed estimates.
 | `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | 0.0926 | 0.1632 |
 | `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | 0.0872 | 0.1499 |
 
-The isolated TransE experiment shows an interesting result:
-
-```text
-mix3_keep_cat_brand_cw
-```
-
-outperforms the complete 5-relation KG in isolated link prediction.
+The isolated TransE experiment shows an interesting result: the configuration
+retaining `belongs_to`, `belongs_to_brand`, and `compatible_with` outperforms
+the complete 5-relation KG in isolated link prediction.
 
 However, this improvement does not transfer directly to downstream
 recommendation.

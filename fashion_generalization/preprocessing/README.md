@@ -8,11 +8,21 @@ The preprocessing pipeline is based on the Amazon `Clothing, Shoes and Jewelry` 
 fashion_generalization/data/raw/
 ```
 
-Three data configurations are maintained: **v1**, **v2**, and **v3**.
+Three preprocessing configurations are maintained internally. In the paper and
+in the reader-facing documentation, the two main Fashion datasets are referred
+to as **Fashion-Random** and **Fashion-Heavy**.
 
+The historical internal identifiers are retained in file names, directory names,
+and script names for reproducibility:
+
+```text
+v1 -> Fashion-Random
+v2 -> enriched five-relation extension of Fashion-Random
+v3 -> Fashion-Heavy
+```
 ## Data Versions
 
-### v1 - Standard Fashion Dataset
+### Fashion-Random
 
 The standard configuration uses a random sample of up to 50,000 users after iterative 5-core filtering.
 
@@ -45,9 +55,11 @@ data/
         └── fashion.inter
 ```
 
-### v2 - Enriched Knowledge Graph
+### Enriched Fashion-Random Knowledge Graph
 
-The v2 configuration uses the same general preprocessing and user-sampling strategy as v1, but enriches the Knowledge Graph with two additional relations:
+This enriched configuration uses the same general preprocessing and user-sampling
+strategy as Fashion-Random, but enriches the Knowledge Graph with two additional
+relations:
 
 ```text
 belongs_to_price_tier
@@ -68,7 +80,7 @@ and the processed Knowledge Graph is stored in:
 data/processed_v2/
 ```
 
-The v2 Knowledge Graph therefore contains five relations:
+The enriched Fashion-Random Knowledge Graph therefore contains five relations:
 
 ```text
 compatible_with
@@ -78,9 +90,10 @@ belongs_to_price_tier
 belongs_to_pop_tier
 ```
 
-### v3 - KG-Oriented User Selection
+### Fashion-Heavy
 
-The v3 configuration retains the five-relation Knowledge Graph introduced in v2 but changes the user-selection strategy.
+Fashion-Heavy uses the same five relation types as the enriched Fashion-Random
+Knowledge Graph, but changes the user-selection strategy.
 
 Instead of randomly sampling 50,000 users, users are ranked according to:
 
@@ -91,7 +104,7 @@ The highest-ranked users are selected, favoring users whose histories provide ri
 
 After selection, iterative 5-core convergence is checked again.
 
-Intermediate v3 data are stored in:
+Intermediate Fashion-Heavy data are stored under the historical path:
 
 ```text
 data_v3/
@@ -113,7 +126,7 @@ data/recbole_v3/fashion_v3/
 
 ### `build_kg_fashion.py`
 
-Builds the standard v1 Fashion Knowledge Graph.
+Builds the Fashion-Random Knowledge Graph.
 
 Main operations include:
 
@@ -130,8 +143,7 @@ Outputs are written to `data/processed/` and intermediate validation data to `da
 
 ### `build_kg_fashion_v2.py`
 
-Builds the enriched v2 Knowledge Graph.
-
+Builds the enriched five-relation Fashion-Random Knowledge Graph.
 It follows the v1 pipeline and additionally extracts product price and rank information to construct:
 
 ```text
@@ -143,9 +155,10 @@ Outputs are written to `data/processed_v2/`, while intermediate validation files
 
 ### `build_kg_fashion_v3.py`
 
-Builds the v3 Knowledge Graph using the KG-oriented user-selection strategy.
+Builds the Fashion-Heavy Knowledge Graph using the category-diversity-based
+user-selection strategy.
 
-The graph contains the same five relations as v2, but the user subset is selected according to category diversity and interaction count rather than random sampling.
+The graph contains the same five relation types as the enriched Fashion-Random Knowledge Graph, but the user subset is selected according to category diversity and interaction count rather than random sampling.
 
 Outputs are written to `data/processed_v3/`, while intermediate validation files are stored in `data_v3/`.
 
@@ -153,7 +166,7 @@ Outputs are written to `data/processed_v3/`, while intermediate validation files
 
 ### `build_recbole_data.py`
 
-Converts the standard v1 filtered interactions into the RecBole atomic `.inter` format.
+Converts the Fashion-Random filtered interactions into the RecBole atomic `.inter` format.
 
 Input:
 
@@ -171,7 +184,7 @@ The script renames the interaction columns to the RecBole format, removes duplic
 
 ### `convert_v3_to_recbole.py`
 
-Converts the v3 interactions into the RecBole format.
+Converts the Fashion-Heavy interactions into the RecBole format.
 
 Input:
 
@@ -192,8 +205,7 @@ Two complementary forms of validation are used.
 ### Semantic KG Validation
 
 `validate_kg_fashion.py`
-
-Validates the standard v1 Knowledge Graph against the corresponding intermediate data.
+Validates the Fashion-Random Knowledge Graph against the corresponding intermediate data.
 
 It performs sampled checks on:
 
@@ -210,7 +222,7 @@ It also checks global invariants such as:
 
 `validate_kg_fashion_v2.py`
 
-Performs the corresponding validation for v2 and additionally checks:
+Performs the corresponding validation for the enriched Fashion-Random Knowledge Graph and additionally checks:
 
 - `belongs_to_price_tier`;
 - `belongs_to_pop_tier`.
@@ -234,11 +246,11 @@ Performs structural checks on the standard v1 TransE input files, including:
 
 Runs the corresponding structural checks on the v2 Knowledge Graph stored in `data/processed_v2/`.
 
-## v3 Validation
+## Fashion-Heavy Validation
 
 ### `validate_kg_v3.py`
 
-Performs additional checks specifically designed for the v3 configuration.
+Performs additional checks specifically designed for the Fashion-Heavy configuration.
 
 The checks include:
 
@@ -298,7 +310,7 @@ This analysis was used to assess whether those attributes had sufficient coverag
 
 ## Typical Workflow
 
-### Standard v1
+### Fashion-Random
 
 ```bash
 python fashion_generalization/preprocessing/build_kg_fashion.py
@@ -309,7 +321,7 @@ python fashion_generalization/preprocessing/validate_sasrec_data.py
 python fashion_generalization/preprocessing/validate_inter.py
 ```
 
-### Enriched v2
+### Enriched Fashion-Random KG
 
 ```bash
 python fashion_generalization/preprocessing/inspect_price_rank.py
@@ -318,7 +330,7 @@ python fashion_generalization/preprocessing/validate_kg_fashion_v2.py
 python fashion_generalization/preprocessing/validate_transe_data_v2.py
 ```
 
-### v3
+### Fashion-Heavy
 
 ```bash
 python fashion_generalization/preprocessing/build_kg_fashion_v3.py
@@ -335,9 +347,9 @@ All preprocessing scripts use repository-relative paths derived from their own f
 The different data versions are intentionally stored separately:
 
 ```text
-data/       -> standard data and processed outputs
-data_v2/    -> intermediate inputs generated by the v2 pipeline
-data_v3/    -> intermediate inputs generated by the v3 pipeline
+data/       -> Fashion-Random data and processed outputs
+data_v2/    -> intermediate inputs for the enriched Fashion-Random KG
+data_v3/    -> intermediate inputs for Fashion-Heavy
 ```
 
 This separation preserves the exact inputs and outputs associated with each experimental configuration.

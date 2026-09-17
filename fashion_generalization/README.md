@@ -593,7 +593,9 @@ Again, removing `compatible_with` produces the strongest degradation.
 | `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | 0.0926 | 0.1632 |
 | `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | 0.0872 | 0.1499 |
 
-Interestingly, `mix3_keep_cat_brand_cw` performs better than the complete 5-relation graph in isolated TransE evaluation:
+Interestingly, the configuration retaining `belongs_to`, `belongs_to_brand`, and
+`compatible_with` performs better than the complete 5-relation graph in isolated
+TransE evaluation:
 
 ```text
 MRR:     0.1122 vs 0.1033

@@ -4,13 +4,20 @@ This directory contains the selected experimental artifacts for the Fashion gene
 
 Only results that are relevant to the final experimental pipelines are retained here. Intermediate trials, obsolete experiments, smoke-test outputs, and superseded checkpoints are stored separately in a local archive and are not part of the public repository.
 
+In the paper and in the reader-facing documentation, the two main Fashion datasets are referred to as:
+
+- **Fashion-Random**, based on random user sampling;
+- **Fashion-Heavy**, based on a user-selection strategy that prioritizes category diversity and interaction activity.
+
+Historical identifiers such as `v2` and `v3` are retained in some directory names, file names, and experiment artifacts to preserve reproducibility and compatibility with the original experimental pipeline. The `v2` identifier refers to an enriched five-relation extension of the Fashion-Random setting, while `v3` corresponds to Fashion-Heavy.
+
 The directory contains results for:
 
-- TransE hyperparameter optimization on the standard 3-relation Fashion KG;
-- TransE hyperparameter optimization on the enriched 5-relation KG;
+- TransE hyperparameter optimization on the Fashion-Random 3-relation KG;
+- TransE hyperparameter optimization on the enriched 5-relation Fashion-Random KG;
 - TransE models used in the KG ablation study;
-- SASRec hyperparameter optimization for the standard Fashion dataset;
-- SASRec hyperparameter optimization for the v3 Fashion dataset;
+- SASRec hyperparameter optimization for Fashion-Random;
+- SASRec hyperparameter optimization for Fashion-Heavy;
 - auxiliary direct TransE training outputs.
 
 ## Directory Structure
@@ -33,9 +40,9 @@ results/
 
 ### `hpo_transe/`
 
-Hyperparameter optimization of TransE on the standard Fashion Knowledge Graph.
+Hyperparameter optimization of TransE on the Fashion-Random Knowledge Graph.
 
-The standard KG contains three relations:
+The Fashion-Random KG contains three relations:
 
 ```text
 compatible_with
@@ -43,7 +50,7 @@ belongs_to
 belongs_to_brand
 ```
 
-This is the canonical TransE model used by the standard Fashion alternate-learning pipeline.
+This is the canonical TransE model used by the Fashion-Random alternate-learning pipeline.
 
 Main files:
 
@@ -91,11 +98,11 @@ Canonical checkpoint:
 results/hpo_transe/best_model.pt
 ```
 
-## Enriched 5-Relation TransE
+## Enriched 5-Relation Fashion-Random TransE
 
 ### `hpo_transe_full5rel_v2/`
 
-Hyperparameter optimization of TransE on the enriched Fashion v2 Knowledge Graph.
+Hyperparameter optimization of TransE on the enriched five-relation Fashion-Random Knowledge Graph.
 
 The KG contains five relations:
 
@@ -107,9 +114,9 @@ belongs_to_price_tier
 belongs_to_pop_tier
 ```
 
-This experiment replaces an earlier 5-relation HPO in which the embedding dimension was included in the search space and the selected model used 128-dimensional embeddings.
+This experiment replaces an earlier five-relation HPO in which the embedding dimension was included in the search space and the selected model used 128-dimensional embeddings.
 
-Since the joint alternate-learning architecture requires compatibility with the 64-dimensional shared embedding space, the final 5-relation HPO fixes:
+Since this Fashion-Random alternate-learning configuration uses a 64-dimensional shared embedding space, the final five-relation HPO fixes:
 
 ```text
 embedding_dim = 64
@@ -152,19 +159,17 @@ Canonical checkpoint:
 results/hpo_transe_full5rel_v2/best_model.pt
 ```
 
-This is the TransE checkpoint used by the final Fashion 5-relation alternate-learning experiment.
+This is the TransE checkpoint used by the enriched five-relation Fashion-Random alternate-learning experiments.
 
 ## TransE Ablation Models
 
-The following directories contain the TransE models used for the Fashion KG ablation experiments.
+The following directories contain the TransE models used for the Fashion-Random KG ablation experiments.
 
-Each ablation removes one component of the standard KG and independently re-optimizes TransE.
+Each ablation removes one component of the Knowledge Graph and independently re-optimizes TransE.
 
 ### `hpo_transe_no_brand_v2/`
 
-TransE HPO for the `no_brand` ablation.
-
-The `belongs_to_brand` information is removed from the KG.
+TransE HPO for the ablation that removes `belongs_to_brand`.
 
 Selected hyperparameters:
 
@@ -191,13 +196,11 @@ Canonical checkpoint:
 results/hpo_transe_no_brand_v2/best_model.pt
 ```
 
-An earlier `hpo_transe_no_brand/` experiment was superseded by this version and is not retained in the public results directory.
+An earlier `hpo_transe_no_brand/` experiment was superseded by this corrected version and is not retained in the public results directory.
 
 ### `hpo_transe_no_category/`
 
-TransE HPO for the `no_category` ablation.
-
-The category information is removed from the KG.
+TransE HPO for the ablation that removes `belongs_to`.
 
 Selected hyperparameters:
 
@@ -226,9 +229,7 @@ results/hpo_transe_no_category/best_model.pt
 
 ### `hpo_transe_no_compatible/`
 
-TransE HPO for the `no_compatible` ablation.
-
-The `compatible_with` relation is removed from the training KG.
+TransE HPO for the ablation that removes `compatible_with` from the training KG.
 
 Selected hyperparameters:
 
@@ -255,13 +256,15 @@ Canonical checkpoint:
 results/hpo_transe_no_compatible/best_model.pt
 ```
 
-The very low link-prediction performance in this configuration is expected to be informative for the ablation study, since the relation targeted by Task A is removed from the training graph.
+The very low link-prediction performance in this configuration is informative for the ablation study because the relation targeted by Task A is removed from the training graph.
 
 ## SASRec Results
 
-### `sasrec_hpo/`
+### Fashion-Random
 
-Contains the selected SASRec trial for the standard Fashion dataset.
+#### `sasrec_hpo/`
+
+Contains the selected SASRec trial for the Fashion-Random dataset.
 
 The original HPO generated multiple trial directories. To avoid storing redundant checkpoints, only the selected trial is retained in the cleaned repository:
 
@@ -294,10 +297,10 @@ weight_decay         = 1e-4
 The selected validation performance was approximately:
 
 ```text
-NDCG@20   = 0.1086
+NDCG@20 = 0.1086
 ```
 
-The corresponding standard Fashion test performance was approximately:
+The corresponding Fashion-Random test performance was approximately:
 
 ```text
 Recall@20 = 0.0964
@@ -314,15 +317,15 @@ results/sasrec_hpo/trial_017/best_valid.pth
 
 `best_test.pth` is retained as an experimental artifact but must not be used for model selection or as the pretrained checkpoint in the final pipeline.
 
-All alternate-learning configurations and validation scripts referring to the standard SASRec checkpoint use the canonical path above.
+All alternate-learning configurations and validation scripts referring to the Fashion-Random SASRec checkpoint use the canonical path above.
 
-## SASRec v3 Results
+### Fashion-Heavy
 
-### `sasrec_hpo_v3/`
+#### `sasrec_hpo_v3/`
 
 Contains the SASRec HPO results for the Fashion-Heavy dataset.
 
-The v3 dataset uses the KG-oriented user-selection strategy defined in the preprocessing pipeline.
+Fashion-Heavy uses the category-diversity- and interaction-activity-based user-selection strategy defined in the preprocessing pipeline.
 
 The selected HPO configuration is `trial_003`.
 
@@ -382,7 +385,7 @@ Contains outputs generated by the direct TransE training script.
 
 This directory is separate from the HPO-selected TransE checkpoints described above.
 
-The models used as pretrained checkpoints in the final alternate-learning experiments are the HPO-selected models stored in:
+The models used as pretrained checkpoints in the Fashion-Random alternate-learning experiments are the HPO-selected models stored in:
 
 ```text
 results/hpo_transe/
@@ -392,7 +395,7 @@ results/hpo_transe_no_category/
 results/hpo_transe_no_compatible/
 ```
 
-Therefore, `transe/` should be interpreted as an auxiliary/direct-training result rather than the canonical source of pretrained TransE weights for the final experiments.
+Therefore, `transe/` should be interpreted as an auxiliary direct-training result rather than the canonical source of pretrained TransE weights for the final experiments.
 
 ## Checkpoint Selection Policy
 
@@ -400,13 +403,13 @@ For reproducibility, downstream experiments use the following canonical checkpoi
 
 | Experiment | Checkpoint |
 |---|---|
-| Standard 3-rel TransE | `results/hpo_transe/best_model.pt` |
-| Full 5-rel TransE | `results/hpo_transe_full5rel_v2/best_model.pt` |
-| No-brand ablation | `results/hpo_transe_no_brand_v2/best_model.pt` |
-| No-category ablation | `results/hpo_transe_no_category/best_model.pt` |
-| No-compatible ablation | `results/hpo_transe_no_compatible/best_model.pt` |
-| Standard SASRec | `results/sasrec_hpo/trial_017/best_valid.pth` |
-| SASRec v3 | `results/sasrec_hpo_v3/trial_003/best_valid.pth` |
+| Fashion-Random 3-rel TransE | `results/hpo_transe/best_model.pt` |
+| Enriched Fashion-Random 5-rel TransE | `results/hpo_transe_full5rel_v2/best_model.pt` |
+| Fashion-Random without `belongs_to_brand` | `results/hpo_transe_no_brand_v2/best_model.pt` |
+| Fashion-Random without `belongs_to` | `results/hpo_transe_no_category/best_model.pt` |
+| Fashion-Random without `compatible_with` | `results/hpo_transe_no_compatible/best_model.pt` |
+| Fashion-Random SASRec | `results/sasrec_hpo/trial_017/best_valid.pth` |
+| Fashion-Heavy SASRec | `results/sasrec_hpo_v3/trial_003/best_valid.pth` |
 
 For SASRec, validation-selected checkpoints (`best_valid.pth`) are the only checkpoints used for downstream model initialization and final experimental comparisons.
 
@@ -419,7 +422,7 @@ These include, among others:
 - smoke-test outputs;
 - non-selected SASRec HPO trials;
 - the duplicate standalone `trial_017/` directory;
-- the original 5-relation TransE HPO with 128-dimensional embeddings;
+- the original five-relation Fashion-Random TransE HPO with 128-dimensional embeddings;
 - the superseded first `no_brand` TransE experiment.
 
 The local archive is not part of the repository and is not required to reproduce the final experiments.
