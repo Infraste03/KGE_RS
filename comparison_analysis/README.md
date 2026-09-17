@@ -334,11 +334,11 @@ In Fashion:
 compatibility ≈ co-purchase signal
 ```
 
-An `compatible_with` edge indicates that two items have been behaviorally associated through co-purchase information.
+A `compatible_with` edge indicates that two items have been behaviorally associated through co-purchase information.
 
 This represents a softer and more semantic notion of compatibility.
 
-The absence of an `compatible_with` relation does not imply that two Fashion items are incompatible.
+The absence of a `compatible_with` relation does not imply that two Fashion items are incompatible.
 
 This differs from the B2B scenario, where compatibility relations can encode explicit structural or physical constraints.
 
@@ -421,7 +421,7 @@ The B2B alternate-learning architecture uses:
 shared / KGE embedding dimension = 400
 ```
 
-The Fashion-Random architecture uses
+The Fashion-Random architecture uses:
 
 ```text
 shared / KGE embedding dimension = 64
@@ -433,8 +433,7 @@ while the Fashion-Heavy architecture uses:
 shared / KGE embedding dimension = 128
 ```
 
-The Fashion dimensionality follows the representation size selected for the Fashion SASRec model.
-
+In both Fashion settings, the shared embedding dimensionality matches the representation size selected for the corresponding SASRec model.
 This allows Task A and Task B to operate in the same shared latent space without requiring an additional projection layer.
 
 The dimensionality difference should therefore be interpreted as an adaptation of the architecture to the target domain and its optimized sequential model, rather than as an attempt to keep all hyperparameters identical between B2B and Fashion.

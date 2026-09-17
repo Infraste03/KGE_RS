@@ -4,6 +4,7 @@ This directory contains the main data resources used by the Fashion experiments.
 
 It includes:
 
+- `raw/`: original Amazon Fashion source files.
 - `processed/`: processed knowledge graph for the 3-relation Fashion-Random setup.
 - `processed_v2/`: processed knowledge graph for the enriched five-relation Fashion-Random setup.
 - `processed_v3/`: processed knowledge graph for the Fashion-Heavy setup.
