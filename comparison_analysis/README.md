@@ -301,28 +301,30 @@ Categories
 and three relations:
 
 ```text
-also_buy
+compatible_with
+belongs_to
 belongs_to_brand
-belongs_to_category
 ```
 
 Their semantic structure is:
 
 ```text
-also_buy
+compatible_with
 Item -> Item
+
+belongs_to
+Item -> Category
 
 belongs_to_brand
 Item -> Brand
-
-belongs_to_category
-Item -> Category
 ```
 
 
 ## 5.1 Fashion Compatibility Semantics
 
-The `also_buy` relation provides the main item-to-item compatibility signal in the Fashion Knowledge Graph.
+The `compatible_with` relation provides the main item-to-item compatibility signal in the Fashion Knowledge Graph.
+It is derived from cross-category `also_buy` co-purchase information available
+in the Amazon metadata.
 
 However, its semantics are substantially different from the physical compatibility available in the B2B domain.
 
@@ -332,11 +334,11 @@ In Fashion:
 compatibility ≈ co-purchase signal
 ```
 
-An `also_buy` edge indicates that two items have been behaviorally associated through co-purchase information.
+An `compatible_with` edge indicates that two items have been behaviorally associated through co-purchase information.
 
 This represents a softer and more semantic notion of compatibility.
 
-The absence of an `also_buy` relation does not imply that two Fashion items are incompatible.
+The absence of an `compatible_with` relation does not imply that two Fashion items are incompatible.
 
 This differs from the B2B scenario, where compatibility relations can encode explicit structural or physical constraints.
 
@@ -419,10 +421,16 @@ The B2B alternate-learning architecture uses:
 shared / KGE embedding dimension = 400
 ```
 
-The Fashion architecture uses:
+The Fashion-Random architecture uses
 
 ```text
 shared / KGE embedding dimension = 64
+```
+
+while the Fashion-Heavy architecture uses:
+
+```text
+shared / KGE embedding dimension = 128
 ```
 
 The Fashion dimensionality follows the representation size selected for the Fashion SASRec model.

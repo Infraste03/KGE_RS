@@ -6,8 +6,8 @@ scripts used for the Fashion experiments.
 Two dataset versions are considered:
 
 - **Fashion-Random**, using the original Fashion preprocessing pipeline.
-- **Fashion-Heavy**, using the updated dataset and preprocessing introduced in the
-  third experimental version.
+- **Fashion-Heavy**, using the dedicated user-selection strategy and preprocessing
+  pipeline defined for the Fashion-Heavy experiments.
 
 ## Files
 
@@ -42,8 +42,8 @@ results/sasrec_hpo/trial_017/best_valid.pth
 
 Hyperparameter search for the Fashion-Heavy SASRec baseline.
 
-It follows the same evaluation and checkpointing procedure as the v1 script,
-with the main differences being:
+It follows the same evaluation and checkpointing procedure as the Fashion-Random
+SASRec script, with the main differences being:
 
 - Fashion-Heavy RecBole dataset
 - fixed embedding dimension: `128`

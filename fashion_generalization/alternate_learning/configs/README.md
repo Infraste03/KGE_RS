@@ -315,7 +315,7 @@ It should not be interpreted as the same experiment as the standard 64-dimension
 
 ## Dataset
 
-The v3 RecBole dataset is expected under:
+The Fashion-Heavy RecBole dataset is expected under:
 
 ```text
 data/recbole_v3/
@@ -330,7 +330,7 @@ data/recbole_v3/fashion_v3/fashion_v3.inter
 
 ## SASRec checkpoint
 
-The selected v3 SASRec checkpoint is:
+The selected Fashion-Heavy SASRec checkpoint is:
 
 ```text
 results/sasrec_hpo_v3/trial_003/best_valid.pth

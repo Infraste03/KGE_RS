@@ -1,4 +1,4 @@
-# Fashion Data v2
+# Enriched Fashion-Random Data
 
 This directory contains the intermediate data produced for the second version of the Fashion preprocessing pipeline.
 
@@ -8,7 +8,7 @@ It contains:
 - `metadata_valid_items.json`
 - `also_buy_pairs.json`
 
-These files are used to construct the enriched v2 knowledge graph.
+These files are used to construct the enriched five-relation Fashion-Random Knowledge Graph.
 
 The corresponding processed knowledge graph files are stored in:
 
@@ -16,4 +16,5 @@ The corresponding processed knowledge graph files are stored in:
 data/processed_v2/
 ```
 
-This directory is kept separate from `data/` to preserve the exact intermediate inputs used for the v2 experiments.
+This directory contains the intermediate data used to build the enriched five-relation extension of Fashion-Random.
+This directory is kept separate from `data/` to preserve the exact intermediate inputs used for the enriched Fashion-Random experiments.

@@ -78,7 +78,7 @@ These directories therefore contain experiment outputs and pretrained TransE che
 
 ## Output Locations
 
-Most non-v3 experiments store their results under:
+Most experiments outside the Fashion-Heavy pipeline store their results under:
 
 ```text
 fashion_generalization/results/

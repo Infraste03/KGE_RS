@@ -570,7 +570,6 @@ completely, but it does not recover the performance of the full Knowledge Graph.
 The removal of `compatible_with` again produces an almost complete collapse in
 link-prediction performance.
 
-The configuration:
 Interestingly, removing the price-tier and popularity-tier relations increases
 the isolated TransE performance from MRR 0.1033 and Hits@10 0.1852 for the full
 five-relation graph to MRR 0.1122 and Hits@10 0.1875.

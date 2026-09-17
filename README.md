@@ -423,6 +423,27 @@ Fashion-Heavy  = 128
 Fashion-Heavy uses a new SASRec HPO because its user-selection procedure produces
 a different interaction dataset from Fashion-Random.
 
+## B2B Sequential-Backbone Comparison
+
+The B2B experiments also compare SASRec with several sequential recommendation
+baselines for Task B. The reported results are mean ± standard deviation across
+the evaluation seeds.
+
+| Model | Recall@20 | NDCG@20 |
+|---|---:|---:|
+| FPMC | 0.1607 ± 0.0131 | 0.0779 ± 0.0055 |
+| NextItNet | 0.1900 ± 0.0165 | 0.0991 ± 0.0062 |
+| GRU4Rec | 0.2776 ± 0.0056 | 0.1620 ± 0.0045 |
+| RepeatNet | 0.2941 ± 0.0193 | 0.1532 ± 0.0121 |
+| NARM | 0.2986 ± 0.0082 | 0.1686 ± 0.0071 |
+| BERT4Rec | 0.3078 ± 0.0206 | 0.1720 ± 0.0124 |
+| FDSA | 0.3334 ± 0.0218 | 0.1827 ± 0.0072 |
+| **SASRec** | **0.3452 ± 0.0185** | **0.1840 ± 0.0074** |
+
+SASRec obtains the highest Recall@20 and NDCG@20 among the evaluated sequential
+backbones and is therefore used as the Task B backbone in the subsequent KGSEQ
+experiments.
+
 # 8. Step 4 - Shared-Embedding Alternate Learning
 
 The central component of this repository is the Step 4 architecture.
@@ -1031,7 +1052,8 @@ link-prediction task.
 
 ## Stage 2 - Recommendation Ablation
 
-Five selected variants were subsequently evaluated with five random seeds.
+Five selected ablation variants, together with the full graph, were subsequently evaluated with five random seeds.
+
 
 | Relations retained | Recall@20 | NDCG@20 |
 |---|---:|---:|

@@ -1,4 +1,4 @@
-# Fashion Data v3
+# Fashion-Heavy Data
 
 This directory contains the intermediate data produced for the Fashion-Heavy preprocessing pipeline.
 
@@ -17,4 +17,5 @@ data/processed_v3/
 data/recbole_v3/
 ```
 
-This directory is kept separate from the previous data versions to preserve the exact inputs used for the v3 experiments and ensure reproducibility.
+This directory is kept separate from the previous preprocessing outputs to preserve
+the exact inputs used for the Fashion-Heavy experiments and ensure reproducibility.
