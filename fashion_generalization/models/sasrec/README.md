@@ -5,15 +5,15 @@ scripts used for the Fashion experiments.
 
 Two dataset versions are considered:
 
-- **Fashion v1**, using the original Fashion preprocessing pipeline.
-- **Fashion v3**, using the updated dataset and preprocessing introduced in the
+- **Fashion-Random**, using the original Fashion preprocessing pipeline.
+- **Fashion-Heavy**, using the updated dataset and preprocessing introduced in the
   third experimental version.
 
 ## Files
 
 ### `run_hpo_sasrec_fashion.py`
 
-Hyperparameter search for the Fashion v1 SASRec baseline.
+Hyperparameter search for the Fashion-Random SASRec baseline.
 
 Main characteristics:
 
@@ -40,14 +40,14 @@ results/sasrec_hpo/trial_017/best_valid.pth
 
 ### `run_hpo_sasrec_fashion_v3.py`
 
-Hyperparameter search for the Fashion v3 SASRec baseline.
+Hyperparameter search for the Fashion-Heavy SASRec baseline.
 
 It follows the same evaluation and checkpointing procedure as the v1 script,
 with the main differences being:
 
-- Fashion v3 RecBole dataset
+- Fashion-Heavy RecBole dataset
 - fixed embedding dimension: `128`
-- dedicated Fashion v3 output directory
+- dedicated Fashion-Heavy output directory
 
 Outputs are stored under:
 
@@ -57,7 +57,7 @@ fashion_generalization/results/sasrec_hpo_v3/
 
 ### `run_sasrec_fashion_smoke.py`
 
-Lightweight local smoke test for the Fashion v1 SASRec pipeline.
+Lightweight local smoke test for the Fashion-Random SASRec pipeline.
 
 It runs a single epoch on CPU with a small configuration and checks:
 

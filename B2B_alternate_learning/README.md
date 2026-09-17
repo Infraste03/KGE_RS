@@ -46,7 +46,9 @@ Task A receives triples:
 
 and optimizes a TransE loss using positive and negative triples.
 
-Its main purpose inside the joint architecture is to inject structural information into the shared representations.
+Within the shared architecture, Task A provides auxiliary Knowledge Graph
+supervision to the sequential recommendation task by updating the same entity
+representations used by Task B.
 
 ## Task B: Sequential recommendation
 
@@ -85,11 +87,12 @@ Conceptually:
       KG triple learning       Sequential recommendation
 ```
 
-This creates hard parameter sharing.
-
+Both tasks therefore directly operate on and update the same trainable entity
+embedding matrix.
 When Task A updates an item embedding using Knowledge Graph information, Task B sees the updated representation.
 
-Similarly, when Task B updates an item representation through recommendation training, Task A receives the modified embedding during its next optimization step.
+Similarly, when Task B updates an item representation through recommendation training, Task A receives the modified embedding during its next optimization step. No projection layer is used between the two tasks: TransE and SASRec operate
+directly in the same shared representation space.
 
 The two tasks therefore interact through the shared embedding space rather than through a late score-fusion mechanism.
 
@@ -240,7 +243,10 @@ The trainer dynamically chooses which task to update based on recent losses.
 
 The task with the larger moving loss receives more updates, while a minimum number of Task B updates is preserved.
 
-This strategy explores whether training frequency can be adapted automatically rather than fixed in advance.
+
+The `adaptive` strategy is implemented in the codebase but is not part of the
+final experimental comparison reported in the paper, which focuses on
+`one_to_one` and `epoch` scheduling.
 
 # Step 4 training pipeline
 
@@ -482,9 +488,9 @@ The final results are:
 
 | Model | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| SASRec 400-dim (Step 3) | - | 0.3452 ± 0.0185 | 0.1840 ± 0.0074 |
-| **KG-Hybrid** | **one_to_one** | **0.4612 ± 0.0177** | 0.2773 ± 0.0098 |
-| **KG-Hybrid** | **epoch** | 0.4566 ± 0.0152 | **0.2783 ± 0.0101** |
+| SASRec baseline | - | 0.3452 ± 0.0185 | 0.1840 ± 0.0074 |
+| **KGSEQ** | **one_to_one** | **0.4612 ± 0.0177** | 0.2773 ± 0.0098 |
+| **KGSEQ** | **epoch** | 0.4566 ± 0.0152 | **0.2783 ± 0.0101** |
 
 Values report mean ± standard deviation across the five random seeds.
 
@@ -537,7 +543,7 @@ The best HPO configuration for `epoch` was:
 
 ## Statistical Significance
 
-A paired one-sided Wilcoxon signed-rank test was used to compare the KG-Hybrid model against the standalone SASRec baseline across the same random seeds.
+A paired one-sided Wilcoxon signed-rank test was used to compare KGSEQ against the standalone SASRec baseline across the same random seeds.
 
 For both Recall@20 and NDCG@20:
 
@@ -551,11 +557,11 @@ with:
 p < 0.05
 ```
 
-indicating that the improvement of the hybrid architecture over the SASRec baseline is statistically significant under the adopted paired multi-seed evaluation protocol.
+indicating that KGSEQ consistently improves over the SASRec baseline under the adopted paired multi-seed evaluation protocol.
 
 # KG ablation experiments
 
-Two Step 4 ablation runners are included:
+The Step 4 ablation runner is:
 
 ```text
 run_step4_ablation.py
@@ -597,7 +603,8 @@ wilcoxon_test.py
 
 which performs a paired one-sided Wilcoxon signed-rank test between multi-seed results.
 
-This is used to assess whether the recommendation performance of the hybrid alternate-learning model is consistently higher than the standalone SASRec baseline.
+This is used to assess whether the recommendation performance of KGSEQ is
+consistently higher than that of the standalone SASRec baseline.
 
 Final statistical analyses should use the exact same paired seed set for the compared models.
 
@@ -761,4 +768,5 @@ Task B loss
 
 The two objectives therefore continuously influence the same entity/item representation.
 
-This interaction between structural KG information and sequential recommendation is the central idea of the B2B alternate-learning architecture.
+This interaction between structural KG information and sequential
+recommendation through a shared representation is the central idea of KGSEQ.

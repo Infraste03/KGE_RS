@@ -6,7 +6,7 @@ The implementation combines:
 
 - a TransE-based Knowledge Graph task;
 - a SASRec-based sequential recommendation task;
-- a hard-shared entity embedding matrix;
+- a shared entity embedding matrix;
 - task-specific loss functions;
 - negative samplers;
 - a joint model that orchestrates the two tasks.
@@ -113,7 +113,7 @@ parameters before considering the task-specific components.
 
 # `shared_embedding_fashion.py`
 
-`SharedEmbedding` is the core component of the hard-sharing architecture.
+`SharedEmbedding` is the core component of the sharing architecture.
 
 It owns the entity embedding matrix used by both:
 
@@ -432,7 +432,7 @@ JointAlternateModelFashion
 ```
 
 
-## Hard sharing
+## Shared embedding
 
 The model passes the exact same `SharedEmbedding` instance to:
 

@@ -9,7 +9,7 @@ The configurations cover:
 - HPC Step 4 experiments;
 - BPR-based Task B training;
 - CE-based Task B training;
-- the separate Fashion v3 experimental setting.
+- the separate Fashion-Heavy experimental setting.
 
 All paths in the standard Fashion configurations are relative to:
 
@@ -308,7 +308,7 @@ The shared TransE initialization and SASRec architecture remain otherwise aligne
 
 # `step4_config_fashion_v3.yaml`
 
-This configuration belongs to the separate Fashion v3 experimental setting.
+This configuration belongs to the separate Fashion-Heavy experimental setting.
 
 It should not be interpreted as the same experiment as the standard 64-dimensional Fashion configuration.
 

@@ -1,8 +1,6 @@
 # Knowledge Graph-Enhanced Sequential Recommendation
 
-This repository contains the implementation and experimental evaluation of a
-Knowledge Graph-enhanced sequential recommendation architecture based on
-**hard-shared entity embeddings** and **alternate learning**.
+This repository contains the implementation and experimental evaluation of a Knowledge Graph-enhanced sequential recommendation architecture based on **shared entity embeddings** and **alternate learning**.
 
 The project was originally developed for an industrial B2B spare-parts
 recommendation scenario and was subsequently evaluated on Amazon Fashion data
@@ -15,7 +13,7 @@ Knowledge Graph Embedding
         +
 Sequential Recommendation
         +
-Hard Shared Embedding
+Shared Embedding
         +
 Alternate Learning
 ```
@@ -200,9 +198,9 @@ different Knowledge Graph semantics
 
 Two Fashion experimental pipelines are maintained in this repository.
 
-## Fashion v1
+## Fashion-Random
 
-Fashion v1 uses a random sample of approximately:
+Fashion-Random uses a random sample of approximately:
 
 ```text
 50,000 users
@@ -211,16 +209,16 @@ Fashion v1 uses a random sample of approximately:
 The original Knowledge Graph contains three relation types:
 
 ```text
-also_buy
+compatible_with
+belongs_to
 belongs_to_brand
-belongs_to_category
 ```
 
-In the alternate-learning and ablation code, the `also_buy` structural
-relation is treated as the compatibility signal and is therefore associated
-with the `compatible_with` terminology used by the shared architecture.
+The compatible_with relation is derived from cross-category also_buy
+relationships and represents the main item-to-item structural signal used in
+the Fashion experiments.
 
-The main Fashion v1 configuration uses:
+The main Fashion-Random configuration uses:
 
 ```text
 TransE embedding dimension = 64
@@ -229,15 +227,16 @@ SASRec hidden dimension    = 64
 
 The standalone SASRec model was tuned independently on this dataset.
 
-An enriched Fashion v1 Knowledge Graph was also constructed for the ablation
+An enriched Fashion-Random Knowledge Graph was also constructed for the ablation
 experiments by adding engineered price and popularity information.
 
-## Fashion v3
+## Fashion-Heavy
 
-Fashion v3 changes the user-selection strategy.
+Fashion-Heavy uses a different user-selection strategy from Fashion-Random.
 
-Instead of randomly sampling users, users are selected to improve coverage of
-the Fashion macro-categories.
+Instead of randomly sampling users, users are ranked according to the number
+of distinct Fashion macro-categories in their interaction histories and,
+secondarily, by their number of interactions.
 
 The resulting dataset contains:
 
@@ -245,12 +244,12 @@ The resulting dataset contains:
 49,988 users
 ```
 
-This produces a different interaction dataset from Fashion v1.
+This produces a different interaction dataset from Fashion-Random.
 
-For this reason, both TransE and SASRec are tuned again rather than reusing the
-v1 hyperparameters.
+For this reason, both TransE and SASRec are tuned independently for this
+setting rather than reusing the Fashion-Random hyperparameters.
 
-Fashion v3 evaluates two Knowledge Graph families.
+
 
 ### 3-relation KG
 
@@ -273,7 +272,7 @@ The 5-relation graph therefore evaluates whether engineered price and
 popularity information provides useful structural information beyond
 compatibility, category, and brand.
 
-Fashion v3 uses:
+Fashion-Heavy uses:
 
 ```text
 TransE embedding dimension = 128
@@ -417,52 +416,31 @@ which matches the TransE entity embedding dimension used by the joint model.
 For Fashion, the dimensionality is dataset-specific:
 
 ```text
-Fashion v1 = 64
-Fashion v3 = 128
+Fashion-Random = 64
+Fashion-Heavy  = 128
 ```
 
-Fashion v3 uses a new SASRec HPO because its user-selection procedure produces
-a different interaction dataset from Fashion v1.
+Fashion-Heavy uses a new SASRec HPO because its user-selection procedure produces
+a different interaction dataset from Fashion-Random.
 
 # 8. Step 4 - Shared-Embedding Alternate Learning
 
 The central component of this repository is the Step 4 architecture.
 
-Instead of maintaining independent item embeddings for the Knowledge Graph and
-sequential recommendation models, both tasks operate on the same learnable
-matrix.
+## KGSEQ Architecture
 
-Conceptually:
+The KGSEQ architecture combines Knowledge Graph link prediction with TransE
+(Task A) and sequential recommendation with SASRec (Task B). Both tasks
+directly operate on the same trainable entity embedding matrix and are
+optimized through alternate learning.
 
-```text
-                         ┌───────────────────────┐
-                         │   SharedEmbedding     │
-                         │                       │
-                         │  ONE entity matrix   │
-                         └──────────┬────────────┘
-                                    │
-                    ┌───────────────┴───────────────┐
-                    │                               │
-                    v                               v
-          ┌──────────────────┐           ┌──────────────────┐
-          │      Task A      │           │      Task B      │
-          │                  │           │                  │
-          │      TransE      │           │      SASRec      │
-          │                  │           │                  │
-          │ KG link          │           │ sequential       │
-          │ prediction       │           │ recommendation   │
-          └────────┬─────────┘           └────────┬─────────┘
-                   │                              │
-                   │ gradients                    │ gradients
-                   │                              │
-                   └──────────────┬───────────────┘
-                                  │
-                                  v
-                         Shared item/entity
-                         representation
-```
+<p align="center">
+  <img src="imgarch.drawio.png" alt="KGSEQ architecture" width="850">
+</p>
 
-This is a **hard parameter-sharing architecture**.
+
+
+Both tasks directly share the same trainable entity embedding matrix.
 
 There is not one item embedding matrix for TransE and another one for SASRec.
 
@@ -520,8 +498,8 @@ The dimensionality depends on the experiment:
 | Domain | Shared dimension |
 |---|---:|
 | B2B | 400 |
-| Fashion v1 | 64 |
-| Fashion v3 | 128 |
+| Fashion-Random | 64 |
+| Fashion-Heavy | 128 |
 
 # 10. Unified ID Space
 
@@ -595,7 +573,7 @@ layer normalization
 The original standalone SASRec item embedding is intentionally not used as a
 second independent item matrix.
 
-This preserves the hard-sharing constraint.
+This preserves the shared-embedding design.
 
 # 12. Task A - TransE
 
@@ -880,8 +858,9 @@ exploration/
 hpc/
 ```
 
-Fashion v1 and Fashion v3 have separate preprocessing and model configurations
-because they correspond to different sampled interaction datasets.
+Fashion-Random and Fashion-Heavy use separate preprocessing and model
+configurations because they correspond to different user-selection strategies
+and interaction datasets.
 
 # 17. Main B2B Results
 
@@ -898,10 +877,10 @@ Final B2B results are computed over five random seeds:
 | Model | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | - | 0.3452 ± 0.0185 | 0.1840 ± 0.0074 |
-| KG-Hybrid | `one_to_one` | **0.4612 ± 0.0177** | 0.2773 ± 0.0098 |
-| KG-Hybrid | `epoch` | 0.4566 ± 0.0152 | **0.2783 ± 0.0101** |
+| KGSEQ | `one_to_one` | **0.4612 ± 0.0177** | 0.2773 ± 0.0098 |
+| KGSEQ | `epoch` | 0.4566 ± 0.0152 | **0.2783 ± 0.0101** |
 
-The KG-Hybrid model substantially improves both Recall@20 and NDCG@20 over the
+KGSEQ model substantially improves both Recall@20 and NDCG@20 over the
 standalone SASRec baseline.
 
 For the paired five-seed comparison:
@@ -912,7 +891,7 @@ Wilcoxon signed-rank p = 0.0312
 
 for both Recall@20 and NDCG@20.
 
-# 18. Main Fashion v1 Results
+# 18. Main Fashion-Random Results
 
 The standalone five-seed SASRec baseline obtains:
 
@@ -936,10 +915,11 @@ Using the five reported seeds, the final aggregate results are:
 | Model | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | - | 0.0966 ± 0.00023 | 0.0889 ± 0.00016 |
-| KG-Hybrid + CE | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
-| KG-Hybrid + CE | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
+| KGSEQ | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
+| KGSEQ | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
 
-The paired hybrid-vs-SASRec comparison gives:
+
+The paired KGSEQ-vs-SASRec comparison gives:
 
 ```text
 p = 0.0312
@@ -950,22 +930,21 @@ for both metrics and both scheduling strategies.
 The difference between `one_to_one` and `epoch`, however, is not statistically
 significant with five seeds.
 
-# 19. Main Fashion v3 Results
+# 19. Main Fashion-Heavy Results
 
-Fashion v3 standalone SASRec obtains:
+Fashion-Heavy standalone SASRec obtains:
 
 | Model | Recall@20 | NDCG@20 |
 |---|---:|---:|
 | SASRec | 0.09088 ± 0.00034 | 0.07734 ± 0.00023 |
 
 The final one-to-one shared-embedding models obtain:
+| Model | KG | Recall@20 | NDCG@20 |
+|---|---|---:|---:|
+| KGSEQ | 3-rel | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
+| KGSEQ | 5-rel | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
 
-| KG | Recall@20 | NDCG@20 |
-|---|---:|---:|
-| 3-rel KG-Hybrid | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
-| 5-rel KG-Hybrid | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
-
-Both hybrid configurations significantly outperform standalone SASRec:
+Both KGSEQ configurations significantly outperform standalone SASRec:
 
 ```text
 p = 0.0312
@@ -1027,22 +1006,22 @@ ablation_study/
 
 ## Stage 1 - Isolated TransE
 
-| Variant | Type | MRR | Hits@10 |
-|---|---|---:|---:|
-| `full` | baseline | 0.2953 | 0.5020 |
-| `loo_no_bought` | LOO | 0.2285 | 0.4083 |
-| `loo_no_compatible_with` | LOO | 0.0151 | 0.0321 |
-| `loo_no_compatible_with_model` | LOO | 0.2962 | 0.4999 |
-| `loo_no_instance_of` | LOO | 0.2988 | 0.5082 |
-| `loo_no_owns` | LOO | 0.2931 | 0.5078 |
-| `mix1_keep_compatible_with_owns` | random mix | 0.2139 | 0.3778 |
-| `mix2_keep_bought_owns` | random mix | 0.0111 | 0.0229 |
-| `mix3_keep_bought_compatible_with` | random mix | 0.2938 | 0.5026 |
-| `targeted_pair_cw_cwm` | targeted | 0.2224 | 0.3978 |
-| `targeted_pair_cw_instance` | targeted | 0.2051 | 0.3629 |
-| `targeted_single_cw` | targeted | 0.2137 | 0.3837 |
-| `targeted_triple_cw_bought_instance` | targeted | 0.2939 | 0.5005 |
-| `targeted_triple_cw_cwm_owns` | targeted | 0.2254 | 0.3999 |
+| KG configuration | MRR | Hits@10 |
+|---|---:|---:|
+| Full graph | 0.2953 | 0.5020 |
+| Without `bought` | 0.2285 | 0.4083 |
+| Without `compatible_with` | 0.0151 | 0.0321 |
+| Without `compatible_with_model` | 0.2962 | 0.4999 |
+| Without `instance_of` | 0.2988 | 0.5082 |
+| Without `owns` | 0.2931 | 0.5078 |
+| `compatible_with` + `owns` | 0.2139 | 0.3778 |
+| `bought` + `owns` | 0.0111 | 0.0229 |
+| `bought` + `compatible_with` | 0.2938 | 0.5026 |
+| `compatible_with` + `compatible_with_model` | 0.2224 | 0.3978 |
+| `compatible_with` + `instance_of` | 0.2051 | 0.3629 |
+| `compatible_with` only | 0.2137 | 0.3837 |
+| `compatible_with` + `bought` + `instance_of` | 0.2939 | 0.5005 |
+| `compatible_with` + `compatible_with_model` + `owns` | 0.2254 | 0.3999 |
 
 The most important result is the collapse observed when `compatible_with` is
 removed.
@@ -1054,14 +1033,14 @@ link-prediction task.
 
 Five selected variants were subsequently evaluated with five random seeds.
 
-| Variant | Recall@20 | NDCG@20 |
+| Relations retained | Recall@20 | NDCG@20 |
 |---|---:|---:|
-| `full` | 0.4612 ± 0.0177 | 0.2773 ± 0.0098 |
-| `loo_no_compatible_with` | 0.4247 ± 0.0173 | 0.2545 ± 0.0141 |
-| `mix1_keep_compatible_with_owns` | 0.4338 ± 0.0187 | 0.2665 ± 0.0072 |
-| `targeted_triple_cw_bought_instance` | 0.4566 ± 0.0150 | 0.2691 ± 0.0096 |
-| `mix3_keep_bought_compatible_with` | 0.4612 ± 0.0139 | 0.2771 ± 0.0122 |
-| `loo_no_instance_of` | **0.4658 ± 0.0126** | **0.2774 ± 0.0072** |
+| All five relations | 0.4612 ± 0.0177 | 0.2773 ± 0.0098 |
+| All except `compatible_with` | 0.4247 ± 0.0173 | 0.2545 ± 0.0141 |
+| `compatible_with` + `owns` | 0.4338 ± 0.0187 | 0.2665 ± 0.0072 |
+| `bought` + `compatible_with` + `instance_of` | 0.4566 ± 0.0150 | 0.2691 ± 0.0096 |
+| `bought` + `compatible_with` | 0.4612 ± 0.0139 | 0.2771 ± 0.0122 |
+| All except `instance_of` | **0.4658 ± 0.0126** | **0.2774 ± 0.0072** |
 
 The downstream experiment confirms the importance of `compatible_with`.
 
@@ -1071,7 +1050,7 @@ removing it does not degrade performance.
 The reduced graph containing `bought + compatible_with` also reproduces almost
 the same recommendation performance as the complete graph.
 
-# 22. Fashion v1 Ablation Results
+# 22. Fashion-Random Ablation Results
 
 ## Stage 1 - Isolated TransE
 
@@ -1102,36 +1081,36 @@ These experiments use a single seed.
 These ablation values should be interpreted as single-seed diagnostics rather
 than multi-seed estimates.
 
-# 23. Fashion v3 Ablation Results
+# 23. Fashion-Heavy Ablation Results
 
 ## 3-Relation KG - Isolated TransE
 
-| Variant | MRR | Hits@10 |
+| KG configuration | MRR | Hits@10 |
 |---|---:|---:|
-| Full | 0.1010 | 0.1840 |
-| `loo_no_belongs_to` | 0.0874 | 0.1707 |
-| `loo_no_belongs_to_brand` | 0.0844 | 0.1562 |
-| `loo_no_compatible_with` | **0.0004** | **0.0006** |
-| `targeted_single_cw` | 0.0654 | 0.1250 |
+| Full graph | 0.1010 | 0.1840 |
+| Without `belongs_to` | 0.0874 | 0.1707 |
+| Without `belongs_to_brand` | 0.0844 | 0.1562 |
+| Without `compatible_with` | **0.0004** | **0.0006** |
+| `compatible_with` only | 0.0654 | 0.1250 |
 
 ## 5-Relation KG - Isolated TransE
 
-| Variant | MRR | Hits@10 |
+| KG configuration | MRR | Hits@10 |
 |---|---:|---:|
-| Full | 0.1033 | 0.1852 |
-| `loo_no_belongs_to` | 0.0938 | 0.1672 |
-| `loo_no_belongs_to_brand` | 0.0875 | 0.1453 |
-| `loo_no_belongs_to_pop_tier` | 0.1050 | 0.1881 |
-| `loo_no_belongs_to_price_tier` | 0.1041 | 0.1788 |
-| `loo_no_compatible_with` | 0.0005 | 0.0006 |
-| `mix1_keep_cat_pop` | 0.0005 | 0.0012 |
-| `mix2_keep_pop_cw` | 0.0757 | 0.1337 |
-| `mix3_keep_cat_brand_cw` | **0.1122** | **0.1875** |
-| `targeted_pair_cw_brand` | 0.0989 | 0.1771 |
-| `targeted_pair_cw_category` | 0.0902 | 0.1516 |
-| `targeted_single_cw` | 0.0688 | 0.1215 |
-| `targeted_triple_cw_brand_pricetier` | 0.0926 | 0.1632 |
-| `targeted_triple_cw_category_poptier` | 0.0872 | 0.1499 |
+| Full graph | 0.1033 | 0.1852 |
+| Without `belongs_to` | 0.0938 | 0.1672 |
+| Without `belongs_to_brand` | 0.0875 | 0.1453 |
+| Without `belongs_to_pop_tier` | 0.1050 | 0.1881 |
+| Without `belongs_to_price_tier` | 0.1041 | 0.1788 |
+| Without `compatible_with` | 0.0005 | 0.0006 |
+| `belongs_to` + `belongs_to_pop_tier` | 0.0005 | 0.0012 |
+| `belongs_to_pop_tier` + `compatible_with` | 0.0757 | 0.1337 |
+| `belongs_to` + `belongs_to_brand` + `compatible_with` | **0.1122** | **0.1875** |
+| `compatible_with` + `belongs_to_brand` | 0.0989 | 0.1771 |
+| `compatible_with` + `belongs_to` | 0.0902 | 0.1516 |
+| `compatible_with` only | 0.0688 | 0.1215 |
+| `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | 0.0926 | 0.1632 |
+| `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | 0.0872 | 0.1499 |
 
 The isolated TransE experiment shows an interesting result:
 
@@ -1144,21 +1123,21 @@ outperforms the complete 5-relation KG in isolated link prediction.
 However, this improvement does not transfer directly to downstream
 recommendation.
 
-## Fashion v3 Stage 2 Ablation
+## Fashion-Heavy Stage 2 Ablation
 
 Selected variants were evaluated using seed 2020 and `one_to_one` scheduling.
 
-| Variant | KG | Recall@20 | NDCG@20 |
+| KG configuration | KG family | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| Full | 5-rel | 0.09786 | 0.08039 |
-| `loo_no_compatible_with` | 5-rel | 0.09384 | 0.07900 |
-| `mix3_keep_cat_brand_cw` | 5-rel | 0.09766 | 0.08033 |
-| `targeted_pair_cw_brand` | 5-rel | 0.09728 | 0.08024 |
-| Full | 3-rel | 0.09822 | 0.08060 |
-| `loo_no_belongs_to` | 3-rel | 0.09692 | 0.08009 |
+| Full graph | 5-rel | 0.09786 | 0.08039 |
+| Without `compatible_with` | 5-rel | 0.09384 | 0.07900 |
+| Without price-tier and popularity-tier | 5-rel | 0.09766 | 0.08033 |
+| `compatible_with` + `belongs_to_brand` | 5-rel | 0.09728 | 0.08024 |
+| Full graph | 3-rel | 0.09822 | 0.08060 |
+| Without `belongs_to` | 3-rel | 0.09692 | 0.08009 |
 
-The isolated-KG advantage of `mix3_keep_cat_brand_cw` does not persist in the
-recommendation task.
+The isolated-KG advantage of retaining `belongs_to`, `belongs_to_brand`, and
+`compatible_with` does not persist in the recommendation task.
 
 This illustrates an important distinction:
 
@@ -1172,13 +1151,13 @@ Across the experiments, several consistent patterns emerge.
 
 ### Shared Knowledge Graph information improves recommendation
 
-The KG-Hybrid model significantly outperforms standalone SASRec in:
+KGSEQ significantly outperforms standalone SASRec in:
 
 ```text
 B2B
-Fashion v1
-Fashion v3 3-rel
-Fashion v3 5-rel
+Fashion-Random
+Fashion-Heavy 3-rel
+Fashion-Heavy 5-rel
 ```
 
 with:
@@ -1202,7 +1181,7 @@ recommendation.
 The B2B graph can be reduced substantially while maintaining almost the same
 recommendation performance.
 
-Similarly, Fashion v3 does not obtain a significant downstream improvement from
+Similarly, Fashion-Heavy does not obtain a significant downstream improvement from
 adding price-tier and popularity-tier relations.
 
 ### KGE quality and recommendation quality are related but not equivalent
@@ -1210,7 +1189,7 @@ adding price-tier and popularity-tier relations.
 Some graph configurations improve isolated TransE performance without
 improving the downstream recommender.
 
-This is particularly visible in Fashion v3.
+This is particularly visible in Fashion-Heavy.
 
 ### Alternate learning successfully transfers structural information
 
@@ -1230,23 +1209,23 @@ The main paired Wilcoxon signed-rank tests use the same five seeds:
 2024
 ```
 
-## Hybrid vs SASRec
+## KGSEQ vs SASRec
 
 | Dataset / configuration | Recall@20 p | NDCG@20 p |
 |---|---:|---:|
 | B2B full | 0.0312 | 0.0312 |
-| Fashion v1 `one_to_one` | 0.0312 | 0.0312 |
-| Fashion v1 `epoch` | 0.0312 | 0.0312 |
-| Fashion v3 3-rel | 0.0312 | 0.0312 |
-| Fashion v3 5-rel | 0.0312 | 0.0312 |
+| Fashion-Random `one_to_one` | 0.0312 | 0.0312 |
+| Fashion-Random `epoch` | 0.0312 | 0.0312 |
+| Fashion-Heavy 3-rel | 0.0312 | 0.0312 |
+| Fashion-Heavy 5-rel | 0.0312 | 0.0312 |
 
 ## Secondary Comparisons
 
 | Comparison | Recall@20 p | NDCG@20 p |
 |---|---:|---:|
-| Fashion v1 `one_to_one` vs `epoch`, one-sided | 0.0625 | 0.0938 |
-| Fashion v1 `one_to_one` vs `epoch`, two-sided | 0.1250 | 0.1875 |
-| Fashion v3 3-rel vs 5-rel, two-sided | 0.8125 | 0.6250 |
+| Fashion-Random `one_to_one` vs `epoch`, one-sided | 0.0625 | 0.0938 |
+| Fashion-Random `one_to_one` vs `epoch`, two-sided | 0.1250 | 0.1875 |
+| Fashion-Heavy 3-rel vs 5-rel, two-sided | 0.8125 | 0.6250 |
 
 The secondary comparisons therefore do not reach statistical significance with
 five paired runs.
@@ -1265,9 +1244,9 @@ It includes:
 B2B KG generation
 B2B isolated TransE ablation
 B2B downstream Step 4 ablation
-Fashion v1 ablation
-Fashion v3 3-rel ablation
-Fashion v3 5-rel ablation
+Fashion-Random ablation
+Fashion-Heavy 3-rel ablation
+Fashion-Heavy 5-rel ablation
 SLURM job-array scripts
 result aggregation utilities
 ```
@@ -1337,7 +1316,7 @@ Downstream ablation outputs are collected under:
 ablation_study/step4_alternate_results/
 ```
 
-Fashion v3 isolated ablation outputs are under:
+Fashion-Heavy isolated ablation outputs are under:
 
 ```text
 ablation_study/fashionv3/

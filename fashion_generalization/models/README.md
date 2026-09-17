@@ -12,12 +12,12 @@ models/
 
 Contains the SASRec training and hyperparameter optimization scripts used for the sequential recommendation task.
 
-It includes the standard Fashion experiments, the Fashion v3 experiments, and a local smoke-test script.
+It includes the standard Fashion experiments, the Fashion-Heavy experiments, and a local smoke-test script.
 
 ## `TransE/`
 
-Contains the TransE training, hyperparameter optimization, ablation, and Fashion v3 scripts used for the knowledge graph component.
+Contains the TransE training, hyperparameter optimization, ablation, and Fashion-Heavy scripts used for the knowledge graph component.
 
-This directory also contains the `3rel/` and `5rel/` Fashion v3 experiment outputs and pretrained TransE checkpoints.
+This directory also contains the `3rel/` and `5rel/` Fashion-Heavy experiment outputs and pretrained TransE checkpoints.
 
 See the README files inside each model directory for further details.

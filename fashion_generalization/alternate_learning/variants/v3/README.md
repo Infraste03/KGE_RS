@@ -1,8 +1,8 @@
-# Fashion v3 Alternate Learning
+# Fashion-Heavy Alternate Learning
 
-This folder contains the Fashion v3 implementation of the alternate-learning experiments.
+This folder contains the Fashion-Heavy implementation of the alternate-learning experiments.
 
-Fashion v3 uses a single unified KG vocabulary shared across the 3-relation, 5-relation, and ablation configurations. The corresponding data are stored under:
+Fashion-Heavy uses a single unified KG vocabulary shared across the 3-relation, 5-relation, and ablation configurations. The corresponding data are stored under:
 
 ```text
 fashion_generalization/data/processed_v3/
@@ -14,7 +14,7 @@ The unified vocabulary contains five relation types, while individual experiment
 
 ### `load_kg_fashion_v3.py`
 
-Loads the Fashion v3 Knowledge Graph and builds deterministic entity and relation mappings.
+Loads the Fashion-Heavy Knowledge Graph and builds deterministic entity and relation mappings.
 
 Supported entity types are:
 
@@ -52,7 +52,7 @@ Implements evaluation for both tasks:
 - Task A: filtered MRR and Hits@K for `compatible_with`
 - Task B: Recall@20 and NDCG@20
 
-Task B candidates are restricted to the Fashion v3 item ID range.
+Task B candidates are restricted to the Fashion-Heavy item ID range.
 
 ### `run_step4_fashion_v3.py`
 
@@ -71,11 +71,11 @@ Both configurations use the same entity and relation vocabulary; only the Task A
 
 Runs Optuna hyperparameter optimization for Step 4.
 
-HPO is performed on the full 3-relation configuration and the selected hyperparameters are reused for the remaining Fashion v3 experiments.
+HPO is performed on the full 3-relation configuration and the selected hyperparameters are reused for the remaining Fashion-Heavy experiments.
 
 ### `run_step4_ablation_fashion_v3.py`
 
-Runs the selected Fashion v3 relation-ablation experiments.
+Runs the selected Fashion-Heavy relation-ablation experiments.
 
 The filtered KG files and pretrained TransE checkpoints are read from:
 

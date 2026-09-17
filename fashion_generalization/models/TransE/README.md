@@ -38,11 +38,11 @@ models/TransE/
 | `generate_ablation_kg_files.py` | Generates filtered KG files for relation-ablation experiments. |
 | `run_full_hpo_transe_fashion.py` | HPO on the enriched Fashion KG containing five relations. |
 | `run_hpo_trase_price_pop.py` | Five-relation experiment with embedding dimension fixed to 64 for compatibility with the alternate-learning architecture. |
-| `run_v3_hpo_transe.py` | HPO pipeline for Fashion v3. Supports both the `3rel` and `5rel` variants through `--variant`. |
+| `run_v3_hpo_transe.py` | HPO pipeline for Fashion-Heavy. Supports both the `3rel` and `5rel` variants through `--variant`. |
 
-## Fashion v3: `3rel` and `5rel`
+## Fashion-Heavy: `3rel` and `5rel`
 
-The Fashion v3 experiments use a fixed entity and relation vocabulary loaded from `data/processed_v3/`.
+The Fashion-Heavy experiments use a fixed entity and relation vocabulary loaded from `data/processed_v3/`.
 
 Two graph variants are supported:
 
@@ -74,7 +74,7 @@ study.db
 run.log
 ```
 
-These directories therefore contain experiment outputs and pretrained TransE checkpoints used by the Fashion v3 alternate-learning experiments.
+These directories therefore contain experiment outputs and pretrained TransE checkpoints used by the Fashion-Heavy alternate-learning experiments.
 
 ## Output Locations
 

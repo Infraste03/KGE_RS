@@ -2,14 +2,14 @@
 
 This directory contains the neural components used by the B2B alternate learning architecture.
 
-The architecture jointly trains two tasks:
+The architecture alternately optimizes two tasks:
 
-- Task A: knowledge graph link prediction using TransE
+- Task A: Knowledge Graph link prediction using TransE
 - Task B: sequential recommendation using SASRec
 
 The two tasks are coupled through a single shared entity embedding matrix.
 
-Both components operate in a 400-dimensional latent space, allowing the same item representations to be updated by both the knowledge graph and recommendation objectives.
+Both components operate in a 400-dimensional latent space, allowing the same item representations to be updated by both the knowledge graph and recommendation objectives. Although the two tasks are optimized separately, sequential recommendation in Task B is the primary target. Task A provides auxiliary Knowledge Graph supervision by updating the shared entity representations used by Task B.
 
 ## Architecture
 
@@ -46,7 +46,7 @@ The embedding matrix is initialized from the pretrained TransE entity embeddings
 
 SASRec does not overwrite these item embeddings during initialization. Instead, the pretrained SASRec Transformer and positional parameters are loaded separately.
 
-This allows the architecture to preserve the structural information learned from the Knowledge Graph while also reusing the sequential patterns learned by the standalone SASRec model.
+This initializes the shared representation space with the structural information learned by TransE while reusing the Transformer parameters learned by the standalone SASRec model.
 
 The class also provides diagnostic utilities to inspect embedding norms, NaN/Inf values, and gradient behavior.
 
@@ -146,4 +146,4 @@ Task B is warm-started from the pretrained standalone SASRec model:
 - normalization parameters are transferred
 - the original SASRec item embedding is not transferred
 
-The shared item representation therefore starts from the Knowledge Graph embedding space and is subsequently updated by both tasks during alternate learning.
+The shared item representation therefore starts from the Knowledge Graph embedding space and is subsequently updated by both tasks during alternate learning. This shared representation is the central mechanism through which Knowledge Graph supervision influences sequential recommendation in KGSEQ.

@@ -33,7 +33,7 @@ ablation_study/run_transe_ablation_batch.py
 
 ### `sbatch_v3_ablation_3rel.sh`
 
-Runs the **Fashion v3 3-relation TransE ablation study**.
+Runs the **Fashion-Heavy 3-relation TransE ablation study**.
 
 The job array contains 4 variants:
 
@@ -50,7 +50,7 @@ ablation_study/fashionv3/run_v3_ablation_3rel.py
 
 ### `sbatch_v3_ablation_5rel.sh`
 
-Runs the **Fashion v3 5-relation TransE ablation study**.
+Runs the **Fashion-Heavy 5-relation TransE ablation study**.
 
 The job array contains 13 variants:
 

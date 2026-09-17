@@ -1,7 +1,7 @@
-# Fashion v3 Knowledge Graph Ablation Study
+# Fashion-Heavy Knowledge Graph Ablation Study
 
 This directory contains the Knowledge Graph ablation experiments for the
-**Fashion v3** dataset.
+**Fashion-Heavy** dataset.
 
 The goal of these experiments is to measure how individual Knowledge Graph
 relations contribute to TransE embedding quality and, subsequently, to the
@@ -15,6 +15,10 @@ Two Knowledge Graph families are considered:
 The ablation methodology follows the same general principle used for the B2B
 experiments: relation composition is varied while the vocabulary and training
 configuration are kept fixed.
+
+Some file names, directory names, and internal experiment identifiers retain
+the historical `v3` label used during development to preserve reproducibility
+and compatibility with the original experimental pipeline.
 
 ## Experimental Methodology
 
@@ -119,9 +123,9 @@ fashionv3/
     └── summary.json
 ```
 
-## Fashion v3 Knowledge Graph
+## Fashion-Heavy Knowledge Graph
 
-The Fashion v3 Knowledge Graph is built from the alternative v3 user-selection
+The Fashion-Heavy Knowledge Graph is built from the alternative v3 user-selection
 pipeline.
 
 The corresponding processed KG and fixed vocabulary are stored under:
@@ -359,7 +363,7 @@ random seed       = 42
 Early stopping is enabled.
 
 The hyperparameters are fixed from the TransE HPO performed on the
-corresponding Fashion v3 3-relation family.
+corresponding Fashion-Heavy 3-relation family.
 
 ### 5-Relation Experiments
 
@@ -518,13 +522,13 @@ inside the corresponding result directories.
 The following table reports the type-constrained link-prediction results for
 the full 3-relation Knowledge Graph and its ablation variants.
 
-| Variant | Kind | MRR | Hits@10 |
-|---|---|---:|---:|
-| Full 3-rel KG | baseline | 0.1010 | 0.1840 |
-| `loo_no_compatible_with` | LOO | **0.0004** | **0.0006** |
-| `loo_no_belongs_to` | LOO | 0.0874 | 0.1707 |
-| `loo_no_belongs_to_brand` | LOO | 0.0844 | 0.1562 |
-| `targeted_single_cw` | targeted | 0.0654 | 0.1250 |
+| KG configuration | MRR | Hits@10 |
+|---|---:|---:|
+| Full 3-rel graph | 0.1010 | 0.1840 |
+| Without `compatible_with` | **0.0004** | **0.0006** |
+| Without `belongs_to` | 0.0874 | 0.1707 |
+| Without `belongs_to_brand` | 0.0844 | 0.1562 |
+| `compatible_with` only | 0.0654 | 0.1250 |
 
 The strongest degradation occurs when `compatible_with` is removed:
 
@@ -539,53 +543,38 @@ Hits@10 = 0.0006
 ```
 
 This result identifies compatibility as the dominant relation for the isolated
-Fashion v3 link-prediction task.
+Fashion-Heavy link-prediction task.
 
-Retaining only `compatible_with` through `targeted_single_cw` performs
-substantially better than removing it completely, but it does not recover the
-performance of the full Knowledge Graph.
+Retaining only `compatible_with` performs substantially better than removing it
+completely, but it does not recover the performance of the full Knowledge Graph.
 
 ### Stage 1 — Isolated TransE: 5-Relation KG
 
-| Variant | Kind | MRR | Hits@10 |
-|---|---|---:|---:|
-| Full 5-rel KG | baseline | 0.1033 | 0.1852 |
-| `loo_no_compatible_with` | LOO | 0.0005 | 0.0006 |
-| `loo_no_belongs_to` | LOO | 0.0938 | 0.1672 |
-| `loo_no_belongs_to_brand` | LOO | 0.0875 | 0.1453 |
-| `loo_no_belongs_to_price_tier` | LOO | 0.1041 | 0.1788 |
-| `loo_no_belongs_to_pop_tier` | LOO | 0.1050 | 0.1881 |
-| `mix1_keep_cat_pop` | random mix | 0.0005 | 0.0012 |
-| `mix2_keep_pop_cw` | random mix | 0.0757 | 0.1337 |
-| `mix3_keep_cat_brand_cw` | random mix | **0.1122** | **0.1875** |
-| `targeted_pair_cw_brand` | targeted | 0.0989 | 0.1771 |
-| `targeted_pair_cw_category` | targeted | 0.0902 | 0.1516 |
-| `targeted_single_cw` | targeted | 0.0688 | 0.1215 |
-| `targeted_triple_cw_brand_pricetier` | targeted | 0.0926 | 0.1632 |
-| `targeted_triple_cw_category_poptier` | targeted | 0.0872 | 0.1499 |
+| KG configuration | MRR | Hits@10 |
+|---|---:|---:|
+| Full 5-rel graph | 0.1033 | 0.1852 |
+| Without `compatible_with` | 0.0005 | 0.0006 |
+| Without `belongs_to` | 0.0938 | 0.1672 |
+| Without `belongs_to_brand` | 0.0875 | 0.1453 |
+| Without `belongs_to_price_tier` | 0.1041 | 0.1788 |
+| Without `belongs_to_pop_tier` | 0.1050 | 0.1881 |
+| `belongs_to` + `belongs_to_pop_tier` | 0.0005 | 0.0012 |
+| `belongs_to_pop_tier` + `compatible_with` | 0.0757 | 0.1337 |
+| `belongs_to` + `belongs_to_brand` + `compatible_with` | **0.1122** | **0.1875** |
+| `compatible_with` + `belongs_to_brand` | 0.0989 | 0.1771 |
+| `compatible_with` + `belongs_to` | 0.0902 | 0.1516 |
+| `compatible_with` only | 0.0688 | 0.1215 |
+| `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | 0.0926 | 0.1632 |
+| `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | 0.0872 | 0.1499 |
 
 The removal of `compatible_with` again produces an almost complete collapse in
 link-prediction performance.
 
 The configuration:
+Interestingly, removing the price-tier and popularity-tier relations increases
+the isolated TransE performance from MRR 0.1033 and Hits@10 0.1852 for the full
+five-relation graph to MRR 0.1122 and Hits@10 0.1875.
 
-```text
-mix3_keep_cat_brand_cw
-```
-
-achieves the best isolated TransE performance:
-
-```text
-MRR     = 0.1122
-Hits@10 = 0.1875
-```
-
-compared with the complete 5-relation graph:
-
-```text
-MRR     = 0.1033
-Hits@10 = 0.1852
-```
 
 This indicates that adding more relations does not automatically improve
 Knowledge Graph embedding quality.
@@ -608,42 +597,29 @@ scheduling = one_to_one
 
 and are therefore single-seed diagnostic analyses.
 
-| KG Family | Configuration | Recall@20 | NDCG@20 |
+| KG configuration | KG | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| 5-rel | Full KG | 0.09786 | 0.08039 |
-| 5-rel | `loo_no_compatible_with` | 0.09384 | 0.07900 |
-| 5-rel | `mix3_keep_cat_brand_cw` | 0.09766 | 0.08033 |
-| 5-rel | `targeted_pair_cw_brand` | 0.09728 | 0.08024 |
-| 3-rel | Full KG | **0.09822** | **0.08060** |
-| 3-rel | `loo_no_belongs_to` | 0.09692 | 0.08009 |
+| Full graph | 5-rel | 0.09786 | 0.08039 |
+| Without `compatible_with` | 5-rel | 0.09384 | 0.07900 |
+| Without price-tier and popularity-tier | 5-rel | 0.09766 | 0.08033 |
+| `compatible_with` + `belongs_to_brand` | 5-rel | 0.09728 | 0.08024 |
+| Full graph | 3-rel | **0.09822** | **0.08060** |
+| Without `belongs_to` | 3-rel | 0.09692 | 0.08009 |
 
-Removing `compatible_with` from the 5-relation graph produces the clearest
-downstream degradation among the selected variants.
 
-An important result emerges when comparing isolated TransE performance with
-downstream recommendation.
+Removing `compatible_with` from the five-relation graph reduces Recall@20 from
+0.09786 to 0.09384 and NDCG@20 from 0.08039 to 0.07900, corresponding to
+relative reductions of approximately 4.1% and 1.7%, respectively.
 
-In Stage 1:
+These downstream ablations use a single seed and should therefore be interpreted
+as diagnostic comparisons. Nevertheless, the result is consistent with the B2B
+findings and further highlights the importance of compatibility information
+across both domains.
 
-```text
-mix3_keep_cat_brand_cw
-MRR = 0.1122
-
-Full 5-rel KG
-MRR = 0.1033
-```
-
-However, in Stage 2:
-
-```text
-mix3_keep_cat_brand_cw
-Recall@20 = 0.09766
-NDCG@20   = 0.08033
-
-Full 5-rel KG
-Recall@20 = 0.09786
-NDCG@20   = 0.08039
-```
+In isolated TransE evaluation, removing the price-tier and popularity-tier
+relations improves MRR from 0.1033 to 0.1122. However, the same reduced graph
+achieves Recall@20 of 0.09766 and NDCG@20 of 0.08033 downstream, compared with
+0.09786 and 0.08039 for the complete five-relation graph.
 
 Therefore, the improvement observed in isolated Knowledge Graph embedding does
 not transfer to downstream recommendation.
@@ -696,7 +672,7 @@ corresponding SLURM scripts rather than hard-coded into the Python source.
 ## Relationship with the Main Fashion Experiments
 
 The experiments in this directory correspond specifically to the
-**Fashion v3 Knowledge Graph ablation study**.
+**Fashion-Heavy Knowledge Graph ablation study**.
 
 The main Fashion implementation, preprocessing pipeline, pretrained models,
 and alternate-learning architecture are documented under:

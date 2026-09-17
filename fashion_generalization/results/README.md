@@ -320,7 +320,7 @@ All alternate-learning configurations and validation scripts referring to the st
 
 ### `sasrec_hpo_v3/`
 
-Contains the SASRec HPO results for the Fashion v3 dataset.
+Contains the SASRec HPO results for the Fashion-Heavy dataset.
 
 The v3 dataset uses the KG-oriented user-selection strategy defined in the preprocessing pipeline.
 

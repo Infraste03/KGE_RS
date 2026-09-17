@@ -148,7 +148,7 @@ In particular:
 - reducing the graph does not automatically improve or preserve performance:
   the specific relation composition remains important.
 
-## Fashion v1 Results
+## Fashion-Random Results
 
 The directory:
 
@@ -197,9 +197,9 @@ step4_ablation_no_compatible_with_epoch_ce
 step4_ablation_no_compatible_with_one_to_one_ce
 ```
 
-## Fashion v1 Result Files
+## Fashion-Random Result Files
 
-A representative Fashion v1 run contains:
+A representative Fashion-Random run contains:
 
 ```text
 best_metrics.json
@@ -225,9 +225,9 @@ Final scientific reporting should follow the model-selection protocol defined
 for the corresponding experiment rather than selecting a configuration based
 on test performance.
 
-## Fashion v1 Final Results
+## Fashion-Random Final Results
 
-The Fashion v1 Stage 2 ablation experiments use Cross-Entropy for Task B and
+The Fashion-Random Stage 2 ablation experiments use Cross-Entropy for Task B and
 compare the `epoch` and `one_to_one` scheduling strategies.
 
 These runs are single-seed experiments and should therefore be interpreted as
@@ -248,7 +248,7 @@ The full Knowledge Graph configuration achieves the strongest overall ranking
 quality, with the highest NDCG@20 obtained using `epoch` scheduling.
 
 Removing brand information produces the clearest degradation among the selected
-Fashion v1 configurations.
+Fashion-Random configurations.
 
 Removing category or compatibility information also changes recommendation
 performance, although the effect is less pronounced than the collapse observed

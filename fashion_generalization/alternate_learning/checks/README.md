@@ -1,6 +1,8 @@
-# Fashion Alternate Learning - Verification Checks
+# Fashion-Random Alternate Learning - Verification Checks
 
-This directory contains the verification and diagnostic scripts used to validate the Fashion alternate-learning pipeline before running expensive training experiments.
+This directory contains the verification and diagnostic scripts used to validate
+the Fashion-Random alternate-learning pipeline before running expensive training
+experiments.
 
 The checks cover the complete integration path between:
 
@@ -50,9 +52,10 @@ checks/
 ```
 
 
-# Reference Fashion Setup
+# Reference Fashion-Random Setup
 
-The verification scripts assume the Fashion alternate-learning configuration used in the experiments.
+The verification scripts assume the Fashion-Random alternate-learning
+configuration used in the experiments.
 
 ## Knowledge Graph
 
@@ -613,7 +616,8 @@ item
 
 For each sampled entity it verifies that the vector stored in `SharedEmbedding` is exactly equal to the corresponding PyKEEN TransE vector.
 
-This isolates the most important hard-sharing initialization step from the rest of the joint architecture.
+This isolates the shared-embedding initialization step from the rest of the
+joint architecture.
 
 
 # 11. `test_task_a_real_data_fashion.py`
@@ -674,7 +678,7 @@ item embedding
 ```
 
 
-## Test 2 - Hybrid SASRec
+## Test 2 - Shared-Embedding SASRec
 
 `TaskBSASRec` uses:
 
@@ -688,7 +692,7 @@ Only the Transformer-related SASRec parameters are warm-started.
 
 At this stage the shared embedding is intentionally not the original standalone SASRec item embedding.
 
-Therefore, the hybrid model is not expected to reproduce standalone SASRec metrics before alternate learning.
+Therefore, the shared-embedding model is not expected to reproduce standalone SASRec metrics before alternate learning.
 
 The purpose of this second test is to verify that:
 
@@ -772,10 +776,10 @@ the evaluation pipeline works
 Recall@20 remains meaningfully above random
 ```
 
-This is the expected behavior of the hard-sharing architecture before joint optimization.
+This is the expected behavior of the shared-embedding architecture before
+alternate learning.
 
-
-# Why Task B Does Not Exactly Match Standalone SASRec After Joint Warm Start
+# Why Task B Does Not Exactly Match Standalone SASRec After the Shared Warm Start
 
 This point is fundamental for interpreting the checks.
 

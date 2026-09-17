@@ -214,8 +214,7 @@ Three representations must be compatible:
 2. PyKEEN entity IDs used to train TransE;
 3. RecBole item IDs used by SASRec.
 
-Correct ID alignment is essential because the alternate-learning architecture uses hard parameter sharing through a single embedding matrix.
-
+Correct ID alignment is essential because the alternate-learning architecture uses a single embedding matrix shared by both tasks.
 A mapping error would load pretrained embeddings into incorrect rows without necessarily causing a runtime error.
 
 ### Checks performed
@@ -593,7 +592,7 @@ Task B history coherence check PASSED
 
 Verifies the structure of `JointAlternateModel` immediately after the warm-start process and before alternate learning begins.
 
-This check focuses on the hard-shared embedding architecture.
+This check focuses on the shared-embedding architecture.
 
 ### Checks performed
 

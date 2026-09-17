@@ -10,8 +10,12 @@ The architecture combines:
 - **SharedEmbedding:** a common item/entity embedding space jointly updated
   by both tasks
 
-The repository contains experiments based on the original Fashion setup
-(Fashion v1) and the extended Fashion v3 setup.
+The repository contains experiments for the two Fashion settings considered in
+the paper: **Fashion-Random** and **Fashion-Heavy**.
+
+Some file names, directory names, and internal experiment identifiers retain
+the historical `v3` label used during development to preserve reproducibility
+and compatibility with the original experimental pipeline.
 
 ## Directory Structure
 
@@ -45,9 +49,9 @@ alternate_learning/
 Generated result directories may not be included in the final public
 repository and can instead be archived separately.
 
-## Fashion v1
+## Fashion-Random
 
-Fashion v1 represents the original generalization experiment.
+Fashion-Random represents the original generalization experiment.
 
 Two Task B training objectives were explored:
 
@@ -71,16 +75,16 @@ run_hpo_step4_fashion_ce.py
 Pretrained TransE and SASRec checkpoints are specified through the YAML
 configuration files under `configs/`.
 
-The canonical Fashion v1 pretrained checkpoints are:
+The canonical Fashion-Random pretrained checkpoints are:
 
 ```text
 results/hpo_transe/best_model.pt
 results/sasrec_hpo/trial_017/best_valid.pth
 ```
 
-## Fashion v3
+## Fashion-Heavy
 
-Fashion v3 extends the original setup with an updated Knowledge Graph and
+Fashion-Heavy extends the original setup with an updated Knowledge Graph and
 additional relation/entity information.
 
 The corresponding implementation is located under:
@@ -89,7 +93,7 @@ The corresponding implementation is located under:
 variants/v3/
 ```
 
-Fashion v3 supports:
+Fashion-Heavy supports:
 
 - 3-relation KG experiments
 - 5-relation KG experiments
@@ -103,7 +107,7 @@ See `variants/v3/README.md` for additional details.
 
 `variants/five_rel/` contains the earlier five-relation Fashion extension.
 
-`variants/ablation_3rel/` contains the Fashion v1 three-relation
+`variants/ablation_3rel/` contains the Fashion-Random three-relation
 leave-one-relation-out ablation experiments.
 
 ## Evaluation
@@ -131,19 +135,19 @@ Final multi-seed experiments use the following five seeds:
 
 Multi-seed results are reported as mean ± standard deviation.
 
-### Fashion v1
+### Fashion-Random
 
-Fashion v1 compares BPR and Cross-Entropy as Task B objectives.
+Fashion-Random compares BPR and Cross-Entropy as Task B objectives.
 
 The initial HPO results are:
 
 | Model | Scheduling | Task B Loss | Recall@20 | NDCG@20 |
 |---|---|---|---:|---:|
 | SASRec baseline | - | CE | 0.0966 ± 0.00023 | 0.0889 ± 0.00016 |
-| Alternate Learning | `one_to_one` | BPR | 0.0946 | 0.0501 |
-| Alternate Learning | `epoch` | BPR | 0.1017 | 0.0563 |
-| Alternate Learning | `one_to_one` | CE | 0.1039 | 0.0908 |
-| Alternate Learning | `epoch` | CE | 0.1039 | 0.0914 |
+| KGSEQ | `one_to_one` | BPR | 0.0946 | 0.0501 |
+| KGSEQ | `epoch` | BPR | 0.1017 | 0.0563 |
+| KGSEQ | `one_to_one` | CE | 0.1039 | 0.0908 |
+| KGSEQ | `epoch` | CE | 0.1039 | 0.0914 |
 
 Cross-Entropy provides substantially better NDCG@20 than BPR and was therefore
 selected for the final Fashion experiments.
@@ -153,13 +157,12 @@ The final five-seed CE results are:
 | Model | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | - | 0.0966 ± 0.00023 | 0.0889 ± 0.00016 |
-| Alternate Learning | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
-| Alternate Learning | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
+| KGSEQ | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
+| KGSEQ | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
 
 Both alternate-learning schedules outperform the standalone SASRec baseline.
 
-Paired Wilcoxon signed-rank tests between each hybrid configuration and SASRec
-give:
+Paired Wilcoxon signed-rank tests between each KGSEQ configuration and the standalone SASRec baseline give:
 
 ```text
 Recall@20: p = 0.0312
@@ -176,9 +179,9 @@ significant:
 | one-sided | 0.0625 | 0.0938 |
 | two-sided | 0.1250 | 0.1875 |
 
-### Fashion v1 Relation Ablations
+### Fashion-Random Relation Ablations
 
-Selected Fashion v1 relation ablations were evaluated with both scheduling
+Selected Fashion-Random relation ablations were evaluated with both scheduling
 strategies using a single seed.
 
 | KG Configuration | Scheduling | Recall@20 | NDCG@20 |
@@ -195,21 +198,20 @@ strategies using a single seed.
 These ablation results are single-seed experiments and should therefore be
 interpreted as diagnostic comparisons rather than multi-seed estimates.
 
-### Fashion v3
+### Fashion-Heavy
 
-Fashion v3 uses a separately tuned SASRec baseline because its user-selection
-strategy produces a different interaction dataset from Fashion v1.
+Fashion-Heavy uses a separately tuned SASRec baseline because its user-selection
+strategy produces a different interaction dataset from Fashion-Random.
 
 The final five-seed results use `one_to_one` scheduling for alternate learning.
 
 | Model | KG | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | None | 0.09088 ± 0.00034 | 0.07734 ± 0.00023 |
-| Alternate Learning | 3 relations | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
-| Alternate Learning | 5 relations | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
+| KGSEQ | 3 relations | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
+| KGSEQ | 5 relations | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
 
-Both hybrid configurations significantly outperform the standalone SASRec
-baseline.
+Both KGSEQ configurations significantly outperform the standalone SASRec baseline.
 
 For both the 3-relation and 5-relation configurations:
 
@@ -229,25 +231,31 @@ NDCG@20:   p = 0.6250
 Therefore, adding the engineered price-tier and popularity-tier relations does
 not provide a measurable downstream recommendation advantage.
 
-### Fashion v3 Relation Ablations
+### Fashion-Heavy Relation Ablations
 
 Selected relation configurations were propagated from the isolated TransE
 ablation study to the alternate-learning architecture.
 
 These experiments use seed 2020 and `one_to_one` scheduling.
 
-| Variant | KG Family | Recall@20 | NDCG@20 |
+| KG configuration | KG family | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| Full | 5-rel | 0.09786 | 0.08039 |
-| `loo_no_compatible_with` | 5-rel | 0.09384 | 0.07900 |
-| `mix3_keep_cat_brand_cw` | 5-rel | 0.09766 | 0.08033 |
-| `targeted_pair_cw_brand` | 5-rel | 0.09728 | 0.08024 |
-| Full | 3-rel | 0.09822 | 0.08060 |
-| `loo_no_belongs_to` | 3-rel | 0.09692 | 0.08009 |
+| Full graph | 5-rel | 0.09786 | 0.08039 |
+| Without `compatible_with` | 5-rel | 0.09384 | 0.07900 |
+| Without price-tier and popularity-tier | 5-rel | 0.09766 | 0.08033 |
+| `compatible_with` + `belongs_to_brand` | 5-rel | 0.09728 | 0.08024 |
+| Full graph | 3-rel | 0.09822 | 0.08060 |
+| Without `belongs_to` | 3-rel | 0.09692 | 0.08009 |
 
-The `mix3_keep_cat_brand_cw` configuration improves isolated TransE
-link-prediction performance over the full 5-relation graph, but this advantage
+Removing the price-tier and popularity-tier relations improves isolated TransE
+link-prediction performance over the full five-relation graph, but this advantage
 does not transfer to downstream recommendation.
+Removing `compatible_with` from the five-relation graph reduces Recall@20 from
+0.09786 to 0.09384 and NDCG@20 from 0.08039 to 0.07900, corresponding to
+relative reductions of approximately 4.1% and 1.7%, respectively.
+
+These downstream ablations use a single seed and should therefore be interpreted
+as diagnostic comparisons.
 
 This result shows that improved isolated Knowledge Graph embedding performance
 does not necessarily imply improved sequential recommendation performance.

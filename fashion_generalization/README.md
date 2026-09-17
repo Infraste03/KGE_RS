@@ -17,6 +17,15 @@ The Fashion experiments include:
 - alternative user-sampling strategies;
 - validation and reproducibility checks.
 
+## Naming Convention
+
+In the paper, the two main Fashion settings are referred to as
+**Fashion-Random** and **Fashion-Heavy**.
+
+Some file names, directory names, and internal experiment identifiers retain
+the historical labels used during development (e.g., `v3`) to preserve
+reproducibility and compatibility with the original experimental pipeline.
+
 ## Repository Structure
 
 ```text
@@ -64,7 +73,7 @@ Additional experimental variants are isolated under `variants/`:
 
 - `five_rel/`: enriched KG with price and popularity information;
 - `ablation_3rel/`: leave-one-relation-out ablations;
-- `v3/`: experiments based on the alternative v3 user-selection strategy.
+-  `v3/`: experiments corresponding to the Fashion-Heavy user-selection strategy.
 
 See `alternate_learning/README.md` for implementation and training details.
 
@@ -119,9 +128,9 @@ See `data_v2/README.md` for details.
 
 ### `data_v3/`
 
-Contains intermediate data generated using the v3 user-selection strategy.
+Contains intermediate data generated for the Fashion-Heavy setting.
 
-Unlike the standard pipeline, which randomly samples users after filtering, v3 favors users with greater Fashion category diversity and interaction activity.
+Unlike Fashion-Random, which randomly samples users after filtering, Fashion-Heavy prioritizes users with greater Fashion category diversity and interaction activity.
 
 The corresponding processed KG is stored in:
 
@@ -160,7 +169,7 @@ These include scripts for:
 
 - SASRec HPO;
 - SASRec multi-seed retraining;
-- Fashion v3 experiments;
+- Fashion-Heavy experiments;
 - joint alternate-learning experiments;
 - ablation experiments.
 
@@ -183,7 +192,7 @@ models/
 Contains:
 
 - SASRec hyperparameter optimization for the standard Fashion dataset;
-- SASRec hyperparameter optimization for Fashion v3;
+- SASRec hyperparameter optimization for Fashion-Heavy;
 - SASRec smoke-test utilities.
 
 #### `models/TransE/`
@@ -193,7 +202,7 @@ Contains:
 - standard TransE HPO;
 - enriched 5-relation TransE HPO;
 - TransE ablation HPO scripts;
-- v3 TransE experiments;
+- Fashion-Heavy TransE experiments;
 - direct TransE training utilities.
 
 Canonical pretrained checkpoints are stored under `results/`, rather than selected directly from the model source directory.
@@ -218,12 +227,12 @@ The preprocessing pipeline covers:
 - conversion to RecBole format;
 - semantic and structural validation.
 
-Three preprocessing configurations are available:
+The preprocessing code retains three historical internal configurations:
 
 ```text
-v1 -> standard 3-relation Fashion KG
-v2 -> enriched 5-relation Fashion KG
-v3 -> KG-oriented user-selection strategy
+v1 -> Fashion-Random preprocessing
+v2 -> enriched five-relation extension of the Random setting
+v3 -> Fashion-Heavy preprocessing
 ```
 
 See `preprocessing/README.md` for the complete workflow.
@@ -267,7 +276,7 @@ results/hpo_transe_no_compatible/best_model.pt
 Standard SASRec
 results/sasrec_hpo/trial_017/best_valid.pth
 
-Fashion v3 SASRec
+Fashion-Heavy SASRec
 results/sasrec_hpo_v3/trial_003/best_valid.pth
 ```
 
@@ -347,7 +356,7 @@ no_compatible
 
 Each ablation uses an independently trained TransE checkpoint.
 
-### Fashion v3
+### Fashion-Heavy
 
 Tests an alternative user-selection strategy designed to produce user histories with stronger cross-category information.
 
@@ -394,10 +403,12 @@ Both naive and type-constrained evaluations are stored for TransE experiments.
 
 ## Main Experimental Results
 
-The Fashion experiments evaluate the proposed shared-embedding architecture on two different dataset configurations:
+The Fashion experiments evaluate the proposed shared-embedding architecture on
+two different dataset configurations:
 
-- **Fashion v1:** random user sampling;
-- **Fashion v3:** category-aware user selection designed to improve Fashion macro-category coverage.
+- **Fashion-Random:** random user sampling;
+- **Fashion-Heavy:** user selection prioritizing category diversity and
+  interaction activity.
 
 All final multi-seed comparisons use the same five random seeds:
 
@@ -411,7 +422,7 @@ All final multi-seed comparisons use the same five random seeds:
 
 Sequential recommendation performance is reported using Recall@20 and NDCG@20.
 
-### Fashion v1 - Standalone SASRec
+### Fashion-Random - Standalone SASRec
 
 The standalone SASRec model uses a 64-dimensional representation and Cross-Entropy loss.
 
@@ -421,7 +432,7 @@ Across five seeds:
 |---|---:|---:|
 | SASRec baseline | 0.0966 ± 0.00023 | 0.0889 ± 0.00016 |
 
-### Fashion v1 - Alternate Learning
+### Fashion-Random - Alternate Learning
 
 Both BPR and Cross-Entropy were evaluated as Task B objectives during the initial alternate-learning experiments.
 
@@ -439,8 +450,8 @@ The final five-seed results are:
 | Model | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | - | 0.0966 ± 0.00023 | 0.0889 ± 0.00016 |
-| KG-Hybrid + CE | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
-| KG-Hybrid + CE | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
+| KGSEQ | `one_to_one` | **0.10366 ± 0.00044** | **0.09083 ± 0.00041** |
+| KGSEQ | `epoch` | 0.10324 ± 0.00057 | 0.09032 ± 0.00065 |
 
 Both alternate-learning schedules outperform standalone SASRec.
 
@@ -460,7 +471,7 @@ The difference between `one_to_one` and `epoch` is not statistically significant
 | `one_to_one` vs `epoch` - one-sided | 0.0625 | 0.0938 |
 | `one_to_one` vs `epoch` - two-sided | 0.1250 | 0.1875 |
 
-### Fashion v1 - Knowledge Graph Ablation
+### Fashion-Random - Knowledge Graph Ablation
 
 The isolated TransE ablation investigates the contribution of each of the three original Knowledge Graph relations.
 
@@ -488,9 +499,9 @@ Selected ablations were subsequently evaluated in the alternate-learning archite
 
 These ablation experiments are single-seed analyses and should therefore be interpreted as diagnostic comparisons rather than multi-seed performance estimates.
 
-### Fashion v3 - Standalone SASRec
+### Fashion-Heavy - Standalone SASRec
 
-Fashion v3 uses a different user-selection procedure and therefore requires an independently tuned SASRec model.
+Fashion-Heavy uses a different user-selection procedure from Fashion-Random and therefore requires an independently tuned SASRec model.
 
 The selected SASRec configuration uses:
 
@@ -509,9 +520,9 @@ Across five seeds:
 
 | Model | Recall@20 | NDCG@20 |
 |---|---:|---:|
-| SASRec v3 baseline | 0.09088 ± 0.00034 | 0.07734 ± 0.00023 |
+| SASRec baseline | 0.09088 ± 0.00034 | 0.07734 ± 0.00023 |
 
-### Fashion v3 - Alternate Learning
+### Fashion-Heavy - Alternate Learning
 
 Two Knowledge Graph configurations are evaluated:
 
@@ -525,8 +536,8 @@ The final experiments use `one_to_one` scheduling.
 | Model | KG | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
 | SASRec baseline | None | 0.09088 ± 0.00034 | 0.07734 ± 0.00023 |
-| KG-Hybrid | 3-rel | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
-| KG-Hybrid | 5-rel | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
+| KGSEQ | 3-rel | **0.09796 ± 0.00028** | **0.08046 ± 0.00014** |
+| KGSEQ | 5-rel | 0.09783 ± 0.00035 | 0.08041 ± 0.00008 |
 
 Both Knowledge Graph configurations outperform standalone SASRec.
 
@@ -551,36 +562,36 @@ NDCG@20:   p = 0.6250
 
 The engineered price-tier and popularity-tier relations therefore do not provide a measurable downstream recommendation benefit in this experiment.
 
-### Fashion v3 - Isolated TransE Ablation: 3 Relations
+### Fashion-Heavy - Isolated TransE Ablation: 3 Relations
 
-| Variant | MRR | Hits@10 |
+| KG configuration | MRR | Hits@10 |
 |---|---:|---:|
-| Full | 0.1010 | 0.1840 |
-| `loo_no_belongs_to` | 0.0874 | 0.1707 |
-| `loo_no_belongs_to_brand` | 0.0844 | 0.1562 |
-| `loo_no_compatible_with` | **0.0004** | **0.0006** |
-| `targeted_single_cw` | 0.0654 | 0.1250 |
+| Full 3-rel graph | 0.1010 | 0.1840 |
+| Without `belongs_to` | 0.0874 | 0.1707 |
+| Without `belongs_to_brand` | 0.0844 | 0.1562 |
+| Without `compatible_with` | **0.0004** | **0.0006** |
+| `compatible_with` only | 0.0654 | 0.1250 |
 
 Again, removing `compatible_with` produces the strongest degradation.
 
-### Fashion v3 - Isolated TransE Ablation: 5 Relations
+### Fashion-Heavy - Isolated TransE Ablation: 5 Relations
 
-| Variant | MRR | Hits@10 |
+| KG configuration | MRR | Hits@10 |
 |---|---:|---:|
-| Full | 0.1033 | 0.1852 |
-| `loo_no_belongs_to` | 0.0938 | 0.1672 |
-| `loo_no_belongs_to_brand` | 0.0875 | 0.1453 |
-| `loo_no_belongs_to_pop_tier` | 0.1050 | 0.1881 |
-| `loo_no_belongs_to_price_tier` | 0.1041 | 0.1788 |
-| `loo_no_compatible_with` | 0.0005 | 0.0006 |
-| `mix1_keep_cat_pop` | 0.0005 | 0.0012 |
-| `mix2_keep_pop_cw` | 0.0757 | 0.1337 |
-| `mix3_keep_cat_brand_cw` | **0.1122** | **0.1875** |
-| `targeted_pair_cw_brand` | 0.0989 | 0.1771 |
-| `targeted_pair_cw_category` | 0.0902 | 0.1516 |
-| `targeted_single_cw` | 0.0688 | 0.1215 |
-| `targeted_triple_cw_brand_pricetier` | 0.0926 | 0.1632 |
-| `targeted_triple_cw_category_poptier` | 0.0872 | 0.1499 |
+| Full 5-rel graph | 0.1033 | 0.1852 |
+| Without `belongs_to` | 0.0938 | 0.1672 |
+| Without `belongs_to_brand` | 0.0875 | 0.1453 |
+| Without `belongs_to_pop_tier` | 0.1050 | 0.1881 |
+| Without `belongs_to_price_tier` | 0.1041 | 0.1788 |
+| Without `compatible_with` | 0.0005 | 0.0006 |
+| `belongs_to` + `belongs_to_pop_tier` | 0.0005 | 0.0012 |
+| `belongs_to_pop_tier` + `compatible_with` | 0.0757 | 0.1337 |
+| `belongs_to` + `belongs_to_brand` + `compatible_with` | **0.1122** | **0.1875** |
+| `compatible_with` + `belongs_to_brand` | 0.0989 | 0.1771 |
+| `compatible_with` + `belongs_to` | 0.0902 | 0.1516 |
+| `compatible_with` only | 0.0688 | 0.1215 |
+| `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | 0.0926 | 0.1632 |
+| `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | 0.0872 | 0.1499 |
 
 Interestingly, `mix3_keep_cat_brand_cw` performs better than the complete 5-relation graph in isolated TransE evaluation:
 
@@ -591,20 +602,27 @@ Hits@10: 0.1875 vs 0.1852
 
 However, this advantage does not transfer to downstream sequential recommendation.
 
-### Fashion v3 - Downstream Ablation
+### Fashion-Heavy - Downstream Ablation
 
-Selected Fashion v3 variants were evaluated using seed 2020 and `one_to_one` scheduling.
+Selected Fashion-Heavy variants were evaluated using seed 2020 and `one_to_one` scheduling.
 
-| Variant | KG family | Recall@20 | NDCG@20 |
+| KG configuration | KG | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| Full | 5-rel | 0.09786 | 0.08039 |
-| `loo_no_compatible_with` | 5-rel | 0.09384 | 0.07900 |
-| `mix3_keep_cat_brand_cw` | 5-rel | 0.09766 | 0.08033 |
-| `targeted_pair_cw_brand` | 5-rel | 0.09728 | 0.08024 |
-| Full | 3-rel | 0.09822 | 0.08060 |
-| `loo_no_belongs_to` | 3-rel | 0.09692 | 0.08009 |
+| Full graph | 5-rel | 0.09786 | 0.08039 |
+| Without `compatible_with` | 5-rel | 0.09384 | 0.07900 |
+| Without price-tier and popularity-tier | 5-rel | 0.09766 | 0.08033 |
+| `compatible_with` + `belongs_to_brand` | 5-rel | 0.09728 | 0.08024 |
+| Full graph | 3-rel | 0.09822 | 0.08060 |
+| Without `belongs_to` | 3-rel | 0.09692 | 0.08009 |
 
-The improvement obtained by `mix3_keep_cat_brand_cw` in isolated TransE evaluation does not persist in alternate learning.
+Removing the price-tier and popularity-tier relations improves isolated TransE link-prediction performance, but this advantage does not persist in downstream recommendation.
+
+Removing `compatible_with` from the five-relation graph reduces Recall@20 from 0.09786 to 0.09384 and NDCG@20 from 0.08039 to 0.07900, corresponding to relative reductions of approximately 4.1% and 1.7%, respectively.
+
+These downstream ablations use a single seed and should therefore be interpreted
+as diagnostic comparisons. Nevertheless, the result is consistent with the B2B
+findings and further highlights the importance of compatibility information
+across both domains.
 
 This highlights an important result of the ablation study:
 
@@ -615,6 +633,8 @@ better downstream recommendation performance
 ```
 
 Across the Fashion experiments, compatibility remains the most important structural relation, while adding more Knowledge Graph relations does not automatically improve recommendation quality.
+
+
 
 ## Reproducibility
 

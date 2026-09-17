@@ -1,7 +1,7 @@
-# SASRec Fashion v1 - Multi-Seed Results
+# SASRec Fashion-Random - Multi-Seed Results
 
 This folder contains the multi-seed retraining results for the standalone
-SASRec baseline on the Fashion v1 dataset.
+SASRec baseline on the Fashion-Random dataset.
 
 The experiments use the hyperparameters selected during the SASRec HPO phase.
 Multiple random seeds were evaluated to estimate the stability of the baseline.
@@ -15,8 +15,8 @@ Multiple random seeds were evaluated to estimate the stability of the baseline.
 The reported values correspond to mean ± standard deviation across the
 independent seed runs.
 
-These results are used as the Fashion v1 standalone baseline for comparison
+These results are used as the Fashion-Random standalone baseline for comparison
 with the alternate-learning architectures.
 
-Fashion v3 multi-seed results will be added once the corresponding experiments
+Fashion-Heavy multi-seed results will be added once the corresponding experiments
 are completed.

@@ -10,9 +10,15 @@ The analysis covers three experimental settings:
 
 ```text
 B2B
-Fashion v1
-Fashion v3
+Fashion-Random
+Fashion-Heavy
 ```
+
+In the paper, the two Fashion settings are referred to as **Fashion-Random**
+and **Fashion-Heavy**. Some file names, directory names, and internal experiment
+identifiers retain the historical labels used during development (e.g., `v1`
+and `v3`) to preserve reproducibility and compatibility with the original
+experimental pipeline.
 
 The general methodology is organized into two stages.
 
@@ -200,22 +206,22 @@ Graph and the 13 ablation variants.
 
 The reported values correspond to the type-constrained evaluation.
 
-| Variant | Kind | MRR | Hits@10 |
+| Relations retained | Type | MRR | Hits@10 |
 |---|---|---:|---:|
-| `full` | baseline | 0.2953 | 0.5020 |
-| `loo_no_bought` | LOO | 0.2285 | 0.4083 |
-| `loo_no_compatible_with` | LOO | 0.0151 | 0.0321 |
-| `loo_no_compatible_with_model` | LOO | 0.2962 | 0.4999 |
-| `loo_no_instance_of` | LOO | 0.2988 | 0.5082 |
-| `loo_no_owns` | LOO | 0.2931 | 0.5078 |
-| `mix1_keep_compatible_with_owns` | random mix | 0.2139 | 0.3778 |
-| `mix2_keep_bought_owns` | random mix | 0.0111 | 0.0229 |
-| `mix3_keep_bought_compatible_with` | random mix | 0.2938 | 0.5026 |
-| `targeted_pair_cw_cwm` | targeted | 0.2224 | 0.3978 |
-| `targeted_pair_cw_instance` | targeted | 0.2051 | 0.3629 |
-| `targeted_single_cw` | targeted | 0.2137 | 0.3837 |
-| `targeted_triple_cw_bought_instance` | targeted | 0.2939 | 0.5005 |
-| `targeted_triple_cw_cwm_owns` | targeted | 0.2254 | 0.3999 |
+| All five relations | full graph | 0.2953 | 0.5020 |
+| `compatible_with` + `compatible_with_model` + `instance_of` + `owns` | leave-one-out | 0.2285 | 0.4083 |
+| `bought` + `compatible_with_model` + `instance_of` + `owns` | leave-one-out | 0.0151 | 0.0321 |
+| `bought` + `compatible_with` + `instance_of` + `owns` | leave-one-out | 0.2962 | 0.4999 |
+| `bought` + `compatible_with` + `compatible_with_model` + `owns` | leave-one-out | 0.2988 | 0.5082 |
+| `bought` + `compatible_with` + `compatible_with_model` + `instance_of` | leave-one-out | 0.2931 | 0.5078 |
+| `compatible_with` + `owns` | reduced graph | 0.2139 | 0.3778 |
+| `bought` + `owns` | reduced graph | 0.0111 | 0.0229 |
+| `bought` + `compatible_with` | reduced graph | 0.2938 | 0.5026 |
+| `compatible_with` + `compatible_with_model` | targeted graph | 0.2224 | 0.3978 |
+| `compatible_with` + `instance_of` | targeted graph | 0.2051 | 0.3629 |
+| `compatible_with` only | targeted graph | 0.2137 | 0.3837 |
+| `compatible_with` + `bought` + `instance_of` | targeted graph | 0.2939 | 0.5005 |
+| `compatible_with` + `compatible_with_model` + `owns` | targeted graph | 0.2254 | 0.3999 |
 
 The strongest degradation occurs when `compatible_with` is removed.
 
@@ -234,20 +240,13 @@ Hits@10 = 0.0321
 This indicates that `compatible_with` is the dominant relation for the
 link-prediction task considered in the B2B Knowledge Graph.
 
-The `mix2_keep_bought_owns` configuration also produces a strong collapse,
-showing that retaining a reduced number of relations is not sufficient unless
-the relevant structural information is preserved.
+The reduced graph retaining only `bought` and `owns` also produces a strong
+collapse, showing that retaining fewer relations is not sufficient unless the
+relevant structural information is preserved.
 
-Conversely, configurations such as:
-
-```text
-loo_no_instance_of
-loo_no_owns
-mix3_keep_bought_compatible_with
-targeted_triple_cw_bought_instance
-```
-
-retain performance close to the complete graph.
+Conversely, removing `instance_of` or `owns`, retaining only `bought` and
+`compatible_with`, or retaining `compatible_with`, `bought`, and `instance_of`
+preserves performance close to the complete graph.
 
 ## B2B Stage 2 — Alternate-Learning Results
 
@@ -268,19 +267,19 @@ All reported runs use the `one_to_one` scheduling strategy.
 
 The full Knowledge Graph model is used as the reference.
 
-| Variant | Recall@20 | NDCG@20 | Comparison with Full KG |
-|---|---:|---:|---|
-| `full` | 0.4612 ± 0.0177 | 0.2773 ± 0.0098 | Reference |
-| `loo_no_compatible_with` | 0.4247 ± 0.0173 | 0.2545 ± 0.0141 | Strongest degradation |
-| `loo_no_instance_of` | **0.4658 ± 0.0126** | **0.2774 ± 0.0072** | Slightly above full |
-| `mix1_keep_compatible_with_owns` | 0.4338 ± 0.0187 | 0.2665 ± 0.0072 | Below full |
-| `mix3_keep_bought_compatible_with` | 0.4612 ± 0.0139 | 0.2771 ± 0.0122 | Approximately equal to full |
-| `targeted_triple_cw_bought_instance` | 0.4566 ± 0.0150 | 0.2691 ± 0.0096 | Close to full |
+| Relations retained | Recall@20 | NDCG@20 |
+|---|---:|---:|
+| All five relations | 0.4612 ± 0.0177 | 0.2773 ± 0.0098 |
+| `bought` + `owns` + `instance_of` + `compatible_with_model` | 0.4247 ± 0.0173 | 0.2545 ± 0.0141 |
+| `bought` + `owns` + `compatible_with` + `compatible_with_model` | 0.4658 ± 0.0126 | 0.2774 ± 0.0072 |
+| `compatible_with` + `owns` | 0.4338 ± 0.0187 | 0.2665 ± 0.0072 |
+| `compatible_with` + `bought` + `instance_of` | 0.4566 ± 0.0150 | 0.2691 ± 0.0096 |
+| `bought` + `compatible_with` | 0.4612 ± 0.0139 | 0.2771 ± 0.0122 |
 
-The Stage 2 results confirm the importance of relation composition.
+The Stage 2 results further highlight the importance of relation composition.
 
 Removing `compatible_with` produces the clearest reduction in recommendation
-performance, consistently with the isolated TransE results.
+performance, consistent with the isolated TransE results.
 
 At the same time, removing `instance_of` does not negatively affect the
 recommendation model and results in performance slightly above the complete
@@ -437,76 +436,65 @@ run_<variant>.log
 
 Summary files are also generated for the executed variants.
 
-## Fashion v1 Ablation
+## Fashion-Random Ablation
 
-Fashion v1 extends the Knowledge Graph with five relation types.
+Fashion-Random uses the randomly sampled user subset described in the paper.
+The isolated Stage 1 analysis reported here uses the standard three-relation
+Fashion Knowledge Graph.
 
-The downstream ablation configurations currently represented in
-`step4_alternate_results/fashion_v1/` are:
-
-```text
-full5rel
-no_brand
-no_category
-no_compatible_with
-```
-
-Each configuration is evaluated with:
+The historical directory:
 
 ```text
-epoch
-one_to_one
+step4_alternate_results/fashion_v1/
 ```
 
-scheduling and Cross-Entropy optimization for the recommendation task.
+also contains single-seed downstream diagnostics for an enriched five-relation
+extension of the same Random user sample. The directory name retains the
+historical `fashion_v1` identifier for reproducibility.
 
-### Fashion v1 Stage 1 — Isolated TransE
+### Fashion-Random Stage 1 — Isolated TransE
 
 The isolated TransE ablation evaluates the effect of removing individual
-structural relations from the Fashion Knowledge Graph.
+structural relations from the standard Fashion Knowledge Graph.
 
-| KG Configuration | MRR |
+| KG configuration | MRR |
 |---|---:|
-| Full KG | 0.1057 |
-| No brand | 0.0907 |
-| No category | 0.0946 |
-| No `compatible_with` | **0.0023** |
+| Full graph | 0.1057 |
+| Without `belongs_to_brand` | 0.0907 |
+| Without `belongs_to` | 0.0946 |
+| Without `compatible_with` | **0.0023** |
 
 The largest degradation occurs when `compatible_with` is removed.
 
-This relation corresponds to the Fashion `also_buy` compatibility signal and
-appears to provide the strongest structural information for the link-prediction
+This relation is derived from cross-category `also_buy` information and
+provides the main item-to-item structural signal for the Fashion link-prediction
 task.
 
+### Fashion-Random Auxiliary Stage 2 Diagnostics
 
-### Fashion v1 Stage 2 — Alternate Learning
+The historical enriched five-relation downstream ablations were evaluated with
+both `epoch` and `one_to_one` scheduling and use Cross-Entropy for Task B.
+These experiments use a single random seed and should therefore be interpreted
+as diagnostic comparisons rather than multi-seed estimates.
 
-Selected Fashion v1 ablations were propagated to the alternate-learning
-architecture.
-
-These experiments use Cross-Entropy for Task B and a single random seed.
-
-| KG Configuration | Scheduling | Recall@20 | NDCG@20 |
+| KG configuration | Scheduling | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| Full 5-rel | `epoch` | 0.1235 | **0.1100** |
-| Full 5-rel | `one_to_one` | 0.1235 | 0.1099 |
-| No brand | `epoch` | 0.1162 | 0.1063 |
-| No brand | `one_to_one` | 0.1165 | 0.1065 |
-| No category | `epoch` | 0.1235 | 0.1075 |
-| No category | `one_to_one` | 0.1234 | 0.1079 |
-| No `compatible_with` | `epoch` | 0.1209 | 0.1083 |
-| No `compatible_with` | `one_to_one` | 0.1209 | 0.1086 |
+| Full 5-rel graph | `epoch` | 0.1235 | **0.1100** |
+| Full 5-rel graph | `one_to_one` | 0.1235 | 0.1099 |
+| Without `belongs_to_brand` | `epoch` | 0.1162 | 0.1063 |
+| Without `belongs_to_brand` | `one_to_one` | 0.1165 | 0.1065 |
+| Without `belongs_to` | `epoch` | 0.1235 | 0.1075 |
+| Without `belongs_to` | `one_to_one` | 0.1234 | 0.1079 |
+| Without `compatible_with` | `epoch` | 0.1209 | 0.1083 |
+| Without `compatible_with` | `one_to_one` | 0.1209 | 0.1086 |
 
-These results are single-seed ablation experiments and should therefore be
-interpreted as diagnostic comparisons rather than multi-seed estimates.
+These auxiliary results further illustrate that isolated Knowledge Graph
+embedding quality and downstream recommendation quality need not change by the
+same amount.
 
-The complete configuration achieves the highest NDCG@20, while removing brand,
-category, or compatibility information changes downstream recommendation
-performance to different degrees.
+## Fashion-Heavy Ablation
 
-## Fashion v3 Ablation
-
-Fashion v3 contains a dedicated ablation pipeline under:
+Fashion-Heavy contains a dedicated ablation pipeline under the historical path:
 
 ```text
 ablation_study/fashionv3/
@@ -534,50 +522,51 @@ belongs_to_price_tier
 belongs_to_pop_tier
 ```
 
-The complete Fashion v3 methodology and directory organization are documented
+The complete Fashion-Heavy methodology and directory organization are documented
 in:
 
 ```text
 fashionv3/README.md
 ```
 
-### Fashion v3 Stage 1 — 3-Relation TransE
+### Fashion-Heavy Stage 1 — 3-Relation TransE
 
-| Variant | Kind | MRR | Hits@10 |
+| Relations retained | Type | MRR | Hits@10 |
 |---|---|---:|---:|
-| Full 3-rel KG | baseline | 0.1010 | 0.1840 |
-| `loo_no_compatible_with` | LOO | **0.0004** | **0.0006** |
-| `loo_no_belongs_to` | LOO | 0.0874 | 0.1707 |
-| `loo_no_belongs_to_brand` | LOO | 0.0844 | 0.1562 |
-| `targeted_single_cw` | targeted | 0.0654 | 0.1250 |
+| All three relations | full graph | 0.1010 | 0.1840 |
+| `belongs_to` + `belongs_to_brand` | leave-one-out | **0.0004** | **0.0006** |
+| `compatible_with` + `belongs_to_brand` | leave-one-out | 0.0874 | 0.1707 |
+| `compatible_with` + `belongs_to` | leave-one-out | 0.0844 | 0.1562 |
+| `compatible_with` only | targeted graph | 0.0654 | 0.1250 |
 
 Removing `compatible_with` produces an almost complete collapse in isolated
 link-prediction performance.
 
 The result confirms that compatibility is the dominant structural relation
-within the 3-relation Fashion v3 Knowledge Graph.
+within the 3-relation Fashion-Heavy Knowledge Graph.
 
-### Fashion v3 Stage 1 — 5-Relation TransE
+### Fashion-Heavy Stage 1 — 5-Relation TransE
 
-| Variant | Kind | MRR | Hits@10 |
+| Relations retained | Type | MRR | Hits@10 |
 |---|---|---:|---:|
-| Full 5-rel KG | baseline | 0.1033 | 0.1852 |
-| `loo_no_compatible_with` | LOO | 0.0005 | 0.0006 |
-| `loo_no_belongs_to` | LOO | 0.0938 | 0.1672 |
-| `loo_no_belongs_to_brand` | LOO | 0.0875 | 0.1453 |
-| `loo_no_belongs_to_price_tier` | LOO | 0.1041 | 0.1788 |
-| `loo_no_belongs_to_pop_tier` | LOO | 0.1050 | 0.1881 |
-| `mix1_keep_cat_pop` | random mix | 0.0005 | 0.0012 |
-| `mix2_keep_pop_cw` | random mix | 0.0757 | 0.1337 |
-| `mix3_keep_cat_brand_cw` | random mix | **0.1122** | **0.1875** |
-| `targeted_pair_cw_brand` | targeted | 0.0989 | 0.1771 |
-| `targeted_pair_cw_category` | targeted | 0.0902 | 0.1516 |
-| `targeted_single_cw` | targeted | 0.0688 | 0.1215 |
-| `targeted_triple_cw_brand_pricetier` | targeted | 0.0926 | 0.1632 |
-| `targeted_triple_cw_category_poptier` | targeted | 0.0872 | 0.1499 |
+| All five relations | full graph | 0.1033 | 0.1852 |
+| `belongs_to` + `belongs_to_brand` + `belongs_to_price_tier` + `belongs_to_pop_tier` | leave-one-out | 0.0005 | 0.0006 |
+| `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` + `belongs_to_pop_tier` | leave-one-out | 0.0938 | 0.1672 |
+| `compatible_with` + `belongs_to` + `belongs_to_price_tier` + `belongs_to_pop_tier` | leave-one-out | 0.0875 | 0.1453 |
+| `compatible_with` + `belongs_to` + `belongs_to_brand` + `belongs_to_pop_tier` | leave-one-out | 0.1041 | 0.1788 |
+| `compatible_with` + `belongs_to` + `belongs_to_brand` + `belongs_to_price_tier` | leave-one-out | 0.1050 | 0.1881 |
+| `belongs_to` + `belongs_to_pop_tier` | reduced graph | 0.0005 | 0.0012 |
+| `belongs_to_pop_tier` + `compatible_with` | reduced graph | 0.0757 | 0.1337 |
+| `belongs_to` + `belongs_to_brand` + `compatible_with` | reduced graph | **0.1122** | **0.1875** |
+| `compatible_with` + `belongs_to_brand` | targeted graph | 0.0989 | 0.1771 |
+| `compatible_with` + `belongs_to` | targeted graph | 0.0902 | 0.1516 |
+| `compatible_with` only | targeted graph | 0.0688 | 0.1215 |
+| `compatible_with` + `belongs_to_brand` + `belongs_to_price_tier` | targeted graph | 0.0926 | 0.1632 |
+| `compatible_with` + `belongs_to` + `belongs_to_pop_tier` | targeted graph | 0.0872 | 0.1499 |
 
-The `mix3_keep_cat_brand_cw` configuration achieves the strongest isolated
-TransE result:
+Removing the price-tier and popularity-tier relations while retaining
+`compatible_with`, `belongs_to`, and `belongs_to_brand` achieves the strongest
+isolated TransE result:
 
 ```text
 MRR     = 0.1122
@@ -598,7 +587,7 @@ for isolated link prediction.
 At the same time, the collapse observed when `compatible_with` is removed
 confirms the central role of compatibility information.
 
-### Fashion v3 Stage 2 — Alternate Learning
+### Fashion-Heavy Stage 2 — Alternate Learning
 
 Selected Stage 1 variants were propagated to the downstream alternate-learning
 architecture.
@@ -612,36 +601,32 @@ scheduling = one_to_one
 
 and are therefore single-seed ablation comparisons.
 
-| KG Family | Configuration | Recall@20 | NDCG@20 |
+| KG family | Configuration | Recall@20 | NDCG@20 |
 |---|---|---:|---:|
-| 5-rel | Full KG | 0.09786 | 0.08039 |
-| 5-rel | `loo_no_compatible_with` | 0.09384 | 0.07900 |
-| 5-rel | `mix3_keep_cat_brand_cw` | 0.09766 | 0.08033 |
-| 5-rel | `targeted_pair_cw_brand` | 0.09728 | 0.08024 |
-| 3-rel | Full KG | **0.09822** | **0.08060** |
-| 3-rel | `loo_no_belongs_to` | 0.09692 | 0.08009 |
+| 5-rel | Full graph | 0.09786 | 0.08039 |
+| 5-rel | Without `compatible_with` | 0.09384 | 0.07900 |
+| 5-rel | Without price-tier and popularity-tier | 0.09766 | 0.08033 |
+| 5-rel | `compatible_with` + `belongs_to_brand` | 0.09728 | 0.08024 |
+| 3-rel | Full graph | **0.09822** | **0.08060** |
+| 3-rel | Without `belongs_to` | 0.09692 | 0.08009 |
 
-The strong isolated TransE performance of `mix3_keep_cat_brand_cw` does not
-translate into improved recommendation performance.
+Removing the price-tier and popularity-tier relations improves isolated
+TransE MRR from 0.1033 to 0.1122, but this advantage does not transfer
+downstream: Recall@20 changes from 0.09786 to 0.09766 and NDCG@20 from
+0.08039 to 0.08033.
 
-In isolated evaluation:
-
-```text
-mix3_keep_cat_brand_cw MRR = 0.1122
-full 5-rel MRR                = 0.1033
-```
-
-while in downstream recommendation:
-
-```text
-mix3_keep_cat_brand_cw Recall@20 = 0.09766
-full 5-rel Recall@20              = 0.09786
-```
-
-This demonstrates that improved Knowledge Graph embedding quality does not
+This shows that improved isolated Knowledge Graph embedding quality does not
 necessarily imply improved downstream sequential recommendation performance.
 
-The downstream results also show that the full 3-relation and 5-relation
+By contrast, removing `compatible_with` from the five-relation graph reduces
+Recall@20 from 0.09786 to 0.09384 and NDCG@20 from 0.08039 to 0.07900,
+corresponding to relative reductions of approximately 4.1% and 1.7%,
+respectively. These downstream ablations use a single seed and should therefore
+be interpreted as diagnostic comparisons. Nevertheless, the result is
+consistent with the B2B findings and further highlights the importance of
+compatibility information across both domains.
+
+The downstream results also show that the full three-relation and five-relation
 configurations perform very similarly, suggesting that the engineered
 price-tier and popularity-tier relations provide limited additional benefit to
 the alternate-learning recommender.
@@ -684,7 +669,8 @@ NDCG@10
 MRR
 ```
 
-The Fashion v3 TransE results use their dedicated collection script:
+The Fashion-Heavy TransE results use their dedicated collection script,
+retained under the historical `fashionv3/` path:
 
 ```text
 fashionv3/collect_fashion_ablation.py

@@ -1,6 +1,6 @@
 # Fashion Data v3
 
-This directory contains the intermediate data produced for the Fashion v3 preprocessing pipeline.
+This directory contains the intermediate data produced for the Fashion-Heavy preprocessing pipeline.
 
 It contains:
 
@@ -8,7 +8,7 @@ It contains:
 - `metadata_valid_items.json`
 - `also_buy_pairs.json`
 
-These files are used to construct the Fashion v3 knowledge graph and recommendation dataset.
+These files are used to construct the Fashion-Heavy knowledge graph and recommendation dataset.
 
 The corresponding processed outputs are stored in:
 
