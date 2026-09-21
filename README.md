@@ -1,10 +1,12 @@
 # Knowledge Graph-Enhanced Sequential Recommendation
 
-This repository contains the implementation and experimental evaluation of a Knowledge Graph-enhanced sequential recommendation architecture based on **shared entity embeddings** and **alternate learning**.
+This repository contains the implementation and experimental evaluation associated with the paper:
 
-The project was originally developed for an industrial B2B spare-parts
-recommendation scenario and was subsequently evaluated on Amazon Fashion data
-to study its generalizability beyond the original domain.
+**"When Compatibility Matters: KG-Enhanced Sequential B2B Recommendation"**
+
+The paper introduces **KGSEQ**, a Knowledge Graph-enhanced sequential recommendation architecture based on shared entity embeddings and alternate learning.
+
+The project was originally developed for an industrial B2B spare-parts recommendation scenario and was subsequently evaluated on Amazon Fashion data to study its generalizability beyond the original domain.
 
 The experimental pipeline combines:
 
@@ -63,8 +65,18 @@ KG_RS/
     └── retained B2B experiment artifacts and checkpoints
 ```
 
-Each major directory contains its own README with additional implementation,
-execution, and result details.
+Each major directory contains a dedicated README describing a specific part of
+the experimental pipeline:
+
+| Location | Documentation |
+|---|---|
+| [`knowledge_graph/README.md`](knowledge_graph/README.md) | B2B Knowledge Graph construction, validation, KGE training, HPO, and link-prediction evaluation (Steps 1–2). |
+| [`SASRec/README.md`](SASRec/README.md) | Standalone B2B SASRec training, hyperparameter optimization, pretrained checkpoints, and multi-seed evaluation (Step 3). |
+| [`B2B_alternate_learning/README.md`](B2B_alternate_learning/README.md) | KGSEQ implementation for B2B, including the shared embedding architecture, Task A/Task B training, warm start, and alternate-learning schedules (Step 4). |
+| [`fashion_generalization/README.md`](fashion_generalization/README.md) | Fashion-Random and Fashion-Heavy preprocessing, KGE and SASRec training, KGSEQ experiments, and Fashion-specific variants. |
+| [`ablation_study/README.md`](ablation_study/README.md) | Isolated KGE and downstream KGSEQ relation-ablation experiments for B2B and Fashion. |
+| [`comparison_analysis/README.md`](comparison_analysis/README.md) | B2B/Fashion interaction and Knowledge Graph comparison analyses. |
+| [`dataset/README.md`](dataset/README.md) | Released B2B interaction splits and RecBole-compatible dataset formats. | 
 
 # 1. Experimental Domains
 
@@ -146,6 +158,15 @@ under:
 ```text
 data/processed/ablation/
 ```
+
+### B2B preprocessing scope
+
+The B2B data distributed with this repository correspond to the released, anonymized and preprocessed interaction data used in the experiments. The original raw industrial source data and the upstream preprocessing/anonymization pipeline are not included in this repository.
+
+Reproducibility for the B2B experiments therefore starts from the released dataset. From this point onward, the repository provides the complete experimental pipeline for Knowledge Graph construction, KGE training, SASRec training, KGSEQ alternate learning, and relation-ablation experiments.
+
+The released interaction files and RecBole-compatible representations are
+documented in [`dataset/README.md`](dataset/README.md).
 
 # 3. Fashion Dataset
 
@@ -821,13 +842,20 @@ results/step2_hpo/
 
 ### Step 3 - SASRec
 
-Standalone B2B SASRec experiments are contained under:
+The standalone B2B SASRec training and hyperparameter-optimization code is located under:
 
 ```text
 SASRec/
 ```
 
-The corresponding README documents training and evaluation.
+The final B2B SASRec HPO/training entry point is:
+
+```text
+SASRec/run_hpo_sasrec400HPC.py
+```
+
+The selected configuration is subsequently evaluated across multiple random
+seeds using the stability pipeline. See  [`SASRec/README.md`](dataset/README.md) for the complete training procedure, hyperparameter search, pretrained checkpoint location, multi-seed evaluation, and SLURM execution scripts.
 
 ### Step 4 - Alternate Learning
 
