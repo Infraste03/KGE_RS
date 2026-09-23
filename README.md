@@ -78,6 +78,94 @@ the experimental pipeline:
 | [`comparison_analysis/README.md`](comparison_analysis/README.md) | B2B/Fashion interaction and Knowledge Graph comparison analyses. |
 | [`dataset/README.md`](dataset/README.md) | Released B2B interaction splits and RecBole-compatible dataset formats. | 
 
+
+# Quick Start
+
+## Git LFS
+
+This repository uses **Git Large File Storage (Git LFS)** for large model
+checkpoints and B2B dataset files.
+
+Git LFS is required to retrieve these files correctly.
+
+Before cloning the repository, install Git LFS following the instructions for
+your operating system:
+
+https://git-lfs.com/
+
+Then initialize it once on your machine:
+
+```bash
+git lfs install
+```
+
+Clone the repository normally:
+
+```bash
+git clone https://github.com/Infraste03/KGE_RS.git
+cd KGE_RS
+```
+
+Git LFS files are downloaded automatically during cloning.
+
+If the repository was cloned before Git LFS was installed, run:
+
+```bash
+git lfs install
+git lfs pull
+```
+
+Large files currently managed through Git LFS include:
+
+```text
+B2B dataset files
+pretrained SASRec checkpoints
+pretrained TransE/KGE checkpoints
+selected Step 4 model checkpoints
+Fashion pretrained checkpoints
+```
+
+Raw Amazon Fashion files are not tracked through Git LFS and must instead be
+downloaded separately from the original dataset source, as described in the
+Fashion Dataset section.
+
+The repository is designed to be executed from the repository root.
+
+A typical local environment can be created with:
+
+```bash
+python -m venv .venv
+```
+
+Linux / HPC:
+
+```bash
+source .venv/bin/activate
+```
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Dependencies should match the versions used for the reported experiments.
+Install the required Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+GPU execution is strongly recommended for:
+
+```text
+KGE HPO
+SASRec HPO
+alternate learning
+multi-seed experiments
+ablation retraining
+```
+
+
 # 1. Experimental Domains
 
 The architecture is evaluated in two substantially different recommendation
@@ -173,7 +261,7 @@ documented in [`dataset/README.md`](dataset/README.md).
 The Fashion generalization experiments are based on the **Amazon Review Data
 (2018)** collection released by the UCSD McAuley Lab:
 
-[Amazon Review Data (2018) — UCSD](https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/)
+[Amazon Review Data (2018) UCSD](https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/)
 
 Specifically, the experiments use the **Clothing, Shoes and Jewelry** category,
 including both interaction data and product metadata.
@@ -208,14 +296,8 @@ experiments.
 Fashion is intentionally very different from the B2B setting.
 
 Compared with the industrial data, Fashion contains:
+many more users, many more items, much shorter interaction sequences, substantially lower repeat behavior and  different Knowledge Graph semantics
 
-```text
-many more users
-many more items
-much shorter interaction sequences
-substantially lower repeat behavior
-different Knowledge Graph semantics
-```
 
 Two Fashion experimental pipelines are maintained in this repository.
 
@@ -714,94 +796,9 @@ For Fashion, both BPR and Cross-Entropy were explicitly compared.
 Cross-Entropy clearly outperformed BPR on NDCG@20 and is therefore used for the
 final Fashion experiments.
 
-# 16. Running the Repository
-
-## Git LFS
-
-This repository uses **Git Large File Storage (Git LFS)** for large model
-checkpoints and B2B dataset files.
-
-Git LFS is required to retrieve these files correctly.
-
-Before cloning the repository, install Git LFS following the instructions for
-your operating system:
-
-https://git-lfs.com/
-
-Then initialize it once on your machine:
-
-```bash
-git lfs install
-```
-
-Clone the repository normally:
-
-```bash
-git clone https://github.com/Infraste03/KGE_RS.git
-cd KGE_RS
-```
-
-Git LFS files are downloaded automatically during cloning.
-
-If the repository was cloned before Git LFS was installed, run:
-
-```bash
-git lfs install
-git lfs pull
-```
-
-Large files currently managed through Git LFS include:
-
-```text
-B2B dataset files
-pretrained SASRec checkpoints
-pretrained TransE/KGE checkpoints
-selected Step 4 model checkpoints
-Fashion pretrained checkpoints
-```
-
-Raw Amazon Fashion files are not tracked through Git LFS and must instead be
-downloaded separately from the original dataset source, as described in the
-Fashion Dataset section.
-
-The repository is designed to be executed from the repository root.
-
-A typical local environment can be created with:
-
-```bash
-python -m venv .venv
-```
-
-Linux / HPC:
-
-```bash
-source .venv/bin/activate
-```
-
-Windows PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Dependencies should match the versions used for the reported experiments.
-Install the required Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-GPU execution is strongly recommended for:
-
-```text
-KGE HPO
-SASRec HPO
-alternate learning
-multi-seed experiments
-ablation retraining
-```
 
 
-
+# 16. Running the Experiments
 
 ## B2B Workflow
 
